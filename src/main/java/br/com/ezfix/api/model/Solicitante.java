@@ -2,11 +2,13 @@ package br.com.ezfix.api.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
-public class Cliente {
+public class Solicitante {
 
     @Id
     private Long cpf;
@@ -15,26 +17,25 @@ public class Cliente {
     private String sexo;
     private Long telefonePrimario;
     private Long telefoneSecundario;
-    private Long cep;
-    private Long numero;
-    private String complemento;
     @ManyToOne
     private Usuario usuario;
 
-    public Cliente(Long cpf, String nome, LocalDate dataNascimento, String sexo, Long telefonePrimario, Long telefoneSecundario, Long cep, Long numero, String complemento) {
+    @ManyToMany
+    private List<Endereco> enderecos;
+
+    public Solicitante() {
+
+    }
+
+    public Solicitante(Long cpf, String nome, LocalDate dataNascimento, String sexo, Long telefonePrimario, Long telefoneSecundario, Usuario usuario, List<Endereco> enderecos) {
         this.cpf = cpf;
         this.nome = nome;
         this.dataNascimento = dataNascimento;
         this.sexo = sexo;
         this.telefonePrimario = telefonePrimario;
         this.telefoneSecundario = telefoneSecundario;
-        this.cep = cep;
-        this.numero = numero;
-        this.complemento = complemento;
-    }
-
-    public Cliente() {
-
+        this.usuario = usuario;
+        this.enderecos = enderecos;
     }
 
     public Long getCpf() {
@@ -61,19 +62,11 @@ public class Cliente {
         return telefoneSecundario;
     }
 
-    public Long getCep() {
-        return cep;
-    }
-
-    public Long getNumero() {
-        return numero;
-    }
-
-    public String getComplemento() {
-        return complemento;
-    }
-
     public Usuario getUsuario() {
         return usuario;
+    }
+
+    public List<Endereco> getEnderecos() {
+        return enderecos;
     }
 }

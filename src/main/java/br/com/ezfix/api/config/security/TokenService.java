@@ -24,8 +24,8 @@ public class TokenService {
         Date hoje = new Date();
 
         return Jwts.builder()
-                .setIssuer("Api do forum da alura")
-                .setSubject(usuario.getId().toString())
+                .setIssuer("Api ezfix")
+                .setSubject(usuario.getEmail())
                 .setIssuedAt(hoje)
                 .setExpiration(new Date(hoje.getTime() + Long.parseLong(expiration)))
                 .signWith(SignatureAlgorithm.HS256,secret)
@@ -41,8 +41,8 @@ public class TokenService {
         }
     }
 
-    public Long getIdUsuario(String token){
+    public String getIdUsuario(String token){
         Claims claims = Jwts.parser().setSigningKey(this.secret).parseClaimsJws(token).getBody();
-        return Long.parseLong(claims.getSubject());
+        return claims.getSubject();
     }
 }

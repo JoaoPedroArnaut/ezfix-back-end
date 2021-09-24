@@ -1,7 +1,6 @@
 package br.com.ezfix.api.controller;
 
 import br.com.ezfix.api.controller.vo.ClienteVo;
-import br.com.ezfix.api.model.Cliente;
 import br.com.ezfix.api.repository.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

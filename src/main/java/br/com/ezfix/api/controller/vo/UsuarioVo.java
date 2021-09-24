@@ -9,12 +9,7 @@ public class UsuarioVo {
     private String email;
 
     public UsuarioVo(Usuario usuario){
-        this.id = usuario.getId();
         this.email = usuario.getEmail();
-    }
-
-    public Long getId() {
-        return id;
     }
 
     public String getEmail() {

@@ -1,8 +1,7 @@
 package br.com.ezfix.api.controller.vo;
 
-import br.com.ezfix.api.model.Cliente;
+import br.com.ezfix.api.model.Solicitante;
 import br.com.ezfix.api.model.Usuario;
-import br.com.ezfix.api.util.Convertivel;
 import org.springframework.data.domain.Page;
 
 import java.time.LocalDate;
@@ -19,19 +18,16 @@ public class ClienteVo {
     private Long numero;
     private String complemento;
     private Usuario usuario;
-    private Page<Cliente> clientes;
+    private Page<Solicitante> clientes;
 
-    public ClienteVo(Cliente cliente) {
-        this.cpf = cliente.getCpf();
-        this.nome = cliente.getNome();
-        this.dataNascimento = cliente.getDataNascimento();
-        this.sexo = cliente.getSexo();
-        this.telefonePrimario = cliente.getTelefonePrimario();
-        this.telefoneSecundario = cliente.getTelefoneSecundario();
-        this.cep = cliente.getCep();
-        this.numero = cliente.getNumero();
-        this.complemento = cliente.getComplemento();
-        this.usuario = cliente.getUsuario();
+    public ClienteVo(Solicitante solicitante) {
+        this.cpf = solicitante.getCpf();
+        this.nome = solicitante.getNome();
+        this.dataNascimento = solicitante.getDataNascimento();
+        this.sexo = solicitante.getSexo();
+        this.telefonePrimario = solicitante.getTelefonePrimario();
+        this.telefoneSecundario = solicitante.getTelefoneSecundario();
+        this.usuario = solicitante.getUsuario();
     }
 
     public Long getCpf() {
@@ -114,7 +110,7 @@ public class ClienteVo {
         this.usuario = usuario;
     }
 
-    public static Page<ClienteVo> converter(Page<Cliente> clientes) {
+    public static Page<ClienteVo> converter(Page<Solicitante> clientes) {
         return clientes.map(ClienteVo::new);
     }
 }
