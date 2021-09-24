@@ -5,7 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ClienteRepository extends JpaRepository<Solicitante, Long> {
+public interface SolicitanteRepository extends JpaRepository<Solicitante, Long> {
 
     Page<Solicitante> findByNome(String nomeCliente, Pageable pagina);
 }

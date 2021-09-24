@@ -1,12 +1,14 @@
 package br.com.ezfix.api.controller.vo;
 
+import br.com.ezfix.api.model.Endereco;
 import br.com.ezfix.api.model.Solicitante;
 import br.com.ezfix.api.model.Usuario;
 import org.springframework.data.domain.Page;
 
 import java.time.LocalDate;
+import java.util.List;
 
-public class ClienteVo {
+public class SolicitanteVo {
 
     private Long cpf;
     private String nome;
@@ -14,13 +16,10 @@ public class ClienteVo {
     private String sexo;
     private Long telefonePrimario;
     private Long telefoneSecundario;
-    private Long cep;
-    private Long numero;
-    private String complemento;
     private Usuario usuario;
-    private Page<Solicitante> clientes;
+    private List<Endereco> enderecos;
 
-    public ClienteVo(Solicitante solicitante) {
+    public SolicitanteVo(Solicitante solicitante) {
         this.cpf = solicitante.getCpf();
         this.nome = solicitante.getNome();
         this.dataNascimento = solicitante.getDataNascimento();
@@ -28,6 +27,7 @@ public class ClienteVo {
         this.telefonePrimario = solicitante.getTelefonePrimario();
         this.telefoneSecundario = solicitante.getTelefoneSecundario();
         this.usuario = solicitante.getUsuario();
+        this.enderecos = solicitante.getEnderecos();
     }
 
     public Long getCpf() {
@@ -78,30 +78,6 @@ public class ClienteVo {
         this.telefoneSecundario = telefoneSecundario;
     }
 
-    public Long getCep() {
-        return cep;
-    }
-
-    public void setCep(Long cep) {
-        this.cep = cep;
-    }
-
-    public Long getNumero() {
-        return numero;
-    }
-
-    public void setNumero(Long numero) {
-        this.numero = numero;
-    }
-
-    public String getComplemento() {
-        return complemento;
-    }
-
-    public void setComplemento(String complemento) {
-        this.complemento = complemento;
-    }
-
     public Usuario getUsuario() {
         return usuario;
     }
@@ -110,7 +86,15 @@ public class ClienteVo {
         this.usuario = usuario;
     }
 
-    public static Page<ClienteVo> converter(Page<Solicitante> clientes) {
-        return clientes.map(ClienteVo::new);
+    public List<Endereco> getEnderecos() {
+        return enderecos;
+    }
+
+    public void setEnderecos(List<Endereco> enderecos) {
+        this.enderecos = enderecos;
+    }
+
+    public static Page<SolicitanteVo> converter(Page<Solicitante> clientes) {
+        return clientes.map(SolicitanteVo::new);
     }
 }

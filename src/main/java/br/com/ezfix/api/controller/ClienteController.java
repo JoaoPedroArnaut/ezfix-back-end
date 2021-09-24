@@ -1,7 +1,7 @@
 package br.com.ezfix.api.controller;
 
-import br.com.ezfix.api.controller.vo.ClienteVo;
-import br.com.ezfix.api.repository.ClienteRepository;
+import br.com.ezfix.api.controller.vo.SolicitanteVo;
+import br.com.ezfix.api.repository.SolicitanteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class ClienteController extends baseController {
 
     @Autowired
-    private ClienteRepository clienteRepository;
+    private SolicitanteRepository clienteRepository;
 
     @GetMapping("/todos")
-    public Page<ClienteVo> buscarTodos(@PageableDefault(page = 0,size = 1) Pageable paginacao) {
-        return ClienteVo.converter(clienteRepository.findAll(paginacao));
+    public Page<SolicitanteVo> buscarTodos(@PageableDefault(page = 0,size = 10) Pageable paginacao) {
+        return SolicitanteVo.converter(clienteRepository.findAll(paginacao));
     }
 }
