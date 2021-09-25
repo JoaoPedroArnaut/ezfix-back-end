@@ -4,26 +4,28 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 @Entity
-public class Usuario implements UserDetails {
+public class Usuarios implements UserDetails {
 
 	@Id
 	private String email;
+	@NotNull
 	private String senha;
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	private List<Perfis> perfis = new ArrayList<>();
 
-	public Usuario(String email, String senha) {
+	public Usuarios(String email, String senha) {
 		this.email = email;
 		this.senha = senha;
 	}
 
-	public Usuario() {
+	public Usuarios() {
 	}
 
 	public String getEmail() {

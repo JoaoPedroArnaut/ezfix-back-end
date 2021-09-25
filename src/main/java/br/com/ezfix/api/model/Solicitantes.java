@@ -1,40 +1,39 @@
 package br.com.ezfix.api.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
 
 @Entity
-public class Solicitante {
+public class Solicitantes {
 
     @Id
     private Long cpf;
+    @NotNull
     private String nome;
+    @NotNull
     private LocalDate dataNascimento;
-    private String sexo;
+    @NotNull
     private Long telefonePrimario;
     private Long telefoneSecundario;
-    @ManyToOne
-    private Usuario usuario;
+    @OneToOne
+    private Usuarios usuarios;
 
     @ManyToMany
-    private List<Endereco> enderecos;
+    private List<Enderecos> enderecos;
 
-    public Solicitante() {
+    public Solicitantes() {
 
     }
 
-    public Solicitante(Long cpf, String nome, LocalDate dataNascimento, String sexo, Long telefonePrimario, Long telefoneSecundario, Usuario usuario, List<Endereco> enderecos) {
+    public Solicitantes(Long cpf, String nome, LocalDate dataNascimento, Long telefonePrimario, Long telefoneSecundario, Usuarios usuarios, List<Enderecos> enderecos) {
         this.cpf = cpf;
         this.nome = nome;
         this.dataNascimento = dataNascimento;
-        this.sexo = sexo;
         this.telefonePrimario = telefonePrimario;
         this.telefoneSecundario = telefoneSecundario;
-        this.usuario = usuario;
+        this.usuarios = usuarios;
         this.enderecos = enderecos;
     }
 
@@ -50,10 +49,6 @@ public class Solicitante {
         return dataNascimento;
     }
 
-    public String getSexo() {
-        return sexo;
-    }
-
     public Long getTelefonePrimario() {
         return telefonePrimario;
     }
@@ -62,11 +57,11 @@ public class Solicitante {
         return telefoneSecundario;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
+    public Usuarios getUsuario() {
+        return usuarios;
     }
 
-    public List<Endereco> getEnderecos() {
+    public List<Enderecos> getEnderecos() {
         return enderecos;
     }
 }

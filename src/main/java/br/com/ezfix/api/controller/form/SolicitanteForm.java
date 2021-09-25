@@ -1,12 +1,6 @@
 package br.com.ezfix.api.controller.form;
 
-import br.com.ezfix.api.model.Endereco;
-import br.com.ezfix.api.model.Usuario;
-
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import java.time.LocalDate;
-import java.util.List;
 
 public class SolicitanteForm {
 

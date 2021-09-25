@@ -1,6 +1,6 @@
 package br.com.ezfix.api.config.security;
 
-import br.com.ezfix.api.model.Usuario;
+import br.com.ezfix.api.model.Usuarios;
 import br.com.ezfix.api.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,7 +18,7 @@ public class AutenticacaoService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        Optional<Usuario> usuario = usuarioRepository.findByEmail(s);
+        Optional<Usuarios> usuario = usuarioRepository.findByEmail(s);
 
         if(usuario.isPresent()) {return usuario.get();}
         throw new UsernameNotFoundException("Dados Invalidos");

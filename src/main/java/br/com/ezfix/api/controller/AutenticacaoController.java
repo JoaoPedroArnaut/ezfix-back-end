@@ -4,10 +4,9 @@ import br.com.ezfix.api.config.security.TokenService;
 import br.com.ezfix.api.controller.form.LoginForm;
 import br.com.ezfix.api.controller.form.SolicitanteForm;
 import br.com.ezfix.api.controller.vo.TokenVo;
-import br.com.ezfix.api.controller.vo.UsuarioVo;
-import br.com.ezfix.api.model.Endereco;
-import br.com.ezfix.api.model.Solicitante;
-import br.com.ezfix.api.model.Usuario;
+import br.com.ezfix.api.model.Enderecos;
+import br.com.ezfix.api.model.Solicitantes;
+import br.com.ezfix.api.model.Usuarios;
 import br.com.ezfix.api.model.compositekeys.EnderecoId;
 import br.com.ezfix.api.repository.EnderecoRepository;
 import br.com.ezfix.api.repository.SolicitanteRepository;
@@ -55,25 +54,24 @@ public class AutenticacaoController{
 
     @PostMapping("/novoSolicitante")
     public ResponseEntity<?> novoSolicitante(@RequestBody SolicitanteForm solicitanteForm){
-        Usuario usuario = new Usuario(solicitanteForm.getEmail(),new BCryptPasswordEncoder().encode(solicitanteForm.getSenha()));
-        Endereco endereco = new Endereco(
+        Usuarios usuarios = new Usuarios(solicitanteForm.getEmail(),new BCryptPasswordEncoder().encode(solicitanteForm.getSenha()));
+        Enderecos enderecos = new Enderecos(
                 new EnderecoId(
                 Long.valueOf(enderecoRepository.findAllByEnderecoIdCep(solicitanteForm.getCep()).size() + 1),
                 solicitanteForm.getCep()),
                 solicitanteForm.getNumero(),
                 solicitanteForm.getComplemento()
         );
-        usuarioRepository.save(usuario);
-        enderecoRepository.save(endereco);
+        usuarioRepository.save(usuarios);
+        enderecoRepository.save(enderecos);
         solicitanteRepository.save(
-                new Solicitante(solicitanteForm.getCpf(),
+                new Solicitantes(solicitanteForm.getCpf(),
                 solicitanteForm.getNome(),
                 solicitanteForm.getDataNascimento(),
-                solicitanteForm.getSexo(),
                 solicitanteForm.getTelefonePrimario(),
                 solicitanteForm.getTelefoneSecundario(),
-                usuario,
-                Arrays.asList(endereco))
+                        usuarios,
+                Arrays.asList(enderecos))
         );
 
         return ResponseEntity.ok().build();
