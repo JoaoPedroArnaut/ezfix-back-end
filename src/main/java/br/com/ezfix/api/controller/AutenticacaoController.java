@@ -54,19 +54,28 @@ public class AutenticacaoController{
     }
 
     @PostMapping("/novoSolicitante")
-    public String novoSolicitante(@RequestBody SolicitanteForm solicitanteForm){
+    public ResponseEntity<?> novoSolicitante(@RequestBody SolicitanteForm solicitanteForm){
         Usuario usuario = new Usuario(solicitanteForm.getEmail(),new BCryptPasswordEncoder().encode(solicitanteForm.getSenha()));
-        Endereco endereco = new Endereco(new EnderecoId((enderecoRepository.count() + 1),solicitanteForm.getCep()),solicitanteForm.getNumero(),solicitanteForm.getComplemento());
+        Endereco endereco = new Endereco(
+                new EnderecoId(
+                Long.valueOf(enderecoRepository.findAllByEnderecoIdCep(solicitanteForm.getCep()).size() + 1),
+                solicitanteForm.getCep()),
+                solicitanteForm.getNumero(),
+                solicitanteForm.getComplemento()
+        );
         usuarioRepository.save(usuario);
         enderecoRepository.save(endereco);
-        solicitanteRepository.save(new Solicitante(solicitanteForm.getCpf(),
+        solicitanteRepository.save(
+                new Solicitante(solicitanteForm.getCpf(),
                 solicitanteForm.getNome(),
                 solicitanteForm.getDataNascimento(),
                 solicitanteForm.getSexo(),
                 solicitanteForm.getTelefonePrimario(),
                 solicitanteForm.getTelefoneSecundario(),
                 usuario,
-                Arrays.asList(endereco)));
-        return "Novo Solicitante Cadastrado";
+                Arrays.asList(endereco))
+        );
+
+        return ResponseEntity.ok().build();
     }
 }
