@@ -9,3 +9,5 @@ INSERT INTO SOLICITANTES_ENDERECOS(solicitantes_cpf,enderecos_id,enderecos_cep)V
 INSERT INTO PLANOS(tipo) VALUES ('basico');
 INSERT INTO PLANOS(tipo) VALUES ('normal');
 INSERT INTO PLANOS(tipo) VALUES ('avançado');
+
+INSERT INTO SERVICOS(servico) VALUES ('reparo de tela')

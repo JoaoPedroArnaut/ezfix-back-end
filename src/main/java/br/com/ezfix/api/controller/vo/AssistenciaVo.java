@@ -12,7 +12,7 @@ public class AssistenciaVo {
     private Long telefoneSecundario;
     private Representantes representante;
     private List<Enderecos> enderecos;
-    private List<TipoServicos>tipoServicos;
+    private List<Servicos> servicos;
     private Planos plano;
 
     public AssistenciaVo(Assistencias assistencia) {
@@ -21,7 +21,7 @@ public class AssistenciaVo {
         this.telefoneSecundario = assistencia.getTelefoneSecundario();
         this.representante = assistencia.getRepresentante();
         this.enderecos = assistencia.getEnderecos();
-        this.tipoServicos = assistencia.getTipoServicos();
+        this.servicos = assistencia.getTipoServicos();
         this.plano = assistencia.getPlano();
     }
 
@@ -45,8 +45,8 @@ public class AssistenciaVo {
         return enderecos;
     }
 
-    public List<TipoServicos> getTipoServicos() {
-        return tipoServicos;
+    public List<Servicos> getTipoServicos() {
+        return servicos;
     }
 
     public Planos getPlano() {

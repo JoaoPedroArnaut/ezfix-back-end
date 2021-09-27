@@ -19,7 +19,7 @@ public class Assistencias {
     private List<Enderecos> enderecos;
 
     @ManyToMany
-    private List<TipoServicos>tipoServicos;
+    private List<Servicos> servicos;
 
     @ManyToOne
     private Planos plano;
@@ -55,8 +55,8 @@ public class Assistencias {
         return enderecos;
     }
 
-    public List<TipoServicos> getTipoServicos() {
-        return tipoServicos;
+    public List<Servicos> getTipoServicos() {
+        return servicos;
     }
 
     public Planos getPlano() {
