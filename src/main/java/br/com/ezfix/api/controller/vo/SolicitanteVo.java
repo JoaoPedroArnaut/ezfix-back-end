@@ -13,7 +13,6 @@ public class SolicitanteVo {
     private Long cpf;
     private String nome;
     private LocalDate dataNascimento;
-    private String sexo;
     private Long telefonePrimario;
     private Long telefoneSecundario;
     private Usuarios usuarios;
@@ -51,14 +50,6 @@ public class SolicitanteVo {
 
     public void setDataNascimento(LocalDate dataNascimento) {
         this.dataNascimento = dataNascimento;
-    }
-
-    public String getSexo() {
-        return sexo;
-    }
-
-    public void setSexo(String sexo) {
-        this.sexo = sexo;
     }
 
     public Long getTelefonePrimario() {

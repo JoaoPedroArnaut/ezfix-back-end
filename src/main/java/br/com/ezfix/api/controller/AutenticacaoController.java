@@ -5,9 +5,7 @@ import br.com.ezfix.api.controller.form.LoginForm;
 import br.com.ezfix.api.controller.form.SolicitanteForm;
 import br.com.ezfix.api.controller.vo.TokenVo;
 import br.com.ezfix.api.model.Enderecos;
-import br.com.ezfix.api.model.Solicitantes;
 import br.com.ezfix.api.model.Usuarios;
-import br.com.ezfix.api.model.compositekeys.EnderecoId;
 import br.com.ezfix.api.repository.EnderecoRepository;
 import br.com.ezfix.api.repository.SolicitanteRepository;
 import br.com.ezfix.api.repository.UsuarioRepository;
@@ -20,7 +18,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Arrays;
 
 @RestController
 @RequestMapping("/auth")
@@ -54,26 +51,18 @@ public class AutenticacaoController{
 
     @PostMapping("/novoSolicitante")
     public ResponseEntity<?> novoSolicitante(@RequestBody SolicitanteForm solicitanteForm){
-        Usuarios usuarios = new Usuarios(solicitanteForm.getEmail(),new BCryptPasswordEncoder().encode(solicitanteForm.getSenha()));
-        Enderecos enderecos = new Enderecos(
-                new EnderecoId(
-                Long.valueOf(enderecoRepository.findAllByEnderecoIdCep(solicitanteForm.getCep()).size() + 1),
-                solicitanteForm.getCep()),
-                solicitanteForm.getNumero(),
-                solicitanteForm.getComplemento()
-        );
+
+        Usuarios usuarios = solicitanteForm.converterUsuarios();
+        Enderecos enderecos = solicitanteForm.converterEnderecos(ultimoEnderecoId(solicitanteForm.getCep()));
+
         usuarioRepository.save(usuarios);
         enderecoRepository.save(enderecos);
-        solicitanteRepository.save(
-                new Solicitantes(solicitanteForm.getCpf(),
-                solicitanteForm.getNome(),
-                solicitanteForm.getDataNascimento(),
-                solicitanteForm.getTelefonePrimario(),
-                solicitanteForm.getTelefoneSecundario(),
-                        usuarios,
-                Arrays.asList(enderecos))
-        );
+        solicitanteRepository.save(solicitanteForm.converterSolicitante(usuarios,enderecos));
 
         return ResponseEntity.ok().build();
+    }
+
+    private Integer ultimoEnderecoId(Long cep){
+        return enderecoRepository.findAllByEnderecoIdCep(cep).size();
     }
 }
