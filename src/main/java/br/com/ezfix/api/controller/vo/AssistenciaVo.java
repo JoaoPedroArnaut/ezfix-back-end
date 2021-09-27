@@ -1,38 +1,28 @@
-package br.com.ezfix.api.model;
+package br.com.ezfix.api.controller.vo;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import br.com.ezfix.api.model.*;
+import org.springframework.data.domain.Page;
+
 import java.util.List;
 
-@Entity
-public class Assistencias {
+public class AssistenciaVo {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotNull
     private Long telefonePrimario;
     private Long telefoneSecundario;
-    @OneToOne
     private Representantes representante;
-
-    @ManyToMany
     private List<Enderecos> enderecos;
-
-    @ManyToMany
     private List<TipoServicos>tipoServicos;
-
-    @ManyToOne
     private Planos plano;
 
-    public Assistencias() {
-    }
-
-    public Assistencias(Long telefonePrimario, Long telefoneSecundario, Representantes representante, List<Enderecos> enderecos, Planos plano) {
-        this.telefonePrimario = telefonePrimario;
-        this.telefoneSecundario = telefoneSecundario;
-        this.representante = representante;
-        this.enderecos = enderecos;
-        this.plano = plano;
+    public AssistenciaVo(Assistencias assistencia) {
+        this.id = assistencia.getId();
+        this.telefonePrimario = assistencia.getTelefonePrimario();
+        this.telefoneSecundario = assistencia.getTelefoneSecundario();
+        this.representante = assistencia.getRepresentante();
+        this.enderecos = assistencia.getEnderecos();
+        this.tipoServicos = assistencia.getTipoServicos();
+        this.plano = assistencia.getPlano();
     }
 
     public Long getId() {
@@ -61,5 +51,9 @@ public class Assistencias {
 
     public Planos getPlano() {
         return plano;
+    }
+
+    public static Page<AssistenciaVo> converter(Page<Assistencias> assistencias) {
+        return assistencias.map(AssistenciaVo::new);
     }
 }

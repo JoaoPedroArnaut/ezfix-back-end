@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/cliente")
-public class ClienteController extends baseController {
+public class SolicitanteController extends baseController {
 
     @Autowired
     private SolicitanteRepository clienteRepository;
 
-    @GetMapping("/todos")
+    @GetMapping
     public Page<SolicitanteVo> buscarTodos(@PageableDefault(page = 0,size = 10) Pageable paginacao) {
         return SolicitanteVo.converter(clienteRepository.findAll(paginacao));
     }

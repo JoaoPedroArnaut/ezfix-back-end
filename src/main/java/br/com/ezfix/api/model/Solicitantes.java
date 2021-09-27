@@ -9,7 +9,7 @@ import java.util.List;
 public class Solicitantes {
 
     @Id
-    private Long cpf;
+    private String cpf;
     @NotNull
     private String nome;
     @NotNull
@@ -27,7 +27,7 @@ public class Solicitantes {
 
     }
 
-    public Solicitantes(Long cpf, String nome, LocalDate dataNascimento, Long telefonePrimario, Long telefoneSecundario, Usuarios usuarios, List<Enderecos> enderecos) {
+    public Solicitantes(String cpf, String nome, LocalDate dataNascimento, Long telefonePrimario, Long telefoneSecundario, Usuarios usuarios, List<Enderecos> enderecos) {
         this.cpf = cpf;
         this.nome = nome;
         this.dataNascimento = dataNascimento;
@@ -37,7 +37,7 @@ public class Solicitantes {
         this.enderecos = enderecos;
     }
 
-    public Long getCpf() {
+    public String getCpf() {
         return cpf;
     }
 

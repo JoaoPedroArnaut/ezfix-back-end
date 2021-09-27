@@ -25,8 +25,7 @@ public class Certificacoes {
     public Certificacoes() {
     }
 
-    public Certificacoes(Long id, String nomeCurso, Long quantidadeHoras, LocalDate dataInicio, LocalDate dataConclusao, String anexo, Assistencias assistencia) {
-        this.id = id;
+    public Certificacoes(String nomeCurso, Long quantidadeHoras, LocalDate dataInicio, LocalDate dataConclusao, String anexo, Assistencias assistencia) {
         this.nomeCurso = nomeCurso;
         this.quantidadeHoras = quantidadeHoras;
         this.dataInicio = dataInicio;

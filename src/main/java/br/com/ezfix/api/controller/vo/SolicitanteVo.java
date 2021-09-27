@@ -10,7 +10,7 @@ import java.util.List;
 
 public class SolicitanteVo {
 
-    private Long cpf;
+    private String cpf;
     private String nome;
     private LocalDate dataNascimento;
     private Long telefonePrimario;
@@ -28,11 +28,11 @@ public class SolicitanteVo {
         this.enderecos = solicitantes.getEnderecos();
     }
 
-    public Long getCpf() {
+    public String getCpf() {
         return cpf;
     }
 
-    public void setCpf(Long cpf) {
+    public void setCpf(String cpf) {
         this.cpf = cpf;
     }
 
@@ -84,7 +84,7 @@ public class SolicitanteVo {
         this.enderecos = enderecos;
     }
 
-    public static Page<SolicitanteVo> converter(Page<Solicitantes> clientes) {
-        return clientes.map(SolicitanteVo::new);
+    public static Page<SolicitanteVo> converter(Page<Solicitantes> solicitantes) {
+        return solicitantes.map(SolicitanteVo::new);
     }
 }

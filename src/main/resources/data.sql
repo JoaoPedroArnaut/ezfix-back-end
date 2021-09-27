@@ -4,4 +4,8 @@ INSERT INTO SOLICITANTES(cpf, nome, data_nascimento, telefone_primario, telefone
 
 INSERT INTO ENDERECOS(id,cep,numero)VALUES (1,03185050,761);
 
-INSERT INTO SOLICITANTES_ENDERECOS(solicitantes_cpf,enderecos_id,enderecos_cep)VALUES ('49502294866',1,03185050)
+INSERT INTO SOLICITANTES_ENDERECOS(solicitantes_cpf,enderecos_id,enderecos_cep)VALUES ('49502294866',1,03185050);
+
+INSERT INTO PLANOS(tipo) VALUES ('basico');
+INSERT INTO PLANOS(tipo) VALUES ('normal');
+INSERT INTO PLANOS(tipo) VALUES ('avançado');

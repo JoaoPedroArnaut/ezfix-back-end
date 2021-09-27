@@ -9,16 +9,11 @@ public class TipoServicos {
     private Long id;
     private String servico;
 
-    @ManyToOne
-    private Assistencias assistencia;
-
     public TipoServicos() {
     }
 
-    public TipoServicos(Long id, String servico, Assistencias assistencia) {
-        this.id = id;
+    public TipoServicos(String servico) {
         this.servico = servico;
-        this.assistencia = assistencia;
     }
 
     public Long getId() {
@@ -27,9 +22,5 @@ public class TipoServicos {
 
     public String getServico() {
         return servico;
-    }
-
-    public Assistencias getAssistencia() {
-        return assistencia;
     }
 }
