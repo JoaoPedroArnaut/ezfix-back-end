@@ -6,17 +6,17 @@ import br.com.ezfix.api.controller.form.CadastroForm;
 import br.com.ezfix.api.controller.form.LoginForm;
 import br.com.ezfix.api.controller.form.SolicitanteForm;
 import br.com.ezfix.api.controller.vo.TokenVo;
-import br.com.ezfix.api.model.Enderecos;
-import br.com.ezfix.api.model.Planos;
-import br.com.ezfix.api.model.Usuarios;
+import br.com.ezfix.api.model.Perfis;
 import br.com.ezfix.api.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
@@ -48,6 +48,9 @@ public class AutenticacaoController{
     @Autowired
     private AssistenciaRepository assistenciaRepository;
 
+    @Autowired
+    private PerfisRepository perfisRepository;
+
     @PostMapping
     public ResponseEntity<TokenVo> autenticar(@RequestBody @Valid LoginForm loginForm){
         try {
@@ -62,7 +65,7 @@ public class AutenticacaoController{
     @PostMapping("/novoSolicitante")
     public ResponseEntity<?> novoSolicitante(@RequestBody SolicitanteForm solicitanteForm){
 
-        converterForm(solicitanteForm);
+        converterForm(solicitanteForm,perfisRepository.getById(1l));
         solicitanteForm.converterSolicitante();
 
         usuarioRepository.save(solicitanteForm.getUsuarios());
@@ -75,7 +78,7 @@ public class AutenticacaoController{
     @PostMapping("/novaAssistencia")
     public ResponseEntity<?> novaAssistencia(@RequestBody AssistenciaForm assistenciaForm){
 
-        converterForm(assistenciaForm);
+        converterForm(assistenciaForm,perfisRepository.getById(2l));
         assistenciaForm.converterRepresentantes();
         assistenciaForm.converterAssistencias(planosRepository.getById(assistenciaForm.getPlano()));
 
@@ -91,8 +94,8 @@ public class AutenticacaoController{
         return enderecoRepository.findAllByEnderecoIdCep(cep).size();
     }
 
-    private void converterForm(CadastroForm cadastroForm){
-        cadastroForm.converterUsuarios();
+    private void converterForm(CadastroForm cadastroForm, Perfis perfis){
+        cadastroForm.converterUsuarios(perfis);
         cadastroForm.converterEnderecos(ultimoEnderecoId(cadastroForm.getCep()));
     }
 }

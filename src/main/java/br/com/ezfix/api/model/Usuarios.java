@@ -20,9 +20,10 @@ public class Usuarios implements UserDetails {
 	@ManyToMany(fetch = FetchType.EAGER)
 	private List<Perfis> perfis = new ArrayList<>();
 
-	public Usuarios(String email, String senha) {
+	public Usuarios(String email, String senha, Perfis perfis) {
 		this.email = email;
 		this.senha = senha;
+		this.perfis.add(perfis);
 	}
 
 	public Usuarios() {

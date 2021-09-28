@@ -1,6 +1,7 @@
 package br.com.ezfix.api.controller.form;
 
 import br.com.ezfix.api.model.Enderecos;
+import br.com.ezfix.api.model.Perfis;
 import br.com.ezfix.api.model.Usuarios;
 import br.com.ezfix.api.model.compositekeys.EnderecoId;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -36,8 +37,8 @@ public abstract class CadastroForm {
         this.complemento = complemento;
     }
 
-    public void converterUsuarios(){
-        this.usuarios = new Usuarios(this.email,new BCryptPasswordEncoder().encode(this.senha));
+    public void converterUsuarios(Perfis perfis){
+        this.usuarios = new Usuarios(this.email,new BCryptPasswordEncoder().encode(this.senha),perfis);
     }
 
     public void converterEnderecos(Integer id){
