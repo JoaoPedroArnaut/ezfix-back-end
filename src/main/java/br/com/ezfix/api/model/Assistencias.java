@@ -9,6 +9,7 @@ public class Assistencias {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String nomeFantasia;
     @NotNull
     private Long telefonePrimario;
     private Long telefoneSecundario;
@@ -27,7 +28,8 @@ public class Assistencias {
     public Assistencias() {
     }
 
-    public Assistencias(Long telefonePrimario, Long telefoneSecundario, Representantes representante, List<Enderecos> enderecos, Planos plano) {
+    public Assistencias(String nomeFantasia, Long telefonePrimario, Long telefoneSecundario, Representantes representante, List<Enderecos> enderecos,  Planos plano) {
+        this.nomeFantasia = nomeFantasia;
         this.telefonePrimario = telefonePrimario;
         this.telefoneSecundario = telefoneSecundario;
         this.representante = representante;
@@ -37,6 +39,10 @@ public class Assistencias {
 
     public Long getId() {
         return id;
+    }
+
+    public String getNomeFantasia() {
+        return nomeFantasia;
     }
 
     public Long getTelefonePrimario() {

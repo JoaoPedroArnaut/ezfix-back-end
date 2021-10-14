@@ -3,12 +3,12 @@ package br.com.ezfix.api.controller.vo;
 import br.com.ezfix.api.model.Usuarios;
 import org.springframework.data.domain.Page;
 
-public class UsuarioVo {
+public class UsuarioDto {
 
     private Long id;
     private String email;
 
-    public UsuarioVo(Usuarios usuarios){
+    public UsuarioDto(Usuarios usuarios){
         this.email = usuarios.getEmail();
     }
 
@@ -16,7 +16,7 @@ public class UsuarioVo {
         return email;
     }
 
-    public static Page<UsuarioVo> converter(Page<Usuarios> usuarios){
-        return usuarios.map(UsuarioVo::new);
+    public static Page<UsuarioDto> converter(Page<Usuarios> usuarios){
+        return usuarios.map(UsuarioDto::new);
     }
 }

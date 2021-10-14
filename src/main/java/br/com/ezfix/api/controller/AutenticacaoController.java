@@ -5,7 +5,7 @@ import br.com.ezfix.api.controller.form.AssistenciaForm;
 import br.com.ezfix.api.controller.form.CadastroForm;
 import br.com.ezfix.api.controller.form.LoginForm;
 import br.com.ezfix.api.controller.form.SolicitanteForm;
-import br.com.ezfix.api.controller.vo.TokenVo;
+import br.com.ezfix.api.controller.vo.TokenDto;
 import br.com.ezfix.api.model.Perfis;
 import br.com.ezfix.api.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,11 +52,11 @@ public class AutenticacaoController{
     private PerfisRepository perfisRepository;
 
     @PostMapping
-    public ResponseEntity<TokenVo> autenticar(@RequestBody @Valid LoginForm loginForm){
+    public ResponseEntity<TokenDto> autenticar(@RequestBody @Valid LoginForm loginForm){
         try {
             Authentication authentication = authenticationManager.authenticate(loginForm.converter());
             String token = tokenService.gerarToken(authentication);
-            return ResponseEntity.ok(new TokenVo(token,"Bearer"));
+            return ResponseEntity.ok(new TokenDto(token,"Bearer"));
         }catch (AuthenticationException e){
             return ResponseEntity.badRequest().build();
         }

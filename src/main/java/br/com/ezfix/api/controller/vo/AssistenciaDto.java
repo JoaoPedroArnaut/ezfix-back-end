@@ -5,9 +5,10 @@ import org.springframework.data.domain.Page;
 
 import java.util.List;
 
-public class AssistenciaVo {
+public class AssistenciaDto {
 
     private Long id;
+    private String nomeFantasia;
     private Long telefonePrimario;
     private Long telefoneSecundario;
     private Representantes representante;
@@ -15,8 +16,9 @@ public class AssistenciaVo {
     private List<Servicos> servicos;
     private Planos plano;
 
-    public AssistenciaVo(Assistencias assistencia) {
+    public AssistenciaDto(Assistencias assistencia) {
         this.id = assistencia.getId();
+        this.nomeFantasia = assistencia.getNomeFantasia();
         this.telefonePrimario = assistencia.getTelefonePrimario();
         this.telefoneSecundario = assistencia.getTelefoneSecundario();
         this.representante = assistencia.getRepresentante();
@@ -37,6 +39,10 @@ public class AssistenciaVo {
         return telefoneSecundario;
     }
 
+    public String getNomeFantasia() {
+        return nomeFantasia;
+    }
+
     public Representantes getRepresentante() {
         return representante;
     }
@@ -53,7 +59,7 @@ public class AssistenciaVo {
         return plano;
     }
 
-    public static Page<AssistenciaVo> converter(Page<Assistencias> assistencias) {
-        return assistencias.map(AssistenciaVo::new);
+    public static Page<AssistenciaDto> converter(Page<Assistencias> assistencias) {
+        return assistencias.map(AssistenciaDto::new);
     }
 }

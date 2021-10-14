@@ -8,7 +8,7 @@ import org.springframework.data.domain.Page;
 import java.time.LocalDate;
 import java.util.List;
 
-public class SolicitanteVo {
+public class SolicitanteDto {
 
     private String cpf;
     private String nome;
@@ -18,7 +18,7 @@ public class SolicitanteVo {
     private Usuarios usuarios;
     private List<Enderecos> enderecos;
 
-    public SolicitanteVo(Solicitantes solicitantes) {
+    public SolicitanteDto(Solicitantes solicitantes) {
         this.cpf = solicitantes.getCpf();
         this.nome = solicitantes.getNome();
         this.dataNascimento = solicitantes.getDataNascimento();
@@ -84,7 +84,7 @@ public class SolicitanteVo {
         this.enderecos = enderecos;
     }
 
-    public static Page<SolicitanteVo> converter(Page<Solicitantes> solicitantes) {
-        return solicitantes.map(SolicitanteVo::new);
+    public static Page<SolicitanteDto> converter(Page<Solicitantes> solicitantes) {
+        return solicitantes.map(SolicitanteDto::new);
     }
 }

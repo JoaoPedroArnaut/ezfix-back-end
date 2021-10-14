@@ -1,6 +1,6 @@
 package br.com.ezfix.api.controller;
 
-import br.com.ezfix.api.controller.vo.AssistenciaVo;
+import br.com.ezfix.api.controller.vo.AssistenciaDto;
 import br.com.ezfix.api.model.Assistencias;
 import br.com.ezfix.api.repository.AssistenciaRepository;
 import br.com.ezfix.api.repository.ServicosRepository;
@@ -23,8 +23,8 @@ public class AssistenciaController extends baseController{
 
     @GetMapping
     @Override()
-    public Page<AssistenciaVo> buscarTodos(@PageableDefault(page = 0,size = 10) Pageable paginacao) {
-        return AssistenciaVo.converter(assistenciaRepository.findAll(paginacao));
+    public Page<AssistenciaDto> buscarTodos(@PageableDefault(page = 0,size = 10) Pageable paginacao) {
+        return AssistenciaDto.converter(assistenciaRepository.findAll(paginacao));
     }
 
     @PutMapping("/{id}/{servico}")

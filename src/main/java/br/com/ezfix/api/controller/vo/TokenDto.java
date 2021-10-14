@@ -1,11 +1,11 @@
 package br.com.ezfix.api.controller.vo;
 
-public class TokenVo {
+public class TokenDto {
 
     private String token;
     private String tipo;
 
-    public TokenVo(String token, String tipo) {
+    public TokenDto(String token, String tipo) {
         this.token = token;
         this.tipo = tipo;
     }

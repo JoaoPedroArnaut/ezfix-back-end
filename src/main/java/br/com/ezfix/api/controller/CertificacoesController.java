@@ -1,8 +1,7 @@
 package br.com.ezfix.api.controller;
 
 import br.com.ezfix.api.controller.form.CertificacoesForm;
-import br.com.ezfix.api.controller.vo.CertificacoesVo;
-import br.com.ezfix.api.model.Certificacoes;
+import br.com.ezfix.api.controller.vo.CertificacoesDto;
 import br.com.ezfix.api.repository.AssistenciaRepository;
 import br.com.ezfix.api.repository.CertificacoesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +30,7 @@ public class CertificacoesController extends baseController{
 
     @GetMapping
     @Override
-    public Page<CertificacoesVo> buscarTodos(@PageableDefault(page = 0,size = 10) Pageable paginacao) {
-        return CertificacoesVo.converter(certificacoesRepository.findAll(paginacao));
+    public Page<CertificacoesDto> buscarTodos(@PageableDefault(page = 0,size = 10) Pageable paginacao) {
+        return CertificacoesDto.converter(certificacoesRepository.findAll(paginacao));
     }
 }

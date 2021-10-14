@@ -12,6 +12,7 @@ public class AssistenciaForm extends CadastroForm{
 
     private String documento;
     private String nome;
+    private String nomeFantasia;
     private LocalDate dataNascimento;
     private Long telefonePrimario;
     private Long telefoneSecundario;
@@ -20,10 +21,11 @@ public class AssistenciaForm extends CadastroForm{
     private Representantes representantes;
     private Assistencias assistencias;
 
-    public AssistenciaForm(String email, String senha, Long cep, Long numero, String complemento, String documento, String nome, LocalDate dataNascimento, Long telefonePrimario, Long telefoneSecundario, Long plano, Representantes representantes, Assistencias assistencias) {
+    public AssistenciaForm(String email, String senha, Long cep, Long numero, String complemento, String documento, String nome, String nomeFantasia, LocalDate dataNascimento, Long telefonePrimario, Long telefoneSecundario, Long plano, Representantes representantes, Assistencias assistencias) {
         super(email, senha, cep, numero, complemento);
         this.documento = documento;
         this.nome = nome;
+        this.nomeFantasia = nomeFantasia;
         this.dataNascimento = dataNascimento;
         this.telefonePrimario = telefonePrimario;
         this.telefoneSecundario = telefoneSecundario;
@@ -50,6 +52,7 @@ public class AssistenciaForm extends CadastroForm{
 
     public void converterAssistencias(Planos plano){
         this.assistencias = new Assistencias(
+                this.nomeFantasia,
                 this.telefonePrimario,
                 this.telefoneSecundario,
                 this.representantes,
