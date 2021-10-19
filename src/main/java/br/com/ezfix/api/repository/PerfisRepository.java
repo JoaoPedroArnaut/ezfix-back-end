@@ -1,7 +1,7 @@
 package br.com.ezfix.api.repository;
 
-import br.com.ezfix.api.model.Perfis;
+import br.com.ezfix.api.model.Perfil;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface PerfisRepository extends JpaRepository<Perfis ,Long> {
+public interface PerfisRepository extends JpaRepository<Perfil,Long> {
 }

@@ -1,9 +1,8 @@
 package br.com.ezfix.api.controller.form;
 
-import br.com.ezfix.api.model.Assistencias;
-import br.com.ezfix.api.model.Planos;
-import br.com.ezfix.api.model.Representantes;
-import br.com.ezfix.api.model.Usuarios;
+import br.com.ezfix.api.model.Assistencia;
+import br.com.ezfix.api.model.Plano;
+import br.com.ezfix.api.model.Representante;
 
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -18,10 +17,10 @@ public class AssistenciaForm extends CadastroForm{
     private Long telefoneSecundario;
     private Long plano;
 
-    private Representantes representantes;
-    private Assistencias assistencias;
+    private Representante representante;
+    private Assistencia assistencia;
 
-    public AssistenciaForm(String email, String senha, Long cep, Long numero, String complemento, String documento, String nome, String nomeFantasia, LocalDate dataNascimento, Long telefonePrimario, Long telefoneSecundario, Long plano, Representantes representantes, Assistencias assistencias) {
+    public AssistenciaForm(String email, String senha, Long cep, Long numero, String complemento, String documento, String nome, String nomeFantasia, LocalDate dataNascimento, Long telefonePrimario, Long telefoneSecundario, Long plano, Representante representante, Assistencia assistencia) {
         super(email, senha, cep, numero, complemento);
         this.documento = documento;
         this.nome = nome;
@@ -30,16 +29,16 @@ public class AssistenciaForm extends CadastroForm{
         this.telefonePrimario = telefonePrimario;
         this.telefoneSecundario = telefoneSecundario;
         this.plano = plano;
-        this.representantes = representantes;
-        this.assistencias = assistencias;
+        this.representante = representante;
+        this.assistencia = assistencia;
     }
 
-    public Representantes getRepresentantes() {
-        return representantes;
+    public Representante getRepresentantes() {
+        return representante;
     }
 
-    public Assistencias getAssistencias() {
-        return assistencias;
+    public Assistencia getAssistencias() {
+        return assistencia;
     }
 
     public Long getPlano() {
@@ -47,31 +46,17 @@ public class AssistenciaForm extends CadastroForm{
     }
 
     public void converterRepresentantes(){
-        this.representantes = new Representantes(this.documento,this.nome,this.dataNascimento,this.getUsuarios());
+        this.representante = new Representante(this.documento,this.nome,this.dataNascimento,this.getUsuarios());
     }
 
-    public void converterAssistencias(Planos plano){
-        this.assistencias = new Assistencias(
+    public void converterAssistencias(Plano plano){
+        this.assistencia = new Assistencia(
                 this.nomeFantasia,
                 this.telefonePrimario,
                 this.telefoneSecundario,
-                this.representantes,
+                this.representante,
                 Arrays.asList(super.getEnderecos()),
                 plano
         );
-    }
-
-    @Override
-    public String toString() {
-        return "AssistenciaForm{" +
-                "documento='" + documento + '\'' +
-                ", nome='" + nome + '\'' +
-                ", dataNascimento=" + dataNascimento +
-                ", telefonePrimario=" + telefonePrimario +
-                ", telefoneSecundario=" + telefoneSecundario +
-                ", plano=" + plano +
-                ", representantes=" + representantes +
-                ", assistencias=" + assistencias +
-                '}';
     }
 }

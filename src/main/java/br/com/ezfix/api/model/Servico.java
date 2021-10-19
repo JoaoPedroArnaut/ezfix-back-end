@@ -3,16 +3,16 @@ package br.com.ezfix.api.model;
 import javax.persistence.*;
 
 @Entity
-public class Servicos {
+public class Servico {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String servico;
 
-    public Servicos() {
+    public Servico() {
     }
 
-    public Servicos(String servico) {
+    public Servico(String servico) {
         this.servico = servico;
     }
 

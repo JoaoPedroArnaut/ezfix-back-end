@@ -1,7 +1,7 @@
 package br.com.ezfix.api.controller;
 
-import br.com.ezfix.api.controller.vo.AssistenciaDto;
-import br.com.ezfix.api.model.Assistencias;
+import br.com.ezfix.api.controller.dto.AssistenciaDto;
+import br.com.ezfix.api.model.Assistencia;
 import br.com.ezfix.api.repository.AssistenciaRepository;
 import br.com.ezfix.api.repository.ServicosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,9 +29,9 @@ public class AssistenciaController extends baseController{
 
     @PutMapping("/{id}/{servico}")
     public ResponseEntity<?> adicionaServico(@PathVariable Long id, @PathVariable Long servico){
-        Assistencias assistencias = assistenciaRepository.findById(id).get();
-        assistencias.getTipoServicos().add(servicosRepository.getById(servico));
-        assistenciaRepository.save(assistencias);
+        Assistencia assistencia = assistenciaRepository.findById(id).get();
+        assistencia.getTipoServicos().add(servicosRepository.getById(servico));
+        assistenciaRepository.save(assistencia);
         return ResponseEntity.ok().build();
     }
 }

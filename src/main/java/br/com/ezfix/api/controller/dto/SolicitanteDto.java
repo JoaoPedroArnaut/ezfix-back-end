@@ -1,8 +1,8 @@
-package br.com.ezfix.api.controller.vo;
+package br.com.ezfix.api.controller.dto;
 
-import br.com.ezfix.api.model.Enderecos;
-import br.com.ezfix.api.model.Solicitantes;
-import br.com.ezfix.api.model.Usuarios;
+import br.com.ezfix.api.model.Endereco;
+import br.com.ezfix.api.model.Solicitante;
+import br.com.ezfix.api.model.Usuario;
 import org.springframework.data.domain.Page;
 
 import java.time.LocalDate;
@@ -15,17 +15,17 @@ public class SolicitanteDto {
     private LocalDate dataNascimento;
     private Long telefonePrimario;
     private Long telefoneSecundario;
-    private Usuarios usuarios;
-    private List<Enderecos> enderecos;
+    private Usuario usuario;
+    private List<Endereco> enderecos;
 
-    public SolicitanteDto(Solicitantes solicitantes) {
-        this.cpf = solicitantes.getCpf();
-        this.nome = solicitantes.getNome();
-        this.dataNascimento = solicitantes.getDataNascimento();
-        this.telefonePrimario = solicitantes.getTelefonePrimario();
-        this.telefoneSecundario = solicitantes.getTelefoneSecundario();
-        this.usuarios = solicitantes.getUsuario();
-        this.enderecos = solicitantes.getEnderecos();
+    public SolicitanteDto(Solicitante solicitante) {
+        this.cpf = solicitante.getCpf();
+        this.nome = solicitante.getNome();
+        this.dataNascimento = solicitante.getDataNascimento();
+        this.telefonePrimario = solicitante.getTelefonePrimario();
+        this.telefoneSecundario = solicitante.getTelefoneSecundario();
+        this.usuario = solicitante.getUsuario();
+        this.enderecos = solicitante.getEnderecos();
     }
 
     public String getCpf() {
@@ -68,23 +68,23 @@ public class SolicitanteDto {
         this.telefoneSecundario = telefoneSecundario;
     }
 
-    public Usuarios getUsuario() {
-        return usuarios;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public void setUsuario(Usuarios usuarios) {
-        this.usuarios = usuarios;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
-    public List<Enderecos> getEnderecos() {
+    public List<Endereco> getEnderecos() {
         return enderecos;
     }
 
-    public void setEnderecos(List<Enderecos> enderecos) {
+    public void setEnderecos(List<Endereco> enderecos) {
         this.enderecos = enderecos;
     }
 
-    public static Page<SolicitanteDto> converter(Page<Solicitantes> solicitantes) {
+    public static Page<SolicitanteDto> converter(Page<Solicitante> solicitantes) {
         return solicitantes.map(SolicitanteDto::new);
     }
 }

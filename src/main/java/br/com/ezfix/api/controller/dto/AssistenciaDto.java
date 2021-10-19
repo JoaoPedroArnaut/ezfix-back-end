@@ -1,4 +1,4 @@
-package br.com.ezfix.api.controller.vo;
+package br.com.ezfix.api.controller.dto;
 
 import br.com.ezfix.api.model.*;
 import org.springframework.data.domain.Page;
@@ -11,12 +11,12 @@ public class AssistenciaDto {
     private String nomeFantasia;
     private Long telefonePrimario;
     private Long telefoneSecundario;
-    private Representantes representante;
-    private List<Enderecos> enderecos;
-    private List<Servicos> servicos;
-    private Planos plano;
+    private Representante representante;
+    private List<Endereco> enderecos;
+    private List<Servico> servicos;
+    private Plano plano;
 
-    public AssistenciaDto(Assistencias assistencia) {
+    public AssistenciaDto(Assistencia assistencia) {
         this.id = assistencia.getId();
         this.nomeFantasia = assistencia.getNomeFantasia();
         this.telefonePrimario = assistencia.getTelefonePrimario();
@@ -43,23 +43,23 @@ public class AssistenciaDto {
         return nomeFantasia;
     }
 
-    public Representantes getRepresentante() {
+    public Representante getRepresentante() {
         return representante;
     }
 
-    public List<Enderecos> getEnderecos() {
+    public List<Endereco> getEnderecos() {
         return enderecos;
     }
 
-    public List<Servicos> getTipoServicos() {
+    public List<Servico> getTipoServicos() {
         return servicos;
     }
 
-    public Planos getPlano() {
+    public Plano getPlano() {
         return plano;
     }
 
-    public static Page<AssistenciaDto> converter(Page<Assistencias> assistencias) {
+    public static Page<AssistenciaDto> converter(Page<Assistencia> assistencias) {
         return assistencias.map(AssistenciaDto::new);
     }
 }

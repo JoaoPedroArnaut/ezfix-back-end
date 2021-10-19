@@ -1,6 +1,6 @@
 package br.com.ezfix.api.config.swagger;
 
-import br.com.ezfix.api.model.Usuarios;
+import br.com.ezfix.api.model.Usuario;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ParameterBuilder;
@@ -22,7 +22,7 @@ public class SwaggerConfigurations {
                 .apis(RequestHandlerSelectors.basePackage("br.com.ezfix.api"))
                 .paths(PathSelectors.ant("/**"))
                 .build()
-                .ignoredParameterTypes(Usuarios.class)
+                .ignoredParameterTypes(Usuario.class)
                 .globalOperationParameters(
                         Arrays.asList(
                                 new ParameterBuilder()

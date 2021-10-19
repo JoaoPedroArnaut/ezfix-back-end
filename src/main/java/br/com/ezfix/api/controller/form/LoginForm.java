@@ -1,6 +1,5 @@
 package br.com.ezfix.api.controller.form;
 
-import br.com.ezfix.api.util.Convertivel;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
 public class LoginForm {

@@ -1,7 +1,7 @@
 package br.com.ezfix.api.controller;
 
 import br.com.ezfix.api.controller.form.CertificacoesForm;
-import br.com.ezfix.api.controller.vo.CertificacoesDto;
+import br.com.ezfix.api.controller.dto.CertificacoesDto;
 import br.com.ezfix.api.repository.AssistenciaRepository;
 import br.com.ezfix.api.repository.CertificacoesRepository;
 import org.springframework.beans.factory.annotation.Autowired;

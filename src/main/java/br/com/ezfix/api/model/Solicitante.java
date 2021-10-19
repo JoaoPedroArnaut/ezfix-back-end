@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Entity
-public class Solicitantes {
+public class Solicitante {
 
     @Id
     private String cpf;
@@ -18,22 +18,22 @@ public class Solicitantes {
     private Long telefonePrimario;
     private Long telefoneSecundario;
     @OneToOne
-    private Usuarios usuarios;
+    private Usuario usuario;
 
     @ManyToMany
-    private List<Enderecos> enderecos;
+    private List<Endereco> enderecos;
 
-    public Solicitantes() {
+    public Solicitante() {
 
     }
 
-    public Solicitantes(String cpf, String nome, LocalDate dataNascimento, Long telefonePrimario, Long telefoneSecundario, Usuarios usuarios, List<Enderecos> enderecos) {
+    public Solicitante(String cpf, String nome, LocalDate dataNascimento, Long telefonePrimario, Long telefoneSecundario, Usuario usuario, List<Endereco> enderecos) {
         this.cpf = cpf;
         this.nome = nome;
         this.dataNascimento = dataNascimento;
         this.telefonePrimario = telefonePrimario;
         this.telefoneSecundario = telefoneSecundario;
-        this.usuarios = usuarios;
+        this.usuario = usuario;
         this.enderecos = enderecos;
     }
 
@@ -57,11 +57,11 @@ public class Solicitantes {
         return telefoneSecundario;
     }
 
-    public Usuarios getUsuario() {
-        return usuarios;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public List<Enderecos> getEnderecos() {
+    public List<Endereco> getEnderecos() {
         return enderecos;
     }
 }

@@ -1,9 +1,8 @@
 package br.com.ezfix.api.controller.form;
 
-import br.com.ezfix.api.model.Assistencias;
-import br.com.ezfix.api.model.Certificacoes;
+import br.com.ezfix.api.model.Assistencia;
+import br.com.ezfix.api.model.Certificacao;
 
-import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 public class CertificacoesForm {
@@ -13,7 +12,7 @@ public class CertificacoesForm {
     private LocalDate dataInicio;
     private LocalDate dataConclusao;
     private String anexo;
-    private Certificacoes certificacoes;
+    private Certificacao certificacao;
 
 
     public CertificacoesForm(String nomeCurso, Long quantidadeHoras, LocalDate dataInicio, LocalDate dataConclusao, String anexo) {
@@ -24,12 +23,12 @@ public class CertificacoesForm {
         this.anexo = anexo;
     }
 
-    public Certificacoes getCertificacoes() {
-        return certificacoes;
+    public Certificacao getCertificacoes() {
+        return certificacao;
     }
 
-    public void converterCertificacoes(Assistencias assistencia){
-        this.certificacoes = new Certificacoes(
+    public void converterCertificacoes(Assistencia assistencia){
+        this.certificacao = new Certificacao(
                 this.nomeCurso,
                 this.quantidadeHoras,
                 this.dataInicio,

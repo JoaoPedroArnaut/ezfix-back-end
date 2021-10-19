@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Entity
-public class Representantes {
+public class Representante {
 
     @Id
     private String documento;
@@ -17,12 +17,12 @@ public class Representantes {
     private LocalDate dataNascimento;
 
     @OneToOne
-    private Usuarios usuario;
+    private Usuario usuario;
 
-    public Representantes() {
+    public Representante() {
     }
 
-    public Representantes(String documento, String nome, LocalDate dataNascimento, Usuarios usuario) {
+    public Representante(String documento, String nome, LocalDate dataNascimento, Usuario usuario) {
         this.documento = documento;
         this.nome = nome;
         this.dataNascimento = dataNascimento;
@@ -41,7 +41,7 @@ public class Representantes {
         return dataNascimento;
     }
 
-    public Usuarios getUsuario() {
+    public Usuario getUsuario() {
         return usuario;
     }
 }

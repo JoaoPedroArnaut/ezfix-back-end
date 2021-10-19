@@ -1,6 +1,6 @@
 package br.com.ezfix.api.controller.form;
 
-import br.com.ezfix.api.model.Solicitantes;
+import br.com.ezfix.api.model.Solicitante;
 
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -13,7 +13,7 @@ public class SolicitanteForm extends CadastroForm{
     private Long telefonePrimario;
     private Long telefoneSecundario;
 
-    private Solicitantes solicitante;
+    private Solicitante solicitante;
 
     public SolicitanteForm(String email, String senha, Long cep, Long numero, String complemento, String cpf, String nome, LocalDate dataNascimento, Long telefonePrimario, Long telefoneSecundario) {
         super(email, senha, cep, numero, complemento);
@@ -24,12 +24,12 @@ public class SolicitanteForm extends CadastroForm{
         this.telefoneSecundario = telefoneSecundario;
     }
 
-    public Solicitantes getSolicitante() {
+    public Solicitante getSolicitante() {
         return solicitante;
     }
 
     public void converterSolicitante(){
-        solicitante = new Solicitantes(this.cpf,
+        solicitante = new Solicitante(this.cpf,
                 this.nome,
                 this.dataNascimento,
                 this.telefonePrimario,

@@ -1,6 +1,6 @@
 package br.com.ezfix.api.config.security;
 
-import br.com.ezfix.api.model.Usuarios;
+import br.com.ezfix.api.model.Usuario;
 import br.com.ezfix.api.repository.UsuarioRepository;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -33,8 +33,8 @@ public class AutenticacaoViaTokenFilter extends OncePerRequestFilter {
     }
 
     private void autenticarCliente(String token){
-        Usuarios usuarios = repository.findById((tokenService.getIdUsuario(token))).get();
-        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(usuarios,null, usuarios.getAuthorities());
+        Usuario usuario = repository.findById((tokenService.getIdUsuario(token))).get();
+        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(usuario,null, usuario.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 

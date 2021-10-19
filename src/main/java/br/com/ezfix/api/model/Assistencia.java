@@ -5,7 +5,7 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
-public class Assistencias {
+public class Assistencia {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -14,21 +14,21 @@ public class Assistencias {
     private Long telefonePrimario;
     private Long telefoneSecundario;
     @OneToOne
-    private Representantes representante;
+    private Representante representante;
 
     @ManyToMany
-    private List<Enderecos> enderecos;
+    private List<Endereco> enderecos;
 
     @ManyToMany
-    private List<Servicos> servicos;
+    private List<Servico> servicos;
 
-    @ManyToOne
-    private Planos plano;
+    @OneToOne
+    private Plano plano;
 
-    public Assistencias() {
+    public Assistencia() {
     }
 
-    public Assistencias(String nomeFantasia, Long telefonePrimario, Long telefoneSecundario, Representantes representante, List<Enderecos> enderecos,  Planos plano) {
+    public Assistencia(String nomeFantasia, Long telefonePrimario, Long telefoneSecundario, Representante representante, List<Endereco> enderecos, Plano plano) {
         this.nomeFantasia = nomeFantasia;
         this.telefonePrimario = telefonePrimario;
         this.telefoneSecundario = telefoneSecundario;
@@ -53,19 +53,19 @@ public class Assistencias {
         return telefoneSecundario;
     }
 
-    public Representantes getRepresentante() {
+    public Representante getRepresentante() {
         return representante;
     }
 
-    public List<Enderecos> getEnderecos() {
+    public List<Endereco> getEnderecos() {
         return enderecos;
     }
 
-    public List<Servicos> getTipoServicos() {
+    public List<Servico> getTipoServicos() {
         return servicos;
     }
 
-    public Planos getPlano() {
+    public Plano getPlano() {
         return plano;
     }
 }

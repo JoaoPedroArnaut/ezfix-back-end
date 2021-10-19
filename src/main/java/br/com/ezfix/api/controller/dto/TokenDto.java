@@ -1,4 +1,4 @@
-package br.com.ezfix.api.controller.vo;
+package br.com.ezfix.api.controller.dto;
 
 public class TokenDto {
 

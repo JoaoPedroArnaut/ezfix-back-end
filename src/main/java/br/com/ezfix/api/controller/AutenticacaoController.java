@@ -5,8 +5,8 @@ import br.com.ezfix.api.controller.form.AssistenciaForm;
 import br.com.ezfix.api.controller.form.CadastroForm;
 import br.com.ezfix.api.controller.form.LoginForm;
 import br.com.ezfix.api.controller.form.SolicitanteForm;
-import br.com.ezfix.api.controller.vo.TokenDto;
-import br.com.ezfix.api.model.Perfis;
+import br.com.ezfix.api.controller.dto.TokenDto;
+import br.com.ezfix.api.model.Perfil;
 import br.com.ezfix.api.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -94,8 +94,8 @@ public class AutenticacaoController{
         return enderecoRepository.findAllByEnderecoIdCep(cep).size();
     }
 
-    private void converterForm(CadastroForm cadastroForm, Perfis perfis){
-        cadastroForm.converterUsuarios(perfis);
+    private void converterForm(CadastroForm cadastroForm, Perfil perfil){
+        cadastroForm.converterUsuarios(perfil);
         cadastroForm.converterEnderecos(ultimoEnderecoId(cadastroForm.getCep()));
     }
 }

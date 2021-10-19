@@ -6,16 +6,16 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Planos {
+public class Plano {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String tipo;
 
-    public Planos() {
+    public Plano() {
     }
 
-    public Planos(String tipo) {
+    public Plano(String tipo) {
         this.tipo = tipo;
     }
 

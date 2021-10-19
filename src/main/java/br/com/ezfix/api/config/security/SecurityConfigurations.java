@@ -42,6 +42,7 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
                 .antMatchers("/assistencia/**").hasRole("ASSISTENCIA")
                 .antMatchers("/certificacoes/**").hasRole("ASSISTENCIA")
                 .antMatchers("/solicitante/**").hasRole("SOLICITANTE")
+                .antMatchers("/orcamentos/**").hasAnyRole("SOLICITANTE","ASSISTENCIA")
                 .anyRequest().authenticated()
                 .and().csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)

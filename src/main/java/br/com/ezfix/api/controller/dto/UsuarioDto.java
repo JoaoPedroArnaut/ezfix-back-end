@@ -1,6 +1,6 @@
-package br.com.ezfix.api.controller.vo;
+package br.com.ezfix.api.controller.dto;
 
-import br.com.ezfix.api.model.Usuarios;
+import br.com.ezfix.api.model.Usuario;
 import org.springframework.data.domain.Page;
 
 public class UsuarioDto {
@@ -8,15 +8,15 @@ public class UsuarioDto {
     private Long id;
     private String email;
 
-    public UsuarioDto(Usuarios usuarios){
-        this.email = usuarios.getEmail();
+    public UsuarioDto(Usuario usuario){
+        this.email = usuario.getEmail();
     }
 
     public String getEmail() {
         return email;
     }
 
-    public static Page<UsuarioDto> converter(Page<Usuarios> usuarios){
+    public static Page<UsuarioDto> converter(Page<Usuario> usuarios){
         return usuarios.map(UsuarioDto::new);
     }
 }

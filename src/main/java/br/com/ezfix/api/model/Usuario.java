@@ -10,7 +10,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
-public class Usuarios implements UserDetails {
+public class Usuario implements UserDetails {
 
 	@Id
 	private String email;
@@ -18,22 +18,22 @@ public class Usuarios implements UserDetails {
 	private String senha;
 
 	@ManyToMany(fetch = FetchType.EAGER)
-	private List<Perfis> perfis = new ArrayList<>();
+	private List<Perfil> perfis = new ArrayList<>();
 
-	public Usuarios(String email, String senha, Perfis perfis) {
+	public Usuario(String email, String senha, Perfil perfil) {
 		this.email = email;
 		this.senha = senha;
-		this.perfis.add(perfis);
+		this.perfis.add(perfil);
 	}
 
-	public Usuarios() {
+	public Usuario() {
 	}
 
 	public String getEmail() {
 		return email;
 	}
 
-	public List<Perfis> getPerfis() {
+	public List<Perfil> getPerfis() {
 		return perfis;
 	}
 

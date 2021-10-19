@@ -1,7 +1,7 @@
-package br.com.ezfix.api.controller.vo;
+package br.com.ezfix.api.controller.dto;
 
-import br.com.ezfix.api.model.Assistencias;
-import br.com.ezfix.api.model.Certificacoes;
+import br.com.ezfix.api.model.Assistencia;
+import br.com.ezfix.api.model.Certificacao;
 import org.springframework.data.domain.Page;
 
 import java.time.LocalDate;
@@ -14,16 +14,16 @@ public class CertificacoesDto {
     private LocalDate dataInicio;
     private LocalDate dataConclusao;
     private String anexo;
-    private Assistencias assistencia;
+    private Assistencia assistencia;
 
-    public CertificacoesDto(Certificacoes certificacoes) {
-        this.id = certificacoes.getId();
-        this.nomeCurso = certificacoes.getNomeCurso();
-        this.quantidadeHoras = certificacoes.getQuantidadeHoras();
-        this.dataInicio = certificacoes.getDataInicio();
-        this.dataConclusao = certificacoes.getDataConclusao();
-        this.anexo = certificacoes.getAnexo();
-        this.assistencia = certificacoes.getAssistencia();
+    public CertificacoesDto(Certificacao certificacao) {
+        this.id = certificacao.getId();
+        this.nomeCurso = certificacao.getNomeCurso();
+        this.quantidadeHoras = certificacao.getQuantidadeHoras();
+        this.dataInicio = certificacao.getDataInicio();
+        this.dataConclusao = certificacao.getDataConclusao();
+        this.anexo = certificacao.getAnexo();
+        this.assistencia = certificacao.getAssistencia();
     }
 
     public Long getId() {
@@ -50,11 +50,11 @@ public class CertificacoesDto {
         return anexo;
     }
 
-    public Assistencias getAssistencia() {
+    public Assistencia getAssistencia() {
         return assistencia;
     }
 
-    public static Page<CertificacoesDto> converter(Page<Certificacoes> certificacoes) {
+    public static Page<CertificacoesDto> converter(Page<Certificacao> certificacoes) {
         return certificacoes.map(CertificacoesDto::new);
     }
 }

@@ -1,6 +1,6 @@
 package br.com.ezfix.api.config.security;
 
-import br.com.ezfix.api.model.Usuarios;
+import br.com.ezfix.api.model.Usuario;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -20,12 +20,12 @@ public class TokenService {
     private String secret;
 
     public String gerarToken(Authentication authentication){
-        Usuarios usuarios = (Usuarios) authentication.getPrincipal();
+        Usuario usuario = (Usuario) authentication.getPrincipal();
         Date hoje = new Date();
 
         return Jwts.builder()
                 .setIssuer("Api ezfix")
-                .setSubject(usuarios.getEmail())
+                .setSubject(usuario.getEmail())
                 .setIssuedAt(hoje)
                 .setExpiration(new Date(hoje.getTime() + Long.parseLong(expiration)))
                 .signWith(SignatureAlgorithm.HS256,secret)
