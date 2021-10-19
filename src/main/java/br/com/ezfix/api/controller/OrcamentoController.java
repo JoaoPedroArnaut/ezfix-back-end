@@ -58,6 +58,28 @@ public class OrcamentoController {
         return ResponseEntity.status(201).build();
     }
 
+    @GetMapping
+    public ResponseEntity buscarTodos(){
+        return ResponseEntity.ok().body(orcamentoRepository.findAll());
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity adicionaItem(@PathVariable Long id,@RequestBody ItemForm itemForm){
+        Orcamento orcamento = orcamentoRepository.findById(id).get();
+        orcamento.setId(id);
+        orcamento.getItens().add(itemForm.converterItem(produtoRepository.findById(itemForm.getProduto()).get()));
+
+        orcamentoRepository.save(orcamento);
+
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity apagaOrcamento(@PathVariable Long id){
+        orcamentoRepository.deleteById(id);
+        return ResponseEntity.ok().build();
+    }
+
     @GetMapping("/csv/{id}")
     public ResponseEntity gerarCsv(@PathVariable Long id){
 
@@ -71,6 +93,6 @@ public class OrcamentoController {
 
         Csv.gerarCsv(listaObj);
 
-        return ResponseEntity.ok().body(orcamentos);
+        return ResponseEntity.ok().build();
     }
 }

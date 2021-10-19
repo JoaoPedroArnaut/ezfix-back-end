@@ -70,4 +70,12 @@ public class Orcamento {
     public void setAssistencia(Assistencia assistencia) {
         this.assistencia = assistencia;
     }
+
+    public List<ItemOrcamento> getItens() {
+        return itens;
+    }
+
+    public void setItens(List<ItemOrcamento> itens) {
+        this.itens = itens;
+    }
 }
