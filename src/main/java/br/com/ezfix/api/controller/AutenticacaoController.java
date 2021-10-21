@@ -72,7 +72,7 @@ public class AutenticacaoController{
         enderecoRepository.save(solicitanteForm.getEnderecos());
         solicitanteRepository.save(solicitanteForm.getSolicitante());
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(201).build();
     }
 
     @PostMapping("/novaAssistencia")
@@ -87,7 +87,7 @@ public class AutenticacaoController{
         representanteRepository.save(assistenciaForm.getRepresentantes());
         assistenciaRepository.save(assistenciaForm.getAssistencias());
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(201).build();
     }
 
     private Integer ultimoEnderecoId(Long cep){

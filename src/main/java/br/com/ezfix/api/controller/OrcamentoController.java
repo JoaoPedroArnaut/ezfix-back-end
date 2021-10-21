@@ -1,12 +1,16 @@
 package br.com.ezfix.api.controller;
 
+import br.com.ezfix.api.controller.dto.OrcamentoDto;
 import br.com.ezfix.api.controller.form.ItemForm;
+import br.com.ezfix.api.controller.form.OrcamentoForm;
 import br.com.ezfix.api.model.ItemOrcamento;
 import br.com.ezfix.api.model.Orcamento;
 import br.com.ezfix.api.repository.*;
 import br.com.ezfix.api.util.Csv;
 import br.com.ezfix.api.util.ListaObj;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,7 +19,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/orcamentos")
-public class OrcamentoController {
+public class OrcamentoController extends BaseController{
 
     @Autowired
     private OrcamentoRepository orcamentoRepository;
@@ -58,27 +62,51 @@ public class OrcamentoController {
         return ResponseEntity.status(201).build();
     }
 
-    @GetMapping
-    public ResponseEntity buscarTodos(){
-        return ResponseEntity.ok().body(orcamentoRepository.findAll());
-    }
 
-    @PutMapping("/{id}")
+
+    @PostMapping("/{id}")
     public ResponseEntity adicionaItem(@PathVariable Long id,@RequestBody ItemForm itemForm){
-        Orcamento orcamento = orcamentoRepository.findById(id).get();
-        orcamento.setId(id);
-        orcamento.getItens().add(itemForm.converterItem(produtoRepository.findById(itemForm.getProduto()).get()));
 
+        if (!orcamentoRepository.existsById(id)){
+            return ResponseEntity.status(404).build();
+        }
+
+        ItemOrcamento novoItem = itemForm.converterItem(produtoRepository.findById(itemForm.getProduto()).get());
+
+        Orcamento orcamento = orcamentoRepository.findById(id).get();
+        orcamento.getItens().add(novoItem);
+
+        itemOrcamentoRepository.save(novoItem);
         orcamentoRepository.save(orcamento);
 
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity apagaOrcamento(@PathVariable Long id){
-        orcamentoRepository.deleteById(id);
-        return ResponseEntity.ok().build();
+    @GetMapping
+    public ResponseEntity buscarTodos(@PageableDefault(page = 0,size = 10) Pageable paginacao){
+        return ResponseEntity.ok().body(OrcamentoDto.converter(orcamentoRepository.findAll(paginacao)));
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity apagar(@PathVariable Long id){
+        if(orcamentoRepository.existsById(id)){
+            orcamentoRepository.deleteById(id);
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.status(404).build();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity atualizar(@PathVariable Long id, @RequestBody OrcamentoForm orcamentoForm) {
+        if(orcamentoRepository.existsById(id)){
+            Orcamento orcamento = orcamentoRepository.findById(id).get();
+            orcamento.setStatusGeral(orcamentoForm.getStatus());
+            orcamentoRepository.save(orcamento);
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.status(404).build();
+    }
+
 
     @GetMapping("/csv/{id}")
     public ResponseEntity gerarCsv(@PathVariable Long id){

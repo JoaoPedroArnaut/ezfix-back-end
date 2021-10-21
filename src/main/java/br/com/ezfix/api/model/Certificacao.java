@@ -60,4 +60,32 @@ public class Certificacao {
     public Assistencia getAssistencia() {
         return assistencia;
     }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setNomeCurso(String nomeCurso) {
+        this.nomeCurso = nomeCurso;
+    }
+
+    public void setQuantidadeHoras(Long quantidadeHoras) {
+        this.quantidadeHoras = quantidadeHoras;
+    }
+
+    public void setDataInicio(LocalDate dataInicio) {
+        this.dataInicio = dataInicio;
+    }
+
+    public void setDataConclusao(LocalDate dataConclusao) {
+        this.dataConclusao = dataConclusao;
+    }
+
+    public void setAnexo(String anexo) {
+        this.anexo = anexo;
+    }
+
+    public void setAssistencia(Assistencia assistencia) {
+        this.assistencia = assistencia;
+    }
 }

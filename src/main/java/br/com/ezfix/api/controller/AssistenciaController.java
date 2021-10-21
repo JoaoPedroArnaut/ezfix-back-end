@@ -2,6 +2,7 @@ package br.com.ezfix.api.controller;
 
 import br.com.ezfix.api.controller.dto.AssistenciaDto;
 import br.com.ezfix.api.model.Assistencia;
+import br.com.ezfix.api.model.Orcamento;
 import br.com.ezfix.api.repository.AssistenciaRepository;
 import br.com.ezfix.api.repository.ServicosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/assistencia")
-public class AssistenciaController extends baseController{
+public class AssistenciaController extends BaseController {
 
     @Autowired
     private AssistenciaRepository assistenciaRepository;
@@ -23,8 +24,17 @@ public class AssistenciaController extends baseController{
 
     @GetMapping
     @Override()
-    public Page<AssistenciaDto> buscarTodos(@PageableDefault(page = 0,size = 10) Pageable paginacao) {
-        return AssistenciaDto.converter(assistenciaRepository.findAll(paginacao));
+    public ResponseEntity<Page<AssistenciaDto>> buscarTodos(@PageableDefault(page = 0,size = 10) Pageable paginacao) {
+        return ResponseEntity.ok().body(AssistenciaDto.converter(assistenciaRepository.findAll(paginacao)));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity apagar(@PathVariable Long id) {
+        if(assistenciaRepository.existsById(id)){
+            assistenciaRepository.deleteById(id);
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.status(404).build();
     }
 
     @PutMapping("/{id}/{servico}")

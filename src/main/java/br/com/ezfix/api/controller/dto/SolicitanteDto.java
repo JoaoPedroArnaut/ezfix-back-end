@@ -32,56 +32,28 @@ public class SolicitanteDto {
         return cpf;
     }
 
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
-
     public String getNome() {
         return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
     }
 
     public LocalDate getDataNascimento() {
         return dataNascimento;
     }
 
-    public void setDataNascimento(LocalDate dataNascimento) {
-        this.dataNascimento = dataNascimento;
-    }
-
     public Long getTelefonePrimario() {
         return telefonePrimario;
-    }
-
-    public void setTelefonePrimario(Long telefonePrimario) {
-        this.telefonePrimario = telefonePrimario;
     }
 
     public Long getTelefoneSecundario() {
         return telefoneSecundario;
     }
 
-    public void setTelefoneSecundario(Long telefoneSecundario) {
-        this.telefoneSecundario = telefoneSecundario;
-    }
-
     public Usuario getUsuario() {
         return usuario;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
-
     public List<Endereco> getEnderecos() {
         return enderecos;
-    }
-
-    public void setEnderecos(List<Endereco> enderecos) {
-        this.enderecos = enderecos;
     }
 
     public static Page<SolicitanteDto> converter(Page<Solicitante> solicitantes) {
