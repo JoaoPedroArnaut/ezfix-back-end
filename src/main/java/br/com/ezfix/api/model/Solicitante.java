@@ -15,8 +15,11 @@ public class Solicitante {
     @NotNull
     private LocalDate dataNascimento;
     @NotNull
-    private Long telefonePrimario;
-    private Long telefoneSecundario;
+    private String telefonePrimario;
+    private String telefoneSecundario;
+    @NotNull
+    private Long numero;
+    private String complemento;
     @OneToOne
     private Usuario usuario;
 
@@ -27,12 +30,14 @@ public class Solicitante {
 
     }
 
-    public Solicitante(String cpf, String nome, LocalDate dataNascimento, Long telefonePrimario, Long telefoneSecundario, Usuario usuario, List<Endereco> enderecos) {
+    public Solicitante(String cpf, String nome, LocalDate dataNascimento, String telefonePrimario, String telefoneSecundario, Long numero, String complemento, Usuario usuario, List<Endereco> enderecos) {
         this.cpf = cpf;
         this.nome = nome;
         this.dataNascimento = dataNascimento;
         this.telefonePrimario = telefonePrimario;
         this.telefoneSecundario = telefoneSecundario;
+        this.numero = numero;
+        this.complemento = complemento;
         this.usuario = usuario;
         this.enderecos = enderecos;
     }
@@ -49,12 +54,20 @@ public class Solicitante {
         return dataNascimento;
     }
 
-    public Long getTelefonePrimario() {
+    public String getTelefonePrimario() {
         return telefonePrimario;
     }
 
-    public Long getTelefoneSecundario() {
+    public String getTelefoneSecundario() {
         return telefoneSecundario;
+    }
+
+    public Long getNumero() {
+        return numero;
+    }
+
+    public String getComplemento() {
+        return complemento;
     }
 
     public Usuario getUsuario() {

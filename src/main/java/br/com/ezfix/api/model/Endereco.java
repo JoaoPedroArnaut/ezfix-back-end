@@ -1,50 +1,67 @@
 package br.com.ezfix.api.model;
 
-import br.com.ezfix.api.model.compositekeys.EnderecoId;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Entity
-public class Endereco implements Serializable{
+public class Endereco {
 
-    @EmbeddedId
-    private EnderecoId enderecoId;
-    @NotNull
-    private Long numero;
-    private String complemento;
+    @Id
+    private Long cep;
+    private String logradouro;
+    private String bairro;
+    private String cidade;
+    private String estado;
+
+    public Endereco(Long cep, String logradouro, String bairro, String cidade, String estado) {
+        this.cep = cep;
+        this.logradouro = logradouro;
+        this.bairro = bairro;
+        this.cidade = cidade;
+        this.estado = estado;
+    }
 
     public Endereco() {
     }
 
-    public Endereco(EnderecoId enderecoId, Long numero, String complemento) {
-        this.enderecoId = enderecoId;
-        this.numero = numero;
-        this.complemento = complemento;
+    public Long getCep() {
+        return cep;
     }
 
-    public EnderecoId getEnderecoId() {
-        return enderecoId;
+    public void setCep(Long cep) {
+        this.cep = cep;
     }
 
-    public void setEnderecoId(EnderecoId enderecoId) {
-        this.enderecoId = enderecoId;
+    public String getLogradouro() {
+        return logradouro;
     }
 
-    public Long getNumero() {
-        return numero;
+    public void setLogradouro(String logradouro) {
+        this.logradouro = logradouro;
     }
 
-    public void setNumero(Long numero) {
-        this.numero = numero;
+    public String getBairro() {
+        return bairro;
     }
 
-    public String getComplemento() {
-        return complemento;
+    public void setBairro(String bairro) {
+        this.bairro = bairro;
     }
 
-    public void setComplemento(String complemento) {
-        this.complemento = complemento;
+    public String getCidade() {
+        return cidade;
+    }
+
+    public void setCidade(String cidade) {
+        this.cidade = cidade;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 }

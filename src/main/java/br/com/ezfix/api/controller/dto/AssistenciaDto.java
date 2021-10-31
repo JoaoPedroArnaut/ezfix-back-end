@@ -9,8 +9,8 @@ public class AssistenciaDto {
 
     private Long id;
     private String nomeFantasia;
-    private Long telefonePrimario;
-    private Long telefoneSecundario;
+    private String telefonePrimario;
+    private String telefoneSecundario;
     private Representante representante;
     private List<Endereco> enderecos;
     private List<Servico> servicos;
@@ -31,11 +31,11 @@ public class AssistenciaDto {
         return id;
     }
 
-    public Long getTelefonePrimario() {
+    public String getTelefonePrimario() {
         return telefonePrimario;
     }
 
-    public Long getTelefoneSecundario() {
+    public String getTelefoneSecundario() {
         return telefoneSecundario;
     }
 

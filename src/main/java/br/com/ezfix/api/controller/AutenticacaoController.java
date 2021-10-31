@@ -90,12 +90,8 @@ public class AutenticacaoController{
         return ResponseEntity.status(201).build();
     }
 
-    private Integer ultimoEnderecoId(Long cep){
-        return enderecoRepository.findAllByEnderecoIdCep(cep).size();
-    }
-
     private void converterForm(CadastroForm cadastroForm, Perfil perfil){
         cadastroForm.converterUsuarios(perfil);
-        cadastroForm.converterEnderecos(ultimoEnderecoId(cadastroForm.getCep()));
+        cadastroForm.converterEnderecos();
     }
 }

@@ -11,8 +11,11 @@ public class Assistencia {
     private Long id;
     private String nomeFantasia;
     @NotNull
-    private Long telefonePrimario;
-    private Long telefoneSecundario;
+    private String telefonePrimario;
+    private String telefoneSecundario;
+    @NotNull
+    private Long numero;
+    private String complemento;
     @OneToOne
     private Representante representante;
 
@@ -28,10 +31,12 @@ public class Assistencia {
     public Assistencia() {
     }
 
-    public Assistencia(String nomeFantasia, Long telefonePrimario, Long telefoneSecundario, Representante representante, List<Endereco> enderecos, Plano plano) {
+    public Assistencia(String nomeFantasia, String telefonePrimario, String telefoneSecundario, Long numero, String complemento, Representante representante, List<Endereco> enderecos, Plano plano) {
         this.nomeFantasia = nomeFantasia;
         this.telefonePrimario = telefonePrimario;
         this.telefoneSecundario = telefoneSecundario;
+        this.numero = numero;
+        this.complemento = complemento;
         this.representante = representante;
         this.enderecos = enderecos;
         this.plano = plano;
@@ -45,11 +50,11 @@ public class Assistencia {
         return nomeFantasia;
     }
 
-    public Long getTelefonePrimario() {
+    public String getTelefonePrimario() {
         return telefonePrimario;
     }
 
-    public Long getTelefoneSecundario() {
+    public String getTelefoneSecundario() {
         return telefoneSecundario;
     }
 

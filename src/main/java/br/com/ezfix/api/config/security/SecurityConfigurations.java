@@ -14,6 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
 
 @EnableWebSecurity
 @Configuration
@@ -35,7 +36,8 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
+        http.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues()).and()
+                .authorizeRequests()
                 .antMatchers(HttpMethod.GET,"/actuator/**").permitAll()
                 .antMatchers(HttpMethod.POST,"/auth/**").permitAll()
                 .antMatchers("/h2-console/**").permitAll()

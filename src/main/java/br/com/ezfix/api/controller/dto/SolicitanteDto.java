@@ -13,8 +13,10 @@ public class SolicitanteDto {
     private String cpf;
     private String nome;
     private LocalDate dataNascimento;
-    private Long telefonePrimario;
-    private Long telefoneSecundario;
+    private String telefonePrimario;
+    private String telefoneSecundario;
+    private Long numero;
+    private String complemento;
     private Usuario usuario;
     private List<Endereco> enderecos;
 
@@ -24,6 +26,8 @@ public class SolicitanteDto {
         this.dataNascimento = solicitante.getDataNascimento();
         this.telefonePrimario = solicitante.getTelefonePrimario();
         this.telefoneSecundario = solicitante.getTelefoneSecundario();
+        this.numero = solicitante.getNumero();
+        this.complemento = solicitante.getComplemento();
         this.usuario = solicitante.getUsuario();
         this.enderecos = solicitante.getEnderecos();
     }
@@ -40,12 +44,20 @@ public class SolicitanteDto {
         return dataNascimento;
     }
 
-    public Long getTelefonePrimario() {
+    public String getTelefonePrimario() {
         return telefonePrimario;
     }
 
-    public Long getTelefoneSecundario() {
+    public String getTelefoneSecundario() {
         return telefoneSecundario;
+    }
+
+    public Long getNumero() {
+        return numero;
+    }
+
+    public String getComplemento() {
+        return complemento;
     }
 
     public Usuario getUsuario() {
