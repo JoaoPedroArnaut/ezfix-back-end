@@ -24,6 +24,10 @@ public class SolicitanteForm extends CadastroForm{
         this.telefoneSecundario = telefoneSecundario;
     }
 
+    public String getCpf() {
+        return cpf;
+    }
+
     public Solicitante getSolicitante() {
         return solicitante;
     }

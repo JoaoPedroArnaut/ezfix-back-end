@@ -67,10 +67,22 @@ public class AutenticacaoController{
 
         converterForm(solicitanteForm,perfisRepository.getById(1l));
         solicitanteForm.converterSolicitante();
+        
+        if(!usuarioRepository.existsById(solicitanteForm.getEmail())) {
+            usuarioRepository.save(solicitanteForm.getUsuarios());
+        }else {
+            return ResponseEntity.status(400).body("Email já cadastrado por favor faça o login");
+        }
 
-        usuarioRepository.save(solicitanteForm.getUsuarios());
-        enderecoRepository.save(solicitanteForm.getEnderecos());
-        solicitanteRepository.save(solicitanteForm.getSolicitante());
+        if(!enderecoRepository.existsById(solicitanteForm.getCep())){
+            enderecoRepository.save(solicitanteForm.getEnderecos());
+        }
+
+        if(!solicitanteRepository.existsById(solicitanteForm.getCpf())){
+            solicitanteRepository.save(solicitanteForm.getSolicitante());
+        }else {
+            return ResponseEntity.status(400).body("Cpf já cadastrado por favor faça o login");
+        }
 
         return ResponseEntity.status(201).build();
     }

@@ -32,6 +32,16 @@ public abstract class CadastroForm {
         return usuario;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public Long getCep() {
+        return cep;
+    }
+
+
+
     public Endereco getEnderecos() {
         return endereco;
     }
