@@ -11,16 +11,14 @@ public class CertificacoesForm {
     private Long quantidadeHoras; //confirmar qual seria o melhor tipo para essa coluna;
     private LocalDate dataInicio;
     private LocalDate dataConclusao;
-    private String anexo;
     private Certificacao certificacao;
 
 
-    public CertificacoesForm(String nomeCurso, Long quantidadeHoras, LocalDate dataInicio, LocalDate dataConclusao, String anexo) {
+    public CertificacoesForm(String nomeCurso, Long quantidadeHoras, LocalDate dataInicio, LocalDate dataConclusao) {
         this.nomeCurso = nomeCurso;
         this.quantidadeHoras = quantidadeHoras;
         this.dataInicio = dataInicio;
         this.dataConclusao = dataConclusao;
-        this.anexo = anexo;
     }
 
     public Certificacao getCertificacoes() {
@@ -33,7 +31,6 @@ public class CertificacoesForm {
                 this.quantidadeHoras,
                 this.dataInicio,
                 this.dataConclusao,
-                this.anexo,
                 assistencia
         );
     }

@@ -16,7 +16,7 @@ public class Certificacao {
     @NotNull
     private LocalDate dataInicio;
     private LocalDate dataConclusao;
-    private String anexo;
+    private byte[] anexo;
 
     @ManyToOne
     private Assistencia assistencia;
@@ -24,12 +24,11 @@ public class Certificacao {
     public Certificacao() {
     }
 
-    public Certificacao(String nomeCurso, Long quantidadeHoras, LocalDate dataInicio, LocalDate dataConclusao, String anexo, Assistencia assistencia) {
+    public Certificacao(String nomeCurso, Long quantidadeHoras, LocalDate dataInicio, LocalDate dataConclusao, Assistencia assistencia) {
         this.nomeCurso = nomeCurso;
         this.quantidadeHoras = quantidadeHoras;
         this.dataInicio = dataInicio;
         this.dataConclusao = dataConclusao;
-        this.anexo = anexo;
         this.assistencia = assistencia;
     }
 
@@ -37,52 +36,52 @@ public class Certificacao {
         return id;
     }
 
-    public String getNomeCurso() {
-        return nomeCurso;
-    }
-
-    public Long getQuantidadeHoras() {
-        return quantidadeHoras;
-    }
-
-    public LocalDate getDataInicio() {
-        return dataInicio;
-    }
-
-    public LocalDate getDataConclusao() {
-        return dataConclusao;
-    }
-
-    public String getAnexo() {
-        return anexo;
-    }
-
-    public Assistencia getAssistencia() {
-        return assistencia;
-    }
-
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getNomeCurso() {
+        return nomeCurso;
     }
 
     public void setNomeCurso(String nomeCurso) {
         this.nomeCurso = nomeCurso;
     }
 
+    public Long getQuantidadeHoras() {
+        return quantidadeHoras;
+    }
+
     public void setQuantidadeHoras(Long quantidadeHoras) {
         this.quantidadeHoras = quantidadeHoras;
+    }
+
+    public LocalDate getDataInicio() {
+        return dataInicio;
     }
 
     public void setDataInicio(LocalDate dataInicio) {
         this.dataInicio = dataInicio;
     }
 
+    public LocalDate getDataConclusao() {
+        return dataConclusao;
+    }
+
     public void setDataConclusao(LocalDate dataConclusao) {
         this.dataConclusao = dataConclusao;
     }
 
-    public void setAnexo(String anexo) {
+    public byte[] getAnexo() {
+        return anexo;
+    }
+
+    public void setAnexo(byte[] anexo) {
         this.anexo = anexo;
+    }
+
+    public Assistencia getAssistencia() {
+        return assistencia;
     }
 
     public void setAssistencia(Assistencia assistencia) {

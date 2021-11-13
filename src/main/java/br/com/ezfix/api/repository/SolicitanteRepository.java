@@ -8,4 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface SolicitanteRepository extends JpaRepository<Solicitante, String> {
 
     Page<Solicitante> findByNome(String nomeCliente, Pageable pagina);
+
+    Solicitante findByUsuarioEmail(String email);
 }

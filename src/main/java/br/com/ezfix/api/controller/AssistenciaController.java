@@ -40,7 +40,7 @@ public class AssistenciaController extends BaseController {
     @PutMapping("/{id}/{servico}")
     public ResponseEntity<?> adicionaServico(@PathVariable Long id, @PathVariable Long servico){
         Assistencia assistencia = assistenciaRepository.findById(id).get();
-        assistencia.getTipoServicos().add(servicosRepository.getById(servico));
+        assistencia.getServicos().add(servicosRepository.getById(servico));
         assistenciaRepository.save(assistencia);
         return ResponseEntity.ok().build();
     }

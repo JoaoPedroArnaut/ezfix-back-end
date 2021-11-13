@@ -43,6 +43,10 @@ public class AssistenciaForm extends CadastroForm{
         return plano;
     }
 
+    public String getDocumento() {
+        return documento;
+    }
+
     public void converterRepresentantes(){
         this.representante = new Representante(this.documento,this.nome,this.dataNascimento,this.getUsuarios());
     }

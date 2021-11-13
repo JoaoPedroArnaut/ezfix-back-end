@@ -58,7 +58,7 @@ public class AutenticacaoController{
             String token = tokenService.gerarToken(authentication);
             return ResponseEntity.ok(new TokenDto(token,"Bearer"));
         }catch (AuthenticationException e){
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.status(403).build();
         }
     }
 
@@ -68,21 +68,19 @@ public class AutenticacaoController{
         converterForm(solicitanteForm,perfisRepository.getById(1l));
         solicitanteForm.converterSolicitante();
         
-        if(!usuarioRepository.existsById(solicitanteForm.getEmail())) {
-            usuarioRepository.save(solicitanteForm.getUsuarios());
-        }else {
-            return ResponseEntity.status(400).body("Email já cadastrado por favor faça o login");
+        if(usuarioRepository.existsById(solicitanteForm.getEmail())) {
+            return ResponseEntity.status(409).body("Email já cadastrado por favor faça o login");
         }
 
+        if(solicitanteRepository.existsById(solicitanteForm.getCpf())){
+            return ResponseEntity.status(409).body("Cpf já cadastrado por favor faça o login");
+        }
+
+        usuarioRepository.save(solicitanteForm.getUsuarios());
         if(!enderecoRepository.existsById(solicitanteForm.getCep())){
             enderecoRepository.save(solicitanteForm.getEnderecos());
         }
-
-        if(!solicitanteRepository.existsById(solicitanteForm.getCpf())){
-            solicitanteRepository.save(solicitanteForm.getSolicitante());
-        }else {
-            return ResponseEntity.status(400).body("Cpf já cadastrado por favor faça o login");
-        }
+        solicitanteRepository.save(solicitanteForm.getSolicitante());
 
         return ResponseEntity.status(201).build();
     }
@@ -94,8 +92,19 @@ public class AutenticacaoController{
         assistenciaForm.converterRepresentantes();
         assistenciaForm.converterAssistencias(planosRepository.getById(assistenciaForm.getPlano()));
 
+        if(usuarioRepository.existsById(assistenciaForm.getEmail())) {
+            return ResponseEntity.status(409).body("Email já cadastrado por favor faça o login");
+        }
+
+        if(representanteRepository.existsById(assistenciaForm.getDocumento())) {
+            return ResponseEntity.status(409).body("Documento já cadastrado por favor faça o login");
+        }
+
+
         usuarioRepository.save(assistenciaForm.getUsuarios());
-        enderecoRepository.save(assistenciaForm.getEnderecos());
+        if(!enderecoRepository.existsById(assistenciaForm.getCep())){
+            enderecoRepository.save(assistenciaForm.getEnderecos());
+        }
         representanteRepository.save(assistenciaForm.getRepresentantes());
         assistenciaRepository.save(assistenciaForm.getAssistencias());
 

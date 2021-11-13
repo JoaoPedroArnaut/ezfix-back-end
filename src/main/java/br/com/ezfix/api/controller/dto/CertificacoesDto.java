@@ -22,7 +22,6 @@ public class CertificacoesDto {
         this.quantidadeHoras = certificacao.getQuantidadeHoras();
         this.dataInicio = certificacao.getDataInicio();
         this.dataConclusao = certificacao.getDataConclusao();
-        this.anexo = certificacao.getAnexo();
         this.assistencia = certificacao.getAssistencia();
     }
 

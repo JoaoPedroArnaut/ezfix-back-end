@@ -23,7 +23,7 @@ public class AssistenciaDto {
         this.telefoneSecundario = assistencia.getTelefoneSecundario();
         this.representante = assistencia.getRepresentante();
         this.enderecos = assistencia.getEnderecos();
-        this.servicos = assistencia.getTipoServicos();
+        this.servicos = assistencia.getServicos();
         this.plano = assistencia.getPlano();
     }
 
