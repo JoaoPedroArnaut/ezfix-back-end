@@ -21,10 +21,8 @@ public class ItemForm {
 
     public ItemOrcamento converterItem(Produto produto){
         return new ItemOrcamento(
-                0.,
                 this.problema,
                 this.descricao,
-                "agurdando resposta tecnico",
                 produto
         );
     }

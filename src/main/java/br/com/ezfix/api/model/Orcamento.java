@@ -8,8 +8,8 @@ public class Orcamento {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Double valorTotal;
-    private String statusGeral;
+    private Double valorTotal = 0.;
+    private String statusGeral = "agurdando resposta tecnico";
 
     @ManyToOne
     private Solicitante solicitante;
@@ -23,7 +23,7 @@ public class Orcamento {
     public Orcamento() {
     }
 
-    public Orcamento(Double valorTotal, String statusGeral, Solicitante solicitante, Assistencia assistencia, List<ItemOrcamento> itens) {
+    public Orcamento(Solicitante solicitante, Assistencia assistencia, List<ItemOrcamento> itens) {
         this.valorTotal = valorTotal;
         this.statusGeral = statusGeral;
         this.solicitante = solicitante;

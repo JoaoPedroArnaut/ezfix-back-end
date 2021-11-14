@@ -1,5 +1,7 @@
 package br.com.ezfix.api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -17,6 +19,8 @@ public class Assistencia {
     private Long numero;
     private String complemento;
 
+    @JsonIgnore
+    @Column(length = 20_000_000)
     private byte[] perfil;
 
     @OneToOne

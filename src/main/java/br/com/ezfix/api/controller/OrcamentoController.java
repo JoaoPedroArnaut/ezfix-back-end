@@ -43,6 +43,14 @@ public class OrcamentoController extends BaseController{
             @PathVariable Long idAssistencia
     ){
 
+        if(!solicitanteRepository.existsById(idSolicitante)){
+            return ResponseEntity.status(404).build();
+        }
+
+        if(!assistenciaRepository.existsById(idAssistencia)){
+            return ResponseEntity.status(404).build();
+        }
+
         List<ItemOrcamento> itemOrcamentos = new ArrayList<>();
 
         for (ItemForm itemForm : itens){
@@ -53,11 +61,11 @@ public class OrcamentoController extends BaseController{
 
         orcamentoRepository.save(
                 new Orcamento(
-                0., "agurdando resposta tecnico",
-                solicitanteRepository.findById(idSolicitante).get(),
-                assistenciaRepository.findById(idAssistencia).get(),
+                    solicitanteRepository.findById(idSolicitante).get(),
+                    assistenciaRepository.findById(idAssistencia).get(),
                         itemOrcamentos
-        ));
+                )
+        );
 
         return ResponseEntity.status(201).build();
     }

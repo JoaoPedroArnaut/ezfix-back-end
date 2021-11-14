@@ -8,6 +8,7 @@ import br.com.ezfix.api.controller.form.SolicitanteForm;
 import br.com.ezfix.api.controller.dto.TokenDto;
 import br.com.ezfix.api.model.Perfil;
 import br.com.ezfix.api.repository.*;
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,8 +18,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.File;
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/auth")
@@ -63,7 +67,7 @@ public class AutenticacaoController{
     }
 
     @PostMapping("/novoSolicitante")
-    public ResponseEntity<?> novoSolicitante(@RequestBody SolicitanteForm solicitanteForm){
+    public ResponseEntity<?> novoSolicitante(@RequestBody SolicitanteForm solicitanteForm) throws IOException {
 
         converterForm(solicitanteForm,perfisRepository.getById(1l));
         solicitanteForm.converterSolicitante();
@@ -80,13 +84,14 @@ public class AutenticacaoController{
         if(!enderecoRepository.existsById(solicitanteForm.getCep())){
             enderecoRepository.save(solicitanteForm.getEnderecos());
         }
+        solicitanteForm.getSolicitante().setPerfil(FileUtils.readFileToByteArray(new File("src/main/resources/blank-profile-picture-973460_960_720.webp")));
         solicitanteRepository.save(solicitanteForm.getSolicitante());
 
         return ResponseEntity.status(201).build();
     }
 
     @PostMapping("/novaAssistencia")
-    public ResponseEntity<?> novaAssistencia(@RequestBody AssistenciaForm assistenciaForm){
+    public ResponseEntity<?> novaAssistencia(@RequestBody AssistenciaForm assistenciaForm) throws IOException {
 
         converterForm(assistenciaForm,perfisRepository.getById(2l));
         assistenciaForm.converterRepresentantes();
@@ -106,6 +111,7 @@ public class AutenticacaoController{
             enderecoRepository.save(assistenciaForm.getEnderecos());
         }
         representanteRepository.save(assistenciaForm.getRepresentantes());
+        assistenciaForm.getAssistencias().setPerfil(FileUtils.readFileToByteArray(new File("src/main/resources/blank-profile-picture-973460_960_720.webp")));
         assistenciaRepository.save(assistenciaForm.getAssistencias());
 
         return ResponseEntity.status(201).build();

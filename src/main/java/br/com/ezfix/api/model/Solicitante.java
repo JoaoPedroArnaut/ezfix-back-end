@@ -20,6 +20,8 @@ public class Solicitante {
     private String telefonePrimario;
     private String telefoneSecundario;
 
+    @JsonIgnore
+    @Column(length = 20_000_000)
     private byte[] perfil;
 
     @NotNull

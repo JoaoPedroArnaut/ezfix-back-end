@@ -3,6 +3,7 @@ package br.com.ezfix.api.controller;
 import br.com.ezfix.api.controller.dto.AssistenciaDto;
 import br.com.ezfix.api.model.Assistencia;
 import br.com.ezfix.api.model.Orcamento;
+import br.com.ezfix.api.model.Solicitante;
 import br.com.ezfix.api.repository.AssistenciaRepository;
 import br.com.ezfix.api.repository.ServicosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,14 @@ public class AssistenciaController extends BaseController {
     @Override()
     public ResponseEntity<Page<AssistenciaDto>> buscarTodos(@PageableDefault(page = 0,size = 10) Pageable paginacao) {
         return ResponseEntity.ok().body(AssistenciaDto.converter(assistenciaRepository.findAll(paginacao)));
+    }
+
+    @GetMapping("/perfil/{id}")
+    public ResponseEntity getFoto(@PathVariable Long id){
+        Assistencia assistencia = assistenciaRepository.findById(id).get();
+        byte[] foto = assistencia.getPerfil();
+
+        return ResponseEntity.status(200).header("content-type","image/jpeg").body(foto);
     }
 
     @DeleteMapping("/{id}")

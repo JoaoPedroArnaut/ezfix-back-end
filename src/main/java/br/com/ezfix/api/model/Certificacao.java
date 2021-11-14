@@ -1,5 +1,7 @@
 package br.com.ezfix.api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
@@ -16,6 +18,9 @@ public class Certificacao {
     @NotNull
     private LocalDate dataInicio;
     private LocalDate dataConclusao;
+
+    @JsonIgnore
+    @Column(length = 20_000_000)
     private byte[] anexo;
 
     @ManyToOne

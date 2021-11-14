@@ -7,10 +7,10 @@ public class ItemOrcamento {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Double valorServico;
+    private Double valorServico = 0.;
     private String problema;
     private String descricao;
-    private String status;
+    private String status = "agurdando resposta tecnico";
 
     @ManyToOne
     private Produto produto;
@@ -18,11 +18,9 @@ public class ItemOrcamento {
     public ItemOrcamento() {
     }
 
-    public ItemOrcamento(Double valorServico, String problema, String descricao, String status, Produto produto) {
-        this.valorServico = valorServico;
+    public ItemOrcamento(String problema, String descricao, Produto produto) {
         this.problema = problema;
         this.descricao = descricao;
-        this.status = status;
         this.produto = produto;
     }
 
