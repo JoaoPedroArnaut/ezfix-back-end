@@ -2,12 +2,15 @@ package br.com.ezfix.api.controller;
 
 import br.com.ezfix.api.controller.dto.SolicitanteDto;
 import br.com.ezfix.api.model.Solicitante;
+import br.com.ezfix.api.model.Usuario;
 import br.com.ezfix.api.repository.SolicitanteRepository;
+import br.com.ezfix.api.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,6 +22,9 @@ public class SolicitanteController {
 
     @Autowired
     private SolicitanteRepository solicitanteRepository;
+
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
     @GetMapping
     public ResponseEntity<Page<SolicitanteDto>> buscarTodos(@PageableDefault(page = 0,size = 10) Pageable paginacao) {
@@ -58,6 +64,31 @@ public class SolicitanteController {
     @GetMapping("/cpf/{cpf}")
     public ResponseEntity buscarUsuarioPorCpf(@PathVariable String cpf){
         return ResponseEntity.status(200).body(solicitanteRepository.findById(cpf));
+    }
+
+    @PutMapping("/usuario/{id}")
+    public ResponseEntity trocaSenha(@PathVariable String id, @RequestBody Usuario novoUsuario){
+        if(!usuarioRepository.existsById(id)){
+            return ResponseEntity.status(404).build();
+        }
+        Usuario usuario = usuarioRepository.findById(id).get();
+        usuario.setSenha(new BCryptPasswordEncoder().encode(novoUsuario.getSenha()));
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity atualizar(@PathVariable String id, @RequestBody Solicitante solicitante){
+        if(!solicitanteRepository.existsById(id)){
+            return ResponseEntity.status(404).build();
+        }
+        Solicitante oldSolicitante = solicitanteRepository.findById(id).get();
+
+        oldSolicitante.setNome(solicitante.getNome());
+        oldSolicitante.setTelefonePrimario(solicitante.getTelefonePrimario());
+        oldSolicitante.setTelefoneSecundario(solicitante.getTelefoneSecundario());
+
+        solicitanteRepository.save(oldSolicitante);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")

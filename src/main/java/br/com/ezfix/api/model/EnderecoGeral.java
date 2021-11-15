@@ -5,7 +5,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Entity
-public class Endereco {
+public class EnderecoGeral {
 
     @Id
     private Long cep;
@@ -14,7 +14,7 @@ public class Endereco {
     private String cidade;
     private String estado;
 
-    public Endereco(Long cep, String logradouro, String bairro, String cidade, String estado) {
+    public EnderecoGeral(Long cep, String logradouro, String bairro, String cidade, String estado) {
         this.cep = cep;
         this.logradouro = logradouro;
         this.bairro = bairro;
@@ -22,7 +22,7 @@ public class Endereco {
         this.estado = estado;
     }
 
-    public Endereco() {
+    public EnderecoGeral() {
     }
 
     public Long getCep() {

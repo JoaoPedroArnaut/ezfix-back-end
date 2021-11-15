@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.io.File;
@@ -41,7 +40,7 @@ public class AutenticacaoController{
     private SolicitanteRepository solicitanteRepository;
 
     @Autowired
-    private EnderecoRepository enderecoRepository;
+    private EnderecoGeralRepository enderecoGeralRepository;
 
     @Autowired
     private PlanosRepository planosRepository;
@@ -54,6 +53,9 @@ public class AutenticacaoController{
 
     @Autowired
     private PerfisRepository perfisRepository;
+
+    @Autowired
+    private EnderecoEspecificoRepository enderecoEspecificoRepository;
 
     @PostMapping
     public ResponseEntity<TokenDto> autenticar(@RequestBody @Valid LoginForm loginForm){
@@ -81,10 +83,11 @@ public class AutenticacaoController{
         }
 
         usuarioRepository.save(solicitanteForm.getUsuarios());
-        if(!enderecoRepository.existsById(solicitanteForm.getCep())){
-            enderecoRepository.save(solicitanteForm.getEnderecos());
+        if(!enderecoGeralRepository.existsById(solicitanteForm.getCep())){
+            enderecoGeralRepository.save(solicitanteForm.getEnderecosGeral());
         }
         solicitanteForm.getSolicitante().setPerfil(FileUtils.readFileToByteArray(new File("src/main/resources/blank-profile-picture-973460_960_720.webp")));
+        enderecoEspecificoRepository.save(solicitanteForm.getEnderecoEspecifico());
         solicitanteRepository.save(solicitanteForm.getSolicitante());
 
         return ResponseEntity.status(201).build();
@@ -107,8 +110,8 @@ public class AutenticacaoController{
 
 
         usuarioRepository.save(assistenciaForm.getUsuarios());
-        if(!enderecoRepository.existsById(assistenciaForm.getCep())){
-            enderecoRepository.save(assistenciaForm.getEnderecos());
+        if(!enderecoGeralRepository.existsById(assistenciaForm.getCep())){
+            enderecoGeralRepository.save(assistenciaForm.getEnderecosGeral());
         }
         representanteRepository.save(assistenciaForm.getRepresentantes());
         assistenciaForm.getAssistencias().setPerfil(FileUtils.readFileToByteArray(new File("src/main/resources/blank-profile-picture-973460_960_720.webp")));
@@ -119,6 +122,7 @@ public class AutenticacaoController{
 
     private void converterForm(CadastroForm cadastroForm, Perfil perfil){
         cadastroForm.converterUsuarios(perfil);
-        cadastroForm.converterEnderecos();
+        cadastroForm.converterEnderecosGeral();
+        cadastroForm.convverterEnderecoEspecifico();
     }
 }

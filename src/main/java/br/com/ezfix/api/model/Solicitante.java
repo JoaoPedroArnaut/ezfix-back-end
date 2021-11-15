@@ -24,31 +24,24 @@ public class Solicitante {
     @Column(length = 20_000_000)
     private byte[] perfil;
 
-    @NotNull
-    private Long numero;
-    private String complemento;
+    @OneToMany
+    private List<EnderecoEspecifico> enderecoEspecificos;
 
-    @JsonIgnore
     @OneToOne
     private Usuario usuario;
-
-    @ManyToMany
-    private List<Endereco> enderecos;
 
     public Solicitante() {
 
     }
 
-    public Solicitante(String cpf, String nome, LocalDate dataNascimento, String telefonePrimario, String telefoneSecundario, Long numero, String complemento, Usuario usuario, List<Endereco> enderecos) {
+    public Solicitante(String cpf, String nome, LocalDate dataNascimento, String telefonePrimario, String telefoneSecundario, List<EnderecoEspecifico> enderecoEspecificos, Usuario usuario) {
         this.cpf = cpf;
         this.nome = nome;
         this.dataNascimento = dataNascimento;
         this.telefonePrimario = telefonePrimario;
         this.telefoneSecundario = telefoneSecundario;
-        this.numero = numero;
-        this.complemento = complemento;
+        this.enderecoEspecificos = enderecoEspecificos;
         this.usuario = usuario;
-        this.enderecos = enderecos;
     }
 
     public String getCpf() {
@@ -99,20 +92,12 @@ public class Solicitante {
         this.perfil = perfil;
     }
 
-    public Long getNumero() {
-        return numero;
+    public List<EnderecoEspecifico> getEnderecoEspecificos() {
+        return enderecoEspecificos;
     }
 
-    public void setNumero(Long numero) {
-        this.numero = numero;
-    }
-
-    public String getComplemento() {
-        return complemento;
-    }
-
-    public void setComplemento(String complemento) {
-        this.complemento = complemento;
+    public void setEnderecoEspecificos(List<EnderecoEspecifico> enderecoEspecificos) {
+        this.enderecoEspecificos = enderecoEspecificos;
     }
 
     public Usuario getUsuario() {
@@ -121,13 +106,5 @@ public class Solicitante {
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
-    }
-
-    public List<Endereco> getEnderecos() {
-        return enderecos;
-    }
-
-    public void setEnderecos(List<Endereco> enderecos) {
-        this.enderecos = enderecos;
     }
 }

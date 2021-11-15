@@ -1,6 +1,6 @@
 package br.com.ezfix.api.controller.dto;
 
-import br.com.ezfix.api.model.Endereco;
+import br.com.ezfix.api.model.EnderecoGeral;
 import br.com.ezfix.api.model.Solicitante;
 import br.com.ezfix.api.model.Usuario;
 import org.springframework.data.domain.Page;
@@ -15,10 +15,8 @@ public class SolicitanteDto {
     private LocalDate dataNascimento;
     private String telefonePrimario;
     private String telefoneSecundario;
-    private Long numero;
-    private String complemento;
     private Usuario usuario;
-    private List<Endereco> enderecos;
+    private List<EnderecoGeral> enderecoGerals;
 
     public SolicitanteDto(Solicitante solicitante) {
         this.cpf = solicitante.getCpf();
@@ -26,10 +24,7 @@ public class SolicitanteDto {
         this.dataNascimento = solicitante.getDataNascimento();
         this.telefonePrimario = solicitante.getTelefonePrimario();
         this.telefoneSecundario = solicitante.getTelefoneSecundario();
-        this.numero = solicitante.getNumero();
-        this.complemento = solicitante.getComplemento();
         this.usuario = solicitante.getUsuario();
-        this.enderecos = solicitante.getEnderecos();
     }
 
     public String getCpf() {
@@ -52,20 +47,12 @@ public class SolicitanteDto {
         return telefoneSecundario;
     }
 
-    public Long getNumero() {
-        return numero;
-    }
-
-    public String getComplemento() {
-        return complemento;
-    }
-
     public Usuario getUsuario() {
         return usuario;
     }
 
-    public List<Endereco> getEnderecos() {
-        return enderecos;
+    public List<EnderecoGeral> getEnderecos() {
+        return enderecoGerals;
     }
 
     public static Page<SolicitanteDto> converter(Page<Solicitante> solicitantes) {

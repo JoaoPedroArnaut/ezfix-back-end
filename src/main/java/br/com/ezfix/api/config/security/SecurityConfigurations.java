@@ -36,8 +36,7 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues()).and()
-                .authorizeRequests()
+        http.authorizeRequests()
                 .antMatchers(HttpMethod.GET,"/actuator/**").permitAll()
                 .antMatchers(HttpMethod.POST,"/auth/**").permitAll()
                 .antMatchers("/h2-console/**").permitAll()
@@ -48,6 +47,7 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
                 .antMatchers("/solicitante/**").hasRole("SOLICITANTE")
                 .antMatchers("/orcamentos/**").hasAnyRole("SOLICITANTE","ASSISTENCIA")
                 .anyRequest().authenticated()
+                .and().cors()
                 .and().csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().addFilterBefore(new AutenticacaoViaTokenFilter(tokenService,repository),

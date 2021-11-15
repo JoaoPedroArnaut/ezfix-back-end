@@ -1,6 +1,7 @@
 package br.com.ezfix.api.controller.form;
 
-import br.com.ezfix.api.model.Endereco;
+import br.com.ezfix.api.model.EnderecoEspecifico;
+import br.com.ezfix.api.model.EnderecoGeral;
 import br.com.ezfix.api.model.Perfil;
 import br.com.ezfix.api.model.Usuario;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -18,7 +19,8 @@ public abstract class CadastroForm {
     private String complemento;
 
     private Usuario usuario;
-    private Endereco endereco;
+    private EnderecoGeral enderecoGeral;
+    private EnderecoEspecifico enderecoEspecifico;
 
     public Long getNumero() {
         return numero;
@@ -40,10 +42,12 @@ public abstract class CadastroForm {
         return cep;
     }
 
+    public EnderecoEspecifico getEnderecoEspecifico() {
+        return enderecoEspecifico;
+    }
 
-
-    public Endereco getEnderecos() {
-        return endereco;
+    public EnderecoGeral getEnderecosGeral() {
+        return enderecoGeral;
     }
 
     public CadastroForm(String email, String senha, Long cep, String logradouro, String bairro, String cidade, String estado, Long numero, String complemento) {
@@ -62,13 +66,17 @@ public abstract class CadastroForm {
         this.usuario = new Usuario(this.email,new BCryptPasswordEncoder().encode(this.senha), perfil);
     }
 
-    public void converterEnderecos(){
-        endereco = new Endereco(
+    public void converterEnderecosGeral(){
+        this.enderecoGeral = new EnderecoGeral(
                 this.cep,
                 this.logradouro,
                 this.bairro,
                 this.cidade,
                 this.estado
         );
+    }
+
+    public void convverterEnderecoEspecifico(){
+        this.enderecoEspecifico = new EnderecoEspecifico(this.getNumero(),this.getComplemento(),this.getEnderecosGeral());
     }
 }

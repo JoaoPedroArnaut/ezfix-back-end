@@ -1,5 +1,6 @@
 package br.com.ezfix.api.controller.form;
 
+import br.com.ezfix.api.model.EnderecoEspecifico;
 import br.com.ezfix.api.model.Solicitante;
 
 import java.time.LocalDate;
@@ -33,14 +34,14 @@ public class SolicitanteForm extends CadastroForm{
     }
 
     public void converterSolicitante(){
-        solicitante = new Solicitante(this.cpf,
+        solicitante = new Solicitante(
+                this.cpf,
                 this.nome,
                 this.dataNascimento,
                 this.telefonePrimario,
                 this.telefoneSecundario,
-                super.getNumero(),
-                super.getComplemento(),
-                super.getUsuarios(),
-                Arrays.asList(super.getEnderecos()));
+                Arrays.asList(super.getEnderecoEspecifico()),
+                super.getUsuarios()
+        );
     }
 }

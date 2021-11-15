@@ -12,7 +12,7 @@ public class AssistenciaDto {
     private String telefonePrimario;
     private String telefoneSecundario;
     private Representante representante;
-    private List<Endereco> enderecos;
+    private List<EnderecoGeral> enderecoGerals;
     private List<Servico> servicos;
     private Plano plano;
 
@@ -22,7 +22,7 @@ public class AssistenciaDto {
         this.telefonePrimario = assistencia.getTelefonePrimario();
         this.telefoneSecundario = assistencia.getTelefoneSecundario();
         this.representante = assistencia.getRepresentante();
-        this.enderecos = assistencia.getEnderecos();
+        this.enderecoGerals = assistencia.getEnderecos();
         this.servicos = assistencia.getServicos();
         this.plano = assistencia.getPlano();
     }
@@ -47,8 +47,8 @@ public class AssistenciaDto {
         return representante;
     }
 
-    public List<Endereco> getEnderecos() {
-        return enderecos;
+    public List<EnderecoGeral> getEnderecos() {
+        return enderecoGerals;
     }
 
     public List<Servico> getTipoServicos() {
