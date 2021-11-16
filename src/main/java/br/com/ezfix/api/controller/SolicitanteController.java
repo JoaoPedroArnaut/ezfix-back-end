@@ -1,6 +1,5 @@
 package br.com.ezfix.api.controller;
 
-import br.com.ezfix.api.controller.dto.SolicitanteDto;
 import br.com.ezfix.api.model.Solicitante;
 import br.com.ezfix.api.model.Usuario;
 import br.com.ezfix.api.repository.SolicitanteRepository;
@@ -27,8 +26,8 @@ public class SolicitanteController {
     private UsuarioRepository usuarioRepository;
 
     @GetMapping
-    public ResponseEntity<Page<SolicitanteDto>> buscarTodos(@PageableDefault(page = 0,size = 10) Pageable paginacao) {
-        return ResponseEntity.ok().body(SolicitanteDto.converter(solicitanteRepository.findAll(paginacao)));
+    public ResponseEntity<Page<Solicitante>> buscarTodos(@PageableDefault(page = 0,size = 10) Pageable paginacao) {
+        return ResponseEntity.ok().body(solicitanteRepository.findAll(paginacao));
     }
 
     @PostMapping("/perfil/{id}")
@@ -90,6 +89,11 @@ public class SolicitanteController {
         solicitanteRepository.save(oldSolicitante);
         return ResponseEntity.ok().build();
     }
+//TODO
+//    @PutMapping("/endereco/{id}")
+//    public ResponseEntity addEndereco(@PathVariable String id, @RequestBody ){
+//
+//    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity apagar(@PathVariable String id) {

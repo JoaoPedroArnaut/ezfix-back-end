@@ -86,7 +86,8 @@ public class AutenticacaoController{
         if(!enderecoGeralRepository.existsById(solicitanteForm.getCep())){
             enderecoGeralRepository.save(solicitanteForm.getEnderecosGeral());
         }
-        solicitanteForm.getSolicitante().setPerfil(FileUtils.readFileToByteArray(new File("src/main/resources/blank-profile-picture-973460_960_720.webp")));
+        solicitanteForm.getSolicitante().setPerfil(FileUtils.readFileToByteArray(
+                new File("src/main/resources/blank-profile-picture-973460_960_720.webp")));
         enderecoEspecificoRepository.save(solicitanteForm.getEnderecoEspecifico());
         solicitanteRepository.save(solicitanteForm.getSolicitante());
 
@@ -114,7 +115,9 @@ public class AutenticacaoController{
             enderecoGeralRepository.save(assistenciaForm.getEnderecosGeral());
         }
         representanteRepository.save(assistenciaForm.getRepresentantes());
-        assistenciaForm.getAssistencias().setPerfil(FileUtils.readFileToByteArray(new File("src/main/resources/blank-profile-picture-973460_960_720.webp")));
+        assistenciaForm.getAssistencias().setPerfil(FileUtils.readFileToByteArray(
+                new File("src/main/resources/blank-profile-picture-973460_960_720.webp")));
+        enderecoEspecificoRepository.save(assistenciaForm.getEnderecoEspecifico());
         assistenciaRepository.save(assistenciaForm.getAssistencias());
 
         return ResponseEntity.status(201).build();

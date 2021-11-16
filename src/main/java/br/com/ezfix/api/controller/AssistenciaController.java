@@ -1,9 +1,6 @@
 package br.com.ezfix.api.controller;
 
-import br.com.ezfix.api.controller.dto.AssistenciaDto;
 import br.com.ezfix.api.model.Assistencia;
-import br.com.ezfix.api.model.Orcamento;
-import br.com.ezfix.api.model.Solicitante;
 import br.com.ezfix.api.repository.AssistenciaRepository;
 import br.com.ezfix.api.repository.ServicosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/assistencia")
-public class AssistenciaController extends BaseController {
+public class AssistenciaController{
 
     @Autowired
     private AssistenciaRepository assistenciaRepository;
@@ -24,9 +21,8 @@ public class AssistenciaController extends BaseController {
     private ServicosRepository servicosRepository;
 
     @GetMapping
-    @Override()
-    public ResponseEntity<Page<AssistenciaDto>> buscarTodos(@PageableDefault(page = 0,size = 10) Pageable paginacao) {
-        return ResponseEntity.ok().body(AssistenciaDto.converter(assistenciaRepository.findAll(paginacao)));
+    public ResponseEntity<Page<Assistencia>> buscarTodos(@PageableDefault(page = 0,size = 10) Pageable paginacao) {
+        return ResponseEntity.ok().body(assistenciaRepository.findAll(paginacao));
     }
 
     @GetMapping("/perfil/{id}")

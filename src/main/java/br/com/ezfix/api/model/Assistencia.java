@@ -26,8 +26,8 @@ public class Assistencia {
     @OneToOne
     private Representante representante;
 
-    @ManyToMany
-    private List<EnderecoGeral> enderecoGerals;
+    @OneToMany
+    private List<EnderecoEspecifico> enderecoEspecificos;
 
     @ManyToMany
     private List<Servico> servicos;
@@ -38,14 +38,14 @@ public class Assistencia {
     public Assistencia() {
     }
 
-    public Assistencia(String nomeFantasia, String telefonePrimario, String telefoneSecundario, Long numero, String complemento, Representante representante, List<EnderecoGeral> enderecoGerals, Plano plano) {
+    public Assistencia(String nomeFantasia, String telefonePrimario, String telefoneSecundario, Long numero, String complemento, Representante representante, List<EnderecoEspecifico> enderecoEspecificos, Plano plano) {
         this.nomeFantasia = nomeFantasia;
         this.telefonePrimario = telefonePrimario;
         this.telefoneSecundario = telefoneSecundario;
         this.numero = numero;
         this.complemento = complemento;
         this.representante = representante;
-        this.enderecoGerals = enderecoGerals;
+        this.enderecoEspecificos = enderecoEspecificos;
         this.plano = plano;
     }
 
@@ -113,12 +113,12 @@ public class Assistencia {
         this.representante = representante;
     }
 
-    public List<EnderecoGeral> getEnderecos() {
-        return enderecoGerals;
+    public List<EnderecoEspecifico> getEnderecoEspecificos() {
+        return enderecoEspecificos;
     }
 
-    public void setEnderecos(List<EnderecoGeral> enderecoGerals) {
-        this.enderecoGerals = enderecoGerals;
+    public void setEnderecoEspecificos(List<EnderecoEspecifico> enderecoEspecificos) {
+        this.enderecoEspecificos = enderecoEspecificos;
     }
 
     public List<Servico> getServicos() {

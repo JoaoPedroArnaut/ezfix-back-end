@@ -1,7 +1,6 @@
 package br.com.ezfix.api.controller;
 
 import br.com.ezfix.api.controller.form.CertificacoesForm;
-import br.com.ezfix.api.controller.dto.CertificacoesDto;
 import br.com.ezfix.api.model.Certificacao;
 import br.com.ezfix.api.repository.AssistenciaRepository;
 import br.com.ezfix.api.repository.CertificacoesRepository;
@@ -14,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/certificacoes")
-public class CertificacoesController extends BaseController {
+public class CertificacoesController {
 
     @Autowired
     private AssistenciaRepository assistenciaRepository;
@@ -51,8 +50,7 @@ public class CertificacoesController extends BaseController {
     }
 
     @GetMapping
-    @Override
-    public ResponseEntity<Page<CertificacoesDto>> buscarTodos(@PageableDefault(page = 0,size = 10) Pageable paginacao) {
-        return ResponseEntity.ok().body(CertificacoesDto.converter(certificacoesRepository.findAll(paginacao)));
+    public ResponseEntity<Page<Certificacao>> buscarTodos(@PageableDefault(page = 0,size = 10) Pageable paginacao) {
+        return ResponseEntity.ok().body(certificacoesRepository.findAll(paginacao));
     }
 }

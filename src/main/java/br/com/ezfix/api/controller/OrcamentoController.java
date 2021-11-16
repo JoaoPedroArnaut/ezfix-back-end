@@ -1,6 +1,5 @@
 package br.com.ezfix.api.controller;
 
-import br.com.ezfix.api.controller.dto.OrcamentoDto;
 import br.com.ezfix.api.controller.form.ItemForm;
 import br.com.ezfix.api.controller.form.OrcamentoForm;
 import br.com.ezfix.api.model.ItemOrcamento;
@@ -19,7 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/orcamentos")
-public class OrcamentoController extends BaseController{
+public class OrcamentoController{
 
     @Autowired
     private OrcamentoRepository orcamentoRepository;
@@ -92,7 +91,7 @@ public class OrcamentoController extends BaseController{
 
     @GetMapping
     public ResponseEntity buscarTodos(@PageableDefault(page = 0,size = 10) Pageable paginacao){
-        return ResponseEntity.ok().body(OrcamentoDto.converter(orcamentoRepository.findAll(paginacao)));
+        return ResponseEntity.ok().body(orcamentoRepository.findAll(paginacao));
     }
 
     @DeleteMapping("/{id}")

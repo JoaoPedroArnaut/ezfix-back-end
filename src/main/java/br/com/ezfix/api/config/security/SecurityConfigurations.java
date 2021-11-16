@@ -46,6 +46,7 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET,"/solicitante/perfil/**").permitAll()
                 .antMatchers("/solicitante/**").hasRole("SOLICITANTE")
                 .antMatchers("/orcamentos/**").hasAnyRole("SOLICITANTE","ASSISTENCIA")
+                .antMatchers("/endereco/**").hasAnyRole("SOLICITANTE","ASSISTENCIA")
                 .anyRequest().authenticated()
                 .and().cors()
                 .and().csrf().disable()

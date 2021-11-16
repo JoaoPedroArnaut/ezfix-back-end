@@ -59,7 +59,7 @@ public class AssistenciaForm extends CadastroForm{
                 super.getNumero(),
                 super.getComplemento(),
                 this.representante,
-                Arrays.asList(super.getEnderecosGeral()),
+                Arrays.asList(super.getEnderecoEspecifico()),
                 plano
         );
     }
