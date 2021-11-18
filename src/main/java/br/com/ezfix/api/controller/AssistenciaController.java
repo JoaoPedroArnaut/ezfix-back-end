@@ -1,6 +1,7 @@
 package br.com.ezfix.api.controller;
 
 import br.com.ezfix.api.model.Assistencia;
+import br.com.ezfix.api.model.Solicitante;
 import br.com.ezfix.api.repository.AssistenciaRepository;
 import br.com.ezfix.api.repository.ServicosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/assistencia")
@@ -19,6 +23,32 @@ public class AssistenciaController{
 
     @Autowired
     private ServicosRepository servicosRepository;
+
+
+    @PostMapping("/perfil/{id}")
+    public ResponseEntity patchFoto(@PathVariable Long id, @RequestParam MultipartFile img) throws IOException {
+
+        if(!assistenciaRepository.existsById(id)){
+            return ResponseEntity.status(404).build();
+        }
+
+        Assistencia assistencia = assistenciaRepository.findById(id).get();
+
+        byte[] novaFoto = img.getBytes();
+
+        assistencia.setPerfil(novaFoto);
+
+        assistenciaRepository.save(assistencia);
+        return ResponseEntity.status(200).build();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity buscaAssistenciaPorId(@PathVariable Long id){
+        if (assistenciaRepository.existsById(id)){
+            return ResponseEntity.ok().body(assistenciaRepository.findById(id).get());
+        }
+        return ResponseEntity.status(404).build();
+    }
 
     @GetMapping
     public ResponseEntity<Page<Assistencia>> buscarTodos(@PageableDefault(page = 0,size = 10) Pageable paginacao) {

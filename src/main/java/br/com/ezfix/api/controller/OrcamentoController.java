@@ -53,7 +53,7 @@ public class OrcamentoController{
         List<ItemOrcamento> itemOrcamentos = new ArrayList<>();
 
         for (ItemForm itemForm : itens){
-            ItemOrcamento item = itemForm.converterItem(produtoRepository.findById(itemForm.getProduto()).get());
+            ItemOrcamento item = itemForm.converterItem(produtoRepository.findByMarcaAndModelo(itemForm.getMarca(),itemForm.getModelo()));
             itemOrcamentoRepository.save(item);
             itemOrcamentos.add(item);
         }
@@ -78,7 +78,7 @@ public class OrcamentoController{
             return ResponseEntity.status(404).build();
         }
 
-        ItemOrcamento novoItem = itemForm.converterItem(produtoRepository.findById(itemForm.getProduto()).get());
+        ItemOrcamento novoItem = itemForm.converterItem(produtoRepository.findById(id).get());
 
         Orcamento orcamento = orcamentoRepository.findById(id).get();
         orcamento.getItens().add(novoItem);

@@ -7,4 +7,4 @@ INSERT INTO PLANO(tipo) VALUES ('avançado');
 
 INSERT INTO SERVICO(servico) VALUES ('reparo de tela');
 
-INSERT INTO PRODUTO(tipo, marca, modelo) VALUES ('celular','samsung','m31');
+INSERT INTO PRODUTO(tipo, marca, modelo) VALUES ('celular','samsung','galaxy m31');

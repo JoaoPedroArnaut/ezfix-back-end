@@ -12,6 +12,7 @@ public class Assistencia {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nomeFantasia;
+    private Double avaliacao = 5.;
     @NotNull
     private String telefonePrimario;
     private String telefoneSecundario;
@@ -135,5 +136,13 @@ public class Assistencia {
 
     public void setPlano(Plano plano) {
         this.plano = plano;
+    }
+
+    public Double getAvaliacao() {
+        return avaliacao;
+    }
+
+    public void setAvaliacao(Double avaliacao) {
+        this.avaliacao = avaliacao;
     }
 }

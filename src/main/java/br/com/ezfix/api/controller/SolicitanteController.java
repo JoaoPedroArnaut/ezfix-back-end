@@ -89,11 +89,6 @@ public class SolicitanteController {
         solicitanteRepository.save(oldSolicitante);
         return ResponseEntity.ok().build();
     }
-//TODO
-//    @PutMapping("/endereco/{id}")
-//    public ResponseEntity addEndereco(@PathVariable String id, @RequestBody ){
-//
-//    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity apagar(@PathVariable String id) {
