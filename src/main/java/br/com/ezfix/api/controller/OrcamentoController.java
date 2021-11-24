@@ -114,6 +114,24 @@ public class OrcamentoController{
         return ResponseEntity.status(404).build();
     }
 
+    @GetMapping("/solicitante/{cpf}")
+    public ResponseEntity buscarTodosOrcamentosSolicitante(@PathVariable String cpf){
+        if(solicitanteRepository.existsById(cpf)){
+            return ResponseEntity.ok().body(orcamentoRepository.findAllBySolicitanteCpf(cpf));
+        }
+
+        return ResponseEntity.status(404).build();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity buscarPorId(@PathVariable Long id){
+        if(orcamentoRepository.existsById(id)){
+            return ResponseEntity.ok().body(orcamentoRepository.findById(id).get());
+        }
+
+        return ResponseEntity.status(404).build();
+    }
+
 
     @GetMapping("/csv/{id}")
     public ResponseEntity gerarCsv(@PathVariable Long id){

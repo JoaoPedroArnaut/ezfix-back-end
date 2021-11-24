@@ -8,4 +8,6 @@ import java.util.List;
 public interface OrcamentoRepository extends JpaRepository<Orcamento, Long> {
 
     List<Orcamento> findAllByAssistenciaId(Long id);
+    Orcamento findByIdAndSolicitanteCpf(Long id,String cpf);
+    List<Orcamento> findAllBySolicitanteCpf(String cpf);
 }

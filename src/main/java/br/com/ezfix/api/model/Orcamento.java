@@ -1,6 +1,9 @@
 package br.com.ezfix.api.model;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Entity
@@ -10,6 +13,8 @@ public class Orcamento {
     private Long id;
     private Double valorTotal = 0.;
     private String statusGeral = "agurdando resposta tecnico";
+    private LocalDateTime dataSolicitacao = LocalDateTime.now();
+    private LocalDate dataPrivista;
 
     @ManyToOne
     private Solicitante solicitante;
@@ -77,5 +82,21 @@ public class Orcamento {
 
     public void setItens(List<ItemOrcamento> itens) {
         this.itens = itens;
+    }
+
+    public String getDataSolicitacao() {
+        return this.dataSolicitacao.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"));
+    }
+
+    public void setDataSolicitacao(LocalDateTime dataSolicitacao) {
+        this.dataSolicitacao = dataSolicitacao;
+    }
+
+    public LocalDate getDataPrivista() {
+        return dataPrivista;
+    }
+
+    public void setDataPrivista(LocalDate dataPrivista) {
+        this.dataPrivista = dataPrivista;
     }
 }
