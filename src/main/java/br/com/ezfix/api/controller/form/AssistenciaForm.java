@@ -20,12 +20,11 @@ public class AssistenciaForm extends CadastroForm{
     private Representante representante;
     private Assistencia assistencia;
 
-    public AssistenciaForm(String email, String senha, Long cep, String logradouro, String bairro, String cidade, String estado, Long numero, String complemento, String documento, String nome, String nomeFantasia, LocalDate dataNascimento, String telefonePrimario, String telefoneSecundario, Long plano) {
-        super(email, senha, cep, logradouro, bairro, cidade, estado, numero, complemento);
+    public AssistenciaForm(String email, String senha, Long cep, String logradouro, String bairro, String cidade, String estado, Long numero, String complemento, String documento, String nome, String nomeFantasia, String dataNascimento, String telefonePrimario, String telefoneSecundario, Long plano) {
+        super(email, senha, cep, logradouro, bairro, cidade, estado, numero, complemento,dataNascimento);
         this.documento = documento;
         this.nome = nome;
         this.nomeFantasia = nomeFantasia;
-        this.dataNascimento = dataNascimento;
         this.telefonePrimario = telefonePrimario;
         this.telefoneSecundario = telefoneSecundario;
         this.plano = plano;

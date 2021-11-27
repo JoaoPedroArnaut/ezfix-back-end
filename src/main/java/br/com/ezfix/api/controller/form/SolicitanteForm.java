@@ -10,17 +10,16 @@ public class SolicitanteForm extends CadastroForm{
 
     private String cpf;
     private String nome;
-    private LocalDate dataNascimento;
+
     private String telefonePrimario;
     private String telefoneSecundario;
 
     private Solicitante solicitante;
 
-    public SolicitanteForm(String email, String senha, Long cep, String logradouro, String bairro, String cidade, String estado, Long numero, String complemento, String cpf, String nome, LocalDate dataNascimento, String telefonePrimario, String telefoneSecundario) {
-        super(email, senha, cep, logradouro, bairro, cidade, estado, numero, complemento);
+    public SolicitanteForm(String email, String senha, Long cep, String logradouro, String bairro, String cidade, String estado, Long numero, String complemento, String cpf, String nome, String dataNascimento, String telefonePrimario, String telefoneSecundario) {
+        super(email, senha, cep, logradouro, bairro, cidade, estado, numero, complemento, dataNascimento);
         this.cpf = cpf;
         this.nome = nome;
-        this.dataNascimento = dataNascimento;
         this.telefonePrimario = telefonePrimario;
         this.telefoneSecundario = telefoneSecundario;
     }
@@ -37,7 +36,7 @@ public class SolicitanteForm extends CadastroForm{
         solicitante = new Solicitante(
                 this.cpf,
                 this.nome,
-                this.dataNascimento,
+                super.getDataNascimento(),
                 this.telefonePrimario,
                 this.telefoneSecundario,
                 Arrays.asList(super.getEnderecoEspecifico()),

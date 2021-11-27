@@ -50,6 +50,11 @@ public class AssistenciaController{
         return ResponseEntity.status(404).build();
     }
 
+    @GetMapping("/email/{email}")
+    public ResponseEntity buscarUsuarioPorEmail(@PathVariable String email){
+        return ResponseEntity.status(200).body(assistenciaRepository.findByRepresentanteUsuarioEmail(email));
+    }
+
     @GetMapping
     public ResponseEntity<Page<Assistencia>> buscarTodos(@PageableDefault(page = 0,size = 10) Pageable paginacao) {
         return ResponseEntity.ok().body(assistenciaRepository.findAll(paginacao));

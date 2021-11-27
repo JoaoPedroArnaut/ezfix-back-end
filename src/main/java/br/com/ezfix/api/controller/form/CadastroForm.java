@@ -6,6 +6,9 @@ import br.com.ezfix.api.model.Perfil;
 import br.com.ezfix.api.model.Usuario;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public abstract class CadastroForm {
 
     private String email;
@@ -17,6 +20,7 @@ public abstract class CadastroForm {
     private String estado;
     private Long numero;
     private String complemento;
+    private LocalDate dataNascimento;
 
     private Usuario usuario;
     private EnderecoGeral enderecoGeral;
@@ -50,7 +54,11 @@ public abstract class CadastroForm {
         return enderecoGeral;
     }
 
-    public CadastroForm(String email, String senha, Long cep, String logradouro, String bairro, String cidade, String estado, Long numero, String complemento) {
+    public LocalDate getDataNascimento() {
+        return dataNascimento;
+    }
+
+    public CadastroForm(String email, String senha, Long cep, String logradouro, String bairro, String cidade, String estado, Long numero, String complemento, String dataNascimento) {
         this.email = email;
         this.senha = senha;
         this.cep = cep;
@@ -60,6 +68,7 @@ public abstract class CadastroForm {
         this.estado = estado;
         this.numero = numero;
         this.complemento = complemento;
+        this.dataNascimento = convertData(dataNascimento);
     }
 
     public void converterUsuarios(Perfil perfil){
@@ -78,5 +87,10 @@ public abstract class CadastroForm {
 
     public void convverterEnderecoEspecifico(){
         this.enderecoEspecifico = new EnderecoEspecifico(this.getNumero(),this.getComplemento(),this.getEnderecosGeral());
+    }
+
+    private LocalDate convertData(String data){
+        DateTimeFormatter dTF = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        return LocalDate.parse(data, dTF);
     }
 }

@@ -1,5 +1,6 @@
 package br.com.ezfix.api.controller;
 
+import br.com.ezfix.api.controller.form.ItemEditarForm;
 import br.com.ezfix.api.controller.form.ItemForm;
 import br.com.ezfix.api.controller.form.OrcamentoForm;
 import br.com.ezfix.api.model.ItemOrcamento;
@@ -105,13 +106,23 @@ public class OrcamentoController{
 
     @PutMapping("/{id}")
     public ResponseEntity atualizar(@PathVariable Long id, @RequestBody OrcamentoForm orcamentoForm) {
-        if(orcamentoRepository.existsById(id)){
-            Orcamento orcamento = orcamentoRepository.findById(id).get();
-            orcamento.setStatusGeral(orcamentoForm.getStatus());
-            orcamentoRepository.save(orcamento);
-            return ResponseEntity.ok().build();
+        if(!orcamentoRepository.existsById(id)){
+            return ResponseEntity.status(404).build();
         }
-        return ResponseEntity.status(404).build();
+
+        Orcamento orcamento = orcamentoRepository.findById(id).get();
+        orcamento.setStatusGeral(orcamentoForm.getStatus());
+
+        for (ItemEditarForm i : orcamentoForm.getItemEditarForms()){
+            ItemOrcamento item = itemOrcamentoRepository.findById(i.getI()).get();
+            item.setValorServico(i.getV());
+            orcamento.setValorTotal(orcamento.getValorTotal() + i.getV());
+            itemOrcamentoRepository.save(item);
+        }
+
+
+        orcamentoRepository.save(orcamento);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/solicitante/{cpf}")
@@ -130,6 +141,19 @@ public class OrcamentoController{
         }
 
         return ResponseEntity.status(404).build();
+    }
+
+    @GetMapping("/assistencia/{id}")
+    public ResponseEntity buscarPorIdAssistencia(@PathVariable Long id){
+        if(!assistenciaRepository.existsById(id)){
+            return ResponseEntity.status(404).build();
+        }
+        List<Orcamento> orcamentos = orcamentoRepository.findAllByAssistenciaId(id);
+        if(orcamentos.isEmpty()){
+            return ResponseEntity.status(204).build();
+        }
+        return ResponseEntity.ok().body(orcamentos);
+
     }
 
 
