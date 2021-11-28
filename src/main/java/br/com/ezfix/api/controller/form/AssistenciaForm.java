@@ -47,7 +47,7 @@ public class AssistenciaForm extends CadastroForm{
     }
 
     public void converterRepresentantes(){
-        this.representante = new Representante(this.documento,this.nome,this.dataNascimento,this.getUsuarios());
+        this.representante = new Representante(this.documento,this.nome,super.getDataNascimento(),this.getUsuarios());
     }
 
     public void converterAssistencias(Plano plano){
