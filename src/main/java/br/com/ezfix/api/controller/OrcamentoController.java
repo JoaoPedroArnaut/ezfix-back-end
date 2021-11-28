@@ -5,17 +5,29 @@ import br.com.ezfix.api.controller.form.ItemForm;
 import br.com.ezfix.api.controller.form.OrcamentoForm;
 import br.com.ezfix.api.model.ItemOrcamento;
 import br.com.ezfix.api.model.Orcamento;
+import br.com.ezfix.api.model.Solicitante;
 import br.com.ezfix.api.repository.*;
-import br.com.ezfix.api.util.Csv;
-import br.com.ezfix.api.util.ListaObj;
+import br.com.ezfix.api.util.FilaObj;
+import org.apache.commons.io.FileUtils;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/orcamentos")
@@ -148,6 +160,7 @@ public class OrcamentoController{
         if(!assistenciaRepository.existsById(id)){
             return ResponseEntity.status(404).build();
         }
+
         List<Orcamento> orcamentos = orcamentoRepository.findAllByAssistenciaId(id);
         if(orcamentos.isEmpty()){
             return ResponseEntity.status(204).build();
@@ -156,20 +169,72 @@ public class OrcamentoController{
 
     }
 
-
-    @GetMapping("/csv/{id}")
-    public ResponseEntity gerarCsv(@PathVariable Long id){
-
-        List<Orcamento> orcamentos = orcamentoRepository.findAllByAssistenciaId(id);
-
-        ListaObj<Orcamento> listaObj = new ListaObj<>(orcamentos.size());
-
-        for (Orcamento orcamento: orcamentos){
-            listaObj.adiciona(orcamento);
+    @GetMapping("/assistencia/novo/{id}")
+    public ResponseEntity buscarNovosOrcamentos(@PathVariable Long id){
+        if(!assistenciaRepository.existsById(id)){
+            return ResponseEntity.status(404).build();
         }
 
-        Csv.gerarCsv(listaObj);
+        List<Orcamento> orcamentos = orcamentoRepository.findAllByAssistenciaIdAndStatusGeral(id,"agurdando resposta tecnico");
 
-        return ResponseEntity.ok().build();
+        orcamentos = orcamentos.stream().sorted(Comparator.comparing(Orcamento::getDataSolicitacao)).collect(Collectors.toList());
+        FilaObj<Orcamento> orcamentoFilaObj = new FilaObj<>(orcamentos.size());
+
+        for (Orcamento o : orcamentos){
+            orcamentoFilaObj.insert(o);
+        }
+        if(orcamentos.isEmpty()){
+            return ResponseEntity.status(204).build();
+        }
+        return ResponseEntity.ok().body(orcamentoFilaObj);
+
+    }
+
+    @GetMapping("/nota/{id}")
+    public ResponseEntity gerarNota(@PathVariable Long id) throws IOException {
+        if(!orcamentoRepository.existsById(id)){
+            return ResponseEntity.status(404).build();
+        }
+        Orcamento orcamento = orcamentoRepository.findById(id).get();
+        File txt = new File("src/main/resources/nota.txt");
+        txt.delete();
+        BufferedWriter saida = new BufferedWriter (new FileWriter("src/main/resources/nota.txt", true));
+
+
+        // Monta o registro de header
+        String header = "00NOTAFISCAL";
+        Date dataDeHoje = new Date();
+        SimpleDateFormat formataData =
+                new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        header += formataData.format(dataDeHoje);
+        header += String.format("%04d",orcamento.getId());
+        header += "01";
+
+        // Grava o registro do header
+        saida.append(header + "\n");
+
+        // Monta e grava o corpo
+        String corpo = "02";
+        for (ItemOrcamento i : orcamento.getItens()) {
+            corpo += String.format("%%04d",i.getId());
+            corpo += String.format("%-20.20s",  i.getProblema());
+            corpo += String.format("%-10.10s", i.getProduto().getTipo());
+            corpo += String.format("%-10.10s", i.getProduto().getMarca());
+            corpo += String.format("%-15.15s", i.getProduto().getModelo());
+            saida.append(corpo + "\n");
+        }
+
+
+        // Monta e grava o trailer
+        String trailer = "01";
+        trailer += String.format("%05d", orcamento.getItens().size());
+        saida.append(trailer + "\n");
+
+        saida.close();
+//        return ResponseEntity.status(200).header("content-type","application/pdf").body(
+//                FileUtils.readFileToByteArray(txt));
+
+        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
+                "attachment; filename=\"" + txt.getName() + "\"").body(FileUtils.readFileToByteArray(txt));
     }
 }
