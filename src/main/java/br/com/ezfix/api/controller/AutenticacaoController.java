@@ -148,7 +148,7 @@ public class AutenticacaoController {
             return ResponseEntity.status(400).build();
         }
 
-        return ResponseEntity.status(201).body(enderecoEspecificoRepository.findFirstByOrderByIdDesc());
+        return ResponseEntity.status(201).build();
     }
 
     private void salvaEstado(JpaRepository repository, Object id) {
