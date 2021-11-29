@@ -1,12 +1,14 @@
 package br.com.ezfix.api.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class EnderecoEspecifico {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotNull
     private Long numero;
     private String complemento;
     @ManyToOne
