@@ -1,7 +1,7 @@
 package br.com.ezfix.api.controller;
 
+import br.com.ezfix.api.controller.request.AttTelefone;
 import br.com.ezfix.api.model.Assistencia;
-import br.com.ezfix.api.model.Solicitante;
 import br.com.ezfix.api.repository.AssistenciaRepository;
 import br.com.ezfix.api.repository.ServicosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,5 +83,14 @@ public class AssistenciaController{
         assistencia.getServicos().add(servicosRepository.getById(servico));
         assistenciaRepository.save(assistencia);
         return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity atualizaTelefones(@PathVariable Long id, @RequestBody AttTelefone telefone){
+        if(assistenciaRepository.existsById(id)){
+            assistenciaRepository.atualizaTelefone(id,telefone.getTelefonePrimario(), telefone.getTelefoneSecundario());
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.status(404).build();
     }
 }

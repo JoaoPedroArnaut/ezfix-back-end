@@ -46,7 +46,7 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
                 .antMatchers("/certificacoes/**").hasRole("ASSISTENCIA")
                 .antMatchers(HttpMethod.GET,"/solicitante/perfil/**").permitAll()
                 .antMatchers("/solicitante/**").hasRole("SOLICITANTE")
-                .antMatchers("/orcamentos/**").permitAll()
+                .antMatchers("/orcamentos/**").hasAnyRole("SOLICITANTE","ASSISTENCIA")
                 .antMatchers("/endereco/**").hasAnyRole("SOLICITANTE","ASSISTENCIA")
                 .antMatchers("/comentario/**").hasAnyRole("SOLICITANTE","ASSISTENCIA")
                 .anyRequest().authenticated()

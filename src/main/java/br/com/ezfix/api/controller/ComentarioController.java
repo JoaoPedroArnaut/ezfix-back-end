@@ -1,13 +1,16 @@
 package br.com.ezfix.api.controller;
 
+import br.com.ezfix.api.controller.response.SistemaAvaliacao;
 import br.com.ezfix.api.model.Comentario;
-import br.com.ezfix.api.repository.ComentarioRepository;
-import br.com.ezfix.api.util.FilaObj;
 import br.com.ezfix.api.util.PilhaObj;
+import br.com.ezfix.api.repository.ComentarioRepository;
+import br.com.ezfix.api.repository.AssistenciaRepository;
+import br.com.ezfix.api.model.Assistencia;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
@@ -20,10 +23,26 @@ public class ComentarioController {
     @Autowired
     private ComentarioRepository comentarioRepository;
 
+    @Autowired
+    private AssistenciaRepository assistenciaRepository;
+
+
     @PostMapping
     public ResponseEntity novoComentario(@RequestBody Comentario comentario){
-        comentario.setDataComentario(LocalDateTime.now());
+
         comentarioRepository.save(comentario);
+
+        List<SistemaAvaliacao> sistemaAvaliacaos = comentarioRepository.apenasAsAvaliacoes(comentario.getAssistencia().getId());
+        Double notaTotal = .0;
+        for (SistemaAvaliacao s : sistemaAvaliacaos){
+            notaTotal += s.getAvaliacao();
+        }
+        notaTotal /= sistemaAvaliacaos.size();
+
+        Assistencia assitencia = assistenciaRepository.findById(comentario.getAssistencia().getId()).get();
+        assitencia.setAvaliacao(notaTotal);
+        assistenciaRepository.save(assitencia);
+
         return ResponseEntity.status(201).build();
     }
 
@@ -34,20 +53,10 @@ public class ComentarioController {
 
     @GetMapping("/{id}")
     public ResponseEntity buscarNovosOrcamentos(@PathVariable Long id){
-        List<Comentario> comentarios = comentarioRepository.findAllByAssistenciaId(id);
-
-        comentarios = comentarios.stream().sorted(Comparator.comparing(Comentario::getDataComentario)).collect(Collectors.toList());
-        PilhaObj<Comentario> pilhaObj = new PilhaObj<>(comentarios.size());
-
-        for (Comentario c : comentarios){
-            pilhaObj.push(c);
+        if(!assistenciaRepository.existsById(id)){
+            return ResponseEntity.status(404).build();
         }
-        if(comentarios.isEmpty()){
-            return ResponseEntity.status(204).build();
-        }
-
-
-        return ResponseEntity.ok().body(pilhaObj);
+        return ResponseEntity.ok().body(comentarioRepository.SomenteNecessaario(id));
 
     }
 }

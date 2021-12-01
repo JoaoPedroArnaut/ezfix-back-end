@@ -11,7 +11,7 @@ public class Comentario {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private LocalDateTime dataComentario;
+    private LocalDate dataComentario = LocalDate.now();
     private String comentario;
     private Double avaliacao;
 
@@ -25,7 +25,7 @@ public class Comentario {
     private Orcamento orcamento;
 
 
-    public Comentario(LocalDateTime dataComentario, String comentario, Double avaliacao, Assistencia assistencia, Solicitante solicitante, Orcamento orcamento) {
+    public Comentario(LocalDate dataComentario, String comentario, Double avaliacao, Assistencia assistencia, Solicitante solicitante, Orcamento orcamento) {
         this.dataComentario = dataComentario;
         this.comentario = comentario;
         this.avaliacao = avaliacao;
@@ -45,11 +45,11 @@ public class Comentario {
         this.id = id;
     }
 
-    public LocalDateTime getDataComentario() {
+    public LocalDate getDataComentario() {
         return dataComentario;
     }
 
-    public void setDataComentario(LocalDateTime dataComentario) {
+    public void setDataComentario(LocalDate dataComentario) {
         this.dataComentario = dataComentario;
     }
 

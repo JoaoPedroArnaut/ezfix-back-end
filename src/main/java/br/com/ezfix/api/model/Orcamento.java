@@ -13,6 +13,7 @@ public class Orcamento {
     private Long id;
     private Double valorTotal = 0.;
     private String statusGeral = "agurdando resposta tecnico";
+    private LocalDate dataCriacao = LocalDate.now();
     private LocalDateTime dataSolicitacao = LocalDateTime.now();
     private LocalDate dataPrivista;
 

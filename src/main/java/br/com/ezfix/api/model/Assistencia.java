@@ -16,9 +16,6 @@ public class Assistencia {
     @NotNull
     private String telefonePrimario;
     private String telefoneSecundario;
-    @NotNull
-    private Long numero;
-    private String complemento;
 
     @JsonIgnore
     @Column(length = 20_000_000)
@@ -39,12 +36,10 @@ public class Assistencia {
     public Assistencia() {
     }
 
-    public Assistencia(String nomeFantasia, String telefonePrimario, String telefoneSecundario, Long numero, String complemento, Representante representante, List<EnderecoEspecifico> enderecoEspecificos, Plano plano) {
+    public Assistencia(String nomeFantasia, String telefonePrimario, String telefoneSecundario, Representante representante, List<EnderecoEspecifico> enderecoEspecificos, Plano plano) {
         this.nomeFantasia = nomeFantasia;
         this.telefonePrimario = telefonePrimario;
         this.telefoneSecundario = telefoneSecundario;
-        this.numero = numero;
-        this.complemento = complemento;
         this.representante = representante;
         this.enderecoEspecificos = enderecoEspecificos;
         this.plano = plano;
@@ -80,22 +75,6 @@ public class Assistencia {
 
     public void setTelefoneSecundario(String telefoneSecundario) {
         this.telefoneSecundario = telefoneSecundario;
-    }
-
-    public Long getNumero() {
-        return numero;
-    }
-
-    public void setNumero(Long numero) {
-        this.numero = numero;
-    }
-
-    public String getComplemento() {
-        return complemento;
-    }
-
-    public void setComplemento(String complemento) {
-        this.complemento = complemento;
     }
 
     public byte[] getPerfil() {

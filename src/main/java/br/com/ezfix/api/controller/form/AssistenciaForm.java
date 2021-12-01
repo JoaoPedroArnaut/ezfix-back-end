@@ -55,8 +55,6 @@ public class AssistenciaForm extends CadastroForm{
                 this.nomeFantasia,
                 this.telefonePrimario,
                 this.telefoneSecundario,
-                super.getNumero(),
-                super.getComplemento(),
                 this.representante,
                 Arrays.asList(super.getEnderecoEspecifico()),
                 plano

@@ -53,4 +53,9 @@ public class CertificacoesController {
     public ResponseEntity<Page<Certificacao>> buscarTodos(@PageableDefault(page = 0,size = 10) Pageable paginacao) {
         return ResponseEntity.ok().body(certificacoesRepository.findAll(paginacao));
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity buscarPorAssistencia(@PathVariable Long id){
+        return ResponseEntity.status(200).body(certificacoesRepository.todosCertificadosDeUmaAssistencia(id));
+    }
 }

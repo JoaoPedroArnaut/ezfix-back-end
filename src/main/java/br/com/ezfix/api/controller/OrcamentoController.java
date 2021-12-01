@@ -23,10 +23,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -47,6 +44,9 @@ public class OrcamentoController{
 
     @Autowired
     private SolicitanteRepository solicitanteRepository;
+
+    @Autowired
+    private ComentarioRepository comentarioRepository;
 
     @PostMapping("/{idSolicitante}/{idAssistencia}")
     private ResponseEntity novoOrcamento(
@@ -190,6 +190,14 @@ public class OrcamentoController{
 
     }
 
+    @GetMapping("/count/{id}")
+    public ResponseEntity totalOrcamentosDia(@PathVariable Long id){
+        if (!assistenciaRepository.existsById(id)){
+            return ResponseEntity.status(404).build();
+        }
+        return ResponseEntity.ok().body(Arrays.asList(orcamentoRepository.totalOrcamentoDia(id),comentarioRepository.contarTodosComentariosHoje(id)));
+    }
+
     @GetMapping("/nota/{id}")
     public ResponseEntity gerarNota(@PathVariable Long id) throws IOException {
         if(!orcamentoRepository.existsById(id)){
@@ -231,8 +239,6 @@ public class OrcamentoController{
         saida.append(trailer + "\n");
 
         saida.close();
-//        return ResponseEntity.status(200).header("content-type","application/pdf").body(
-//                FileUtils.readFileToByteArray(txt));
 
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
                 "attachment; filename=\"" + txt.getName() + "\"").body(FileUtils.readFileToByteArray(txt));
