@@ -3,6 +3,7 @@ package br.com.ezfix.api.controller;
 import br.com.ezfix.api.controller.form.ItemEditarForm;
 import br.com.ezfix.api.controller.form.ItemForm;
 import br.com.ezfix.api.controller.form.OrcamentoForm;
+import br.com.ezfix.api.controller.request.AtualizarStatusPedido;
 import br.com.ezfix.api.model.ItemOrcamento;
 import br.com.ezfix.api.model.Orcamento;
 import br.com.ezfix.api.model.Solicitante;
@@ -135,6 +136,16 @@ public class OrcamentoController{
 
         orcamentoRepository.save(orcamento);
         return ResponseEntity.ok().build();
+    }
+
+    @PutMapping
+    public ResponseEntity atualizaStatus(@RequestBody AtualizarStatusPedido pedido){
+        if (orcamentoRepository.existsById(pedido.getId())){
+            orcamentoRepository.atualizaStatus(pedido.getId(),pedido.getStatus());
+            return ResponseEntity.ok().build();
+        }
+        
+        return ResponseEntity.status(404).build();
     }
 
     @GetMapping("/solicitante/{cpf}")

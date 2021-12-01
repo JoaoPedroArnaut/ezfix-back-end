@@ -12,7 +12,7 @@ public class Orcamento {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Double valorTotal = 0.;
-    private String statusGeral = "agurdando resposta tecnico";
+    private String statusGeral = "aguardando resposta tecnico";
     private LocalDate dataCriacao = LocalDate.now();
     private LocalDateTime dataSolicitacao = LocalDateTime.now();
     private LocalDate dataPrivista;
