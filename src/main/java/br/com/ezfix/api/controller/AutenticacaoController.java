@@ -97,7 +97,8 @@ public class AutenticacaoController {
             enderecoEspecificoRepository.save(solicitanteForm.getEnderecoEspecifico());
             salvaEstado(enderecoEspecificoRepository, enderecoEspecificoRepository.findFirstByOrderByIdDesc().getId());
             solicitanteForm.getSolicitante().setPerfil(FileUtils.readFileToByteArray(
-                    new File("/opt/ezfix/blank-profile-picture-973460_960_720.webp")));
+//                    new File("/opt/ezfix/blank-profile-picture-973460_960_720.webp")));
+                    new File("src/main/resources/blank-profile-picture-973460_960_720.webp")));
             solicitanteRepository.save(solicitanteForm.getSolicitante());
             salvaEstado(solicitanteRepository,solicitanteForm.getSolicitante().getCpf());
         } catch (Exception e) {
@@ -139,7 +140,8 @@ public class AutenticacaoController {
             enderecoEspecificoRepository.save(assistenciaForm.getEnderecoEspecifico());
             salvaEstado(enderecoEspecificoRepository, enderecoEspecificoRepository.findFirstByOrderByIdDesc().getId());
             assistenciaForm.getAssistencias().setPerfil(FileUtils.readFileToByteArray(
-                    new File("/opt/ezfix/blank-profile-picture-973460_960_720.webp")));
+//                    new File("/opt/ezfix/blank-profile-picture-973460_960_720.webp")));
+                    new File("src/main/resources/blank-profile-picture-973460_960_720.webp")));
             assistenciaRepository.save(assistenciaForm.getAssistencias());
             salvaEstado(assistenciaRepository, assistenciaRepository.findFirstByOrderByIdDesc().getId());
         } catch (Exception e) {

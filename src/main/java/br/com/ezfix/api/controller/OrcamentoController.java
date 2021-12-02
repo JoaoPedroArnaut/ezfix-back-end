@@ -215,8 +215,10 @@ public class OrcamentoController{
             return ResponseEntity.status(404).build();
         }
         Orcamento orcamento = orcamentoRepository.findById(id).get();
-        File txt = new File("/opt/ezfix/nota.txt");
+//        File txt = new File("/opt/ezfix/nota.txt");
+        File txt = new File("src/main/resources/nota.txt");
         txt.delete();
+//        BufferedWriter saida = new BufferedWriter (new FileWriter("/opt/ezfix/nota.txt", true));
         BufferedWriter saida = new BufferedWriter (new FileWriter("src/main/resources/nota.txt", true));
 
 
