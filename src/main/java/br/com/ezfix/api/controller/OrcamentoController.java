@@ -6,6 +6,7 @@ import br.com.ezfix.api.controller.form.OrcamentoForm;
 import br.com.ezfix.api.controller.request.AtualizarStatusPedido;
 import br.com.ezfix.api.model.ItemOrcamento;
 import br.com.ezfix.api.model.Orcamento;
+import br.com.ezfix.api.model.Produto;
 import br.com.ezfix.api.model.Solicitante;
 import br.com.ezfix.api.repository.*;
 import br.com.ezfix.api.util.FilaObj;
@@ -19,10 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -76,6 +74,89 @@ public class OrcamentoController{
                 new Orcamento(
                     solicitanteRepository.findById(idSolicitante).get(),
                     assistenciaRepository.findById(idAssistencia).get(),
+                        itemOrcamentos
+                )
+        );
+
+        return ResponseEntity.status(201).build();
+    }
+
+    @PostMapping("/txt/{idSolicitante}/{idAssistencia}")
+    private ResponseEntity novoOrcamentoporTxt(
+            @RequestParam MultipartFile itens,
+            @PathVariable String idSolicitante,
+            @PathVariable Long idAssistencia
+    ) {
+
+        if(!solicitanteRepository.existsById(idSolicitante)){
+            return ResponseEntity.status(404).build();
+        }
+
+        if(!assistenciaRepository.existsById(idAssistencia)){
+            return ResponseEntity.status(404).build();
+        }
+
+        List<ItemOrcamento> itemOrcamentos = new ArrayList<>();
+//        File txt = new File("/opt/ezfix/provisorio.txt");
+        File txt = new File("src/main/resources/provisorio.txt");
+
+        FilaObj<ItemOrcamento> filaObj = new FilaObj<>(1000);
+        try {
+            txt.delete();
+            txt.createNewFile();
+            itens.transferTo(txt.getAbsoluteFile());
+            BufferedReader entrada = new BufferedReader(new FileReader(txt));
+            String register = entrada.readLine();
+
+
+            String registerType;
+            while (register != null) {
+                registerType = register.substring(0, 2);
+                switch (registerType) {
+                    case "00":
+                        System.out.println("----------Header----------");
+                        System.out.println("Tipo do arquivo: " + register.substring(2, 15).trim());
+                        System.out.println("Data/Hora de geração do arquivo: " + register.substring(16, 34).trim());
+                        break;
+                    case "02":
+                        System.out.println("----------Registro do Body (Produto)----------");
+                        ItemOrcamento item = new ItemOrcamento();
+                        item.setProduto(new Produto());
+                        item.getProduto().setId(Long.parseLong(register.substring(3, 6).trim()));
+                        item.setProblema(register.substring(6, 26).trim());
+                        item.getProduto().setTipo(register.substring(27, 36).trim());
+                        item.getProduto().setMarca(register.substring(37, 46).trim());
+                        item.getProduto().setModelo(register.substring(47, 51).trim());
+                        filaObj.insert(item);
+                        break;
+                    case "01":
+                        System.out.println("----------Trailer----------");
+                        System.out.println(Integer.valueOf(register.substring(3, 7).trim()));
+                        break;
+                    default:
+                        System.out.println("Tipo de registro inválido");
+                        break;
+                }
+
+                register = entrada.readLine();
+            }
+
+            entrada.close();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        while (!filaObj.isEmpty()){
+            ItemOrcamento item = filaObj.poll();
+            itemOrcamentos.add(item);
+
+            itemOrcamentoRepository.save(item);
+        }
+
+        orcamentoRepository.save(
+                new Orcamento(
+                        solicitanteRepository.findById(idSolicitante).get(),
+                        assistenciaRepository.findById(idAssistencia).get(),
                         itemOrcamentos
                 )
         );
@@ -223,21 +304,20 @@ public class OrcamentoController{
 
 
         // Monta o registro de header
-        String header = "00NOTAFISCAL";
+        String header = "00LISTAPRODUTOS";
         Date dataDeHoje = new Date();
         SimpleDateFormat formataData =
                 new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         header += formataData.format(dataDeHoje);
-        header += String.format("%04d",orcamento.getId());
         header += "01";
 
         // Grava o registro do header
         saida.append(header + "\n");
 
         // Monta e grava o corpo
-        String corpo = "02";
         for (ItemOrcamento i : orcamento.getItens()) {
-            corpo += String.format("%%04d",i.getId());
+            String corpo = "02";
+            corpo += String.format("%04d",i.getProduto().getId());
             corpo += String.format("%-20.20s",  i.getProblema());
             corpo += String.format("%-10.10s", i.getProduto().getTipo());
             corpo += String.format("%-10.10s", i.getProduto().getMarca());
