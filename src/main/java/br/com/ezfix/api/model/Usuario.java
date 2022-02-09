@@ -16,6 +16,7 @@ public class Usuario implements UserDetails {
 	@Id
 	private String email;
 
+	@JsonIgnore
 	@NotNull
 	private String senha;
 
@@ -36,6 +37,7 @@ public class Usuario implements UserDetails {
 		this.email = email;
 	}
 
+	@JsonIgnore
 	public String getSenha() {
 		return senha;
 	}

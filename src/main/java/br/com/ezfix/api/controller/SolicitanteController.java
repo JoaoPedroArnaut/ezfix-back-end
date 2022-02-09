@@ -1,5 +1,6 @@
 package br.com.ezfix.api.controller;
 
+import br.com.ezfix.api.config.security.TokenService;
 import br.com.ezfix.api.model.Solicitante;
 import br.com.ezfix.api.model.Usuario;
 import br.com.ezfix.api.repository.SolicitanteRepository;
@@ -24,6 +25,9 @@ public class SolicitanteController {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private TokenService tokenService;
 
     @GetMapping
     public ResponseEntity<Page<Solicitante>> buscarTodos(@PageableDefault(page = 0,size = 10) Pageable paginacao) {
@@ -53,6 +57,12 @@ public class SolicitanteController {
         byte[] foto = solicitante.getPerfil();
 
         return ResponseEntity.status(200).header("content-type","image/jpeg").body(foto);
+    }
+
+
+    @GetMapping("/logado")
+    public ResponseEntity usuarioLogado(@RequestHeader(value = "Authorization") String token){
+        return ResponseEntity.status(200).body(solicitanteRepository.findByUsuarioEmail(tokenService.getIdUsuario(token.substring(7))));
     }
 
     @GetMapping("/email/{email}")

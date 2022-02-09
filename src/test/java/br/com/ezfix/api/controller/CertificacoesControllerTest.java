@@ -22,20 +22,20 @@ class CertificacoesControllerTest {
     @MockBean
     AssistenciaRepository assistenciaRepository;
 
-    @Test
-    void cadastrar_valido_201(){
-        assertEquals(201,controller.cadastrar(new CertificacoesForm(),1l).getStatusCodeValue());
-    }
+//    @Test
+//    void cadastrar_valido_201(){
+//        assertEquals(201,controller.cadastrar(new CertificacoesForm(),1l).getStatusCodeValue());
+//    }
 
     @Test
     void deletar_seIdInvalido_404(){
         assertEquals(404,controller.apagar(1l).getStatusCodeValue());
     }
 
-    @Test
-    void atualizar_invalido_404(){
-        assertEquals(404,controller.atualizar(1l, new CertificacoesForm()).getStatusCodeValue());
-    }
+//    @Test
+//    void atualizar_invalido_404(){
+//        assertEquals(404,controller.atualizar(1l, new CertificacoesForm()).getStatusCodeValue());
+//    }
 
     @Test
     void buscaPorASssistencia_idInvalido_404(){
