@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Entity
-public class Certificacao {
+public class Certificado {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -24,17 +24,16 @@ public class Certificacao {
     private byte[] anexo;
 
     @ManyToOne
-    private Assistencia assistencia;
+    Assistencia assistencia;
 
-    public Certificacao() {
+    public Certificado() {
     }
 
-    public Certificacao(String nomeCurso, Long quantidadeHoras, LocalDate dataInicio, LocalDate dataConclusao, Assistencia assistencia) {
+    public Certificado(String nomeCurso, Long quantidadeHoras, LocalDate dataInicio, LocalDate dataConclusao) {
         this.nomeCurso = nomeCurso;
         this.quantidadeHoras = quantidadeHoras;
         this.dataInicio = dataInicio;
         this.dataConclusao = dataConclusao;
-        this.assistencia = assistencia;
     }
 
     public Long getId() {
@@ -83,13 +82,5 @@ public class Certificacao {
 
     public void setAnexo(byte[] anexo) {
         this.anexo = anexo;
-    }
-
-    public Assistencia getAssistencia() {
-        return assistencia;
-    }
-
-    public void setAssistencia(Assistencia assistencia) {
-        this.assistencia = assistencia;
     }
 }

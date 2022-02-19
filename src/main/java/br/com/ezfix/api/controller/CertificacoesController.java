@@ -1,7 +1,7 @@
 package br.com.ezfix.api.controller;
 
 import br.com.ezfix.api.controller.form.CertificacoesForm;
-import br.com.ezfix.api.model.Certificacao;
+import br.com.ezfix.api.model.Certificado;
 import br.com.ezfix.api.repository.AssistenciaRepository;
 import br.com.ezfix.api.repository.CertificacoesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,6 @@ public class CertificacoesController {
 
     @PostMapping("/{id}")
     public ResponseEntity<?> cadastrar(@RequestBody CertificacoesForm certificacoesForm, @PathVariable Long id){
-        certificacoesForm.converterCertificacoes(assistenciaRepository.getById(id));
         certificacoesRepository.save(certificacoesForm.getCertificacoes());
         return ResponseEntity.status(201).build();
     }
@@ -40,9 +39,8 @@ public class CertificacoesController {
     @PutMapping("/{id}")
     public ResponseEntity atualizar(@PathVariable Long id,@RequestBody CertificacoesForm certificacoesForm) {
         if(certificacoesRepository.existsById(id)){
-            Certificacao certificacao = certificacoesRepository.findById(id).get();
-            certificacoesForm.converterCertificacoes(certificacao.getAssistencia());
-            certificacoesForm.getCertificacoes().setId(certificacao.getId());
+            Certificado certificado = certificacoesRepository.findById(id).get();
+            certificacoesForm.getCertificacoes().setId(certificado.getId());
             certificacoesRepository.save(certificacoesForm.getCertificacoes());
             return ResponseEntity.ok().build();
         }
@@ -50,12 +48,7 @@ public class CertificacoesController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<Certificacao>> buscarTodos(@PageableDefault(page = 0,size = 10) Pageable paginacao) {
+    public ResponseEntity<Page<Certificado>> buscarTodos(@PageableDefault(page = 0,size = 10) Pageable paginacao) {
         return ResponseEntity.ok().body(certificacoesRepository.findAll(paginacao));
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity buscarPorAssistencia(@PathVariable Long id){
-        return ResponseEntity.status(200).body(certificacoesRepository.todosCertificadosDeUmaAssistencia(id));
     }
 }

@@ -1,5 +1,6 @@
 package br.com.ezfix.api.repository;
 
+import br.com.ezfix.api.controller.response.Pedidos;
 import br.com.ezfix.api.model.Orcamento;
 import br.com.ezfix.api.util.FilaObj;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -22,4 +23,10 @@ public interface OrcamentoRepository extends JpaRepository<Orcamento, Long> {
     @Modifying
     @Query("update Orcamento o set o.statusGeral = ?2 where o.id = ?1")
     void atualizaStatus(Long id,String status);
+
+    @Query("select new br.com.ezfix.api.controller.response.Pedidos(o.id, o.assistencia.id, o.assistencia.nomeFantasia, o.statusGeral) from Orcamento o join o.assistencia where o.solicitante.cpf = ?1")
+    List<Pedidos> getPedidos(String cpf);
+
+    @Query("select o.id from Orcamento o where o.id = (select max(u.id) from Orcamento u)")
+    Long getUltimoId();
 }

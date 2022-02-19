@@ -23,18 +23,12 @@ public class Orcamento {
     @ManyToOne
     private Assistencia assistencia;
 
-    @OneToMany
-    private List<ItemOrcamento> itens;
-
     public Orcamento() {
     }
 
-    public Orcamento(Solicitante solicitante, Assistencia assistencia, List<ItemOrcamento> itens) {
-        this.valorTotal = valorTotal;
-        this.statusGeral = statusGeral;
-        this.solicitante = solicitante;
-        this.assistencia = assistencia;
-        this.itens = itens;
+    public Orcamento(String solicitante, Long assistencia) {
+        this.solicitante = new Solicitante(solicitante);
+        this.assistencia = new Assistencia(assistencia);
     }
 
     public Long getId() {
@@ -75,14 +69,6 @@ public class Orcamento {
 
     public void setAssistencia(Assistencia assistencia) {
         this.assistencia = assistencia;
-    }
-
-    public List<ItemOrcamento> getItens() {
-        return itens;
-    }
-
-    public void setItens(List<ItemOrcamento> itens) {
-        this.itens = itens;
     }
 
     public String getDataSolicitacao() {

@@ -2,6 +2,7 @@ package br.com.ezfix.api.controller;
 
 import br.com.ezfix.api.controller.request.AttTelefone;
 import br.com.ezfix.api.controller.response.CardAsssitencia;
+import br.com.ezfix.api.controller.response.PerfilAssistencia;
 import br.com.ezfix.api.model.Assistencia;
 import br.com.ezfix.api.repository.AssistenciaRepository;
 import br.com.ezfix.api.repository.ServicosRepository;
@@ -63,7 +64,17 @@ public class AssistenciaController{
 
     @GetMapping("/card-assistencia")
     public ResponseEntity<Page<CardAsssitencia>> todosCard(@PageableDefault(page = 0,size = 9) Pageable paginacao){
-        return ResponseEntity.ok().body(assistenciaRepository.todosCardAssistencia(paginacao));
+        Page p = assistenciaRepository.todosCardAssistencia(paginacao);
+        return p.getNumberOfElements() > 0? ResponseEntity.ok().body(p):
+                ResponseEntity.status(204).build();
+    }
+
+    @GetMapping("/perfil-assistencia/{id}")
+    public ResponseEntity<PerfilAssistencia> buscaPerfilAssistencia(@PathVariable Long id){
+
+        return assistenciaRepository.existsById(id)?
+                ResponseEntity.ok().body(assistenciaRepository.buscaPerfilAssistenciaPorId(id)):
+                ResponseEntity.status(404).build();
     }
 
     @GetMapping("/perfil/{id}")

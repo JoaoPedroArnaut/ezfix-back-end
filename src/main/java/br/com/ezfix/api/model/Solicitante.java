@@ -34,6 +34,10 @@ public class Solicitante {
 
     }
 
+    public Solicitante(String cpf) {
+        this.cpf = cpf;
+    }
+
     public Solicitante(String cpf, String nome, LocalDate dataNascimento, String telefonePrimario, String telefoneSecundario, List<EnderecoEspecifico> enderecoEspecificos, Usuario usuario) {
         this.cpf = cpf;
         this.nome = nome;

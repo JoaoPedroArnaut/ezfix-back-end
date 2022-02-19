@@ -65,6 +65,12 @@ public class SolicitanteController {
         return ResponseEntity.status(200).body(solicitanteRepository.findByUsuarioEmail(tokenService.getIdUsuario(token.substring(7))));
     }
 
+    @GetMapping("/simples")
+    public ResponseEntity getUsuarioSimples(@RequestHeader(value = "Authorization") String token){
+        return ResponseEntity.status(200).body(solicitanteRepository.getUsuarioSimples(tokenService.getIdUsuario(token.substring(7))));
+    }
+
+
     @GetMapping("/email/{email}")
     public ResponseEntity buscarUsuarioPorEmail(@PathVariable String email){
         return ResponseEntity.status(200).body(solicitanteRepository.findByUsuarioEmail(email));

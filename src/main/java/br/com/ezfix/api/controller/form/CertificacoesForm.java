@@ -1,7 +1,6 @@
 package br.com.ezfix.api.controller.form;
 
-import br.com.ezfix.api.model.Assistencia;
-import br.com.ezfix.api.model.Certificacao;
+import br.com.ezfix.api.model.Certificado;
 
 import java.time.LocalDate;
 
@@ -11,7 +10,7 @@ public class CertificacoesForm {
     private Long quantidadeHoras; //confirmar qual seria o melhor tipo para essa coluna;
     private LocalDate dataInicio;
     private LocalDate dataConclusao;
-    private Certificacao certificacao;
+    private Certificado certificado;
 
 
     public CertificacoesForm(String nomeCurso, Long quantidadeHoras, LocalDate dataInicio, LocalDate dataConclusao) {
@@ -21,17 +20,16 @@ public class CertificacoesForm {
         this.dataConclusao = dataConclusao;
     }
 
-    public Certificacao getCertificacoes() {
-        return certificacao;
+    public Certificado getCertificacoes() {
+        return certificado;
     }
 
-    public void converterCertificacoes(Assistencia assistencia){
-        this.certificacao = new Certificacao(
+    public void converterCertificacoes(){
+        this.certificado = new Certificado(
                 this.nomeCurso,
                 this.quantidadeHoras,
                 this.dataInicio,
-                this.dataConclusao,
-                assistencia
+                this.dataConclusao
         );
     }
 }

@@ -36,6 +36,10 @@ public class Assistencia {
     public Assistencia() {
     }
 
+    public Assistencia(Long id) {
+        this.id = id;
+    }
+
     public Assistencia(String nomeFantasia, String telefonePrimario, String telefoneSecundario, Representante representante, EnderecoEspecifico enderecoEspecificos, Plano plano) {
         this.nomeFantasia = nomeFantasia;
         this.telefonePrimario = telefonePrimario;

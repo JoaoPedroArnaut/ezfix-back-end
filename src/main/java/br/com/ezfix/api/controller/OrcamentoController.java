@@ -1,9 +1,11 @@
 package br.com.ezfix.api.controller;
 
+import br.com.ezfix.api.config.security.TokenService;
 import br.com.ezfix.api.controller.form.ItemEditarForm;
 import br.com.ezfix.api.controller.form.ItemForm;
 import br.com.ezfix.api.controller.form.OrcamentoForm;
 import br.com.ezfix.api.controller.request.AtualizarStatusPedido;
+import br.com.ezfix.api.controller.response.Pedidos;
 import br.com.ezfix.api.model.ItemOrcamento;
 import br.com.ezfix.api.model.Orcamento;
 import br.com.ezfix.api.model.Produto;
@@ -47,9 +49,12 @@ public class OrcamentoController{
     @Autowired
     private ComentarioRepository comentarioRepository;
 
+    @Autowired
+    private TokenService tokenService;
+
     @PostMapping("/{idSolicitante}/{idAssistencia}")
     private ResponseEntity novoOrcamento(
-            @RequestBody List<ItemForm> itens,
+            @RequestBody List<ItemOrcamento> itens,
             @PathVariable String idSolicitante,
             @PathVariable Long idAssistencia
     ){
@@ -62,109 +67,29 @@ public class OrcamentoController{
             return ResponseEntity.status(404).build();
         }
 
-        List<ItemOrcamento> itemOrcamentos = new ArrayList<>();
+        Orcamento orcamento = new Orcamento(idSolicitante, idAssistencia);
+        orcamentoRepository.save(orcamento);
+        orcamento.setId(orcamentoRepository.getUltimoId());
 
-        for (ItemForm itemForm : itens){
-            ItemOrcamento item = itemForm.converterItem(produtoRepository.findByMarcaAndModelo(itemForm.getMarca(),itemForm.getModelo()));
-            itemOrcamentoRepository.save(item);
-            itemOrcamentos.add(item);
+
+        for (ItemOrcamento itemOrcamento: itens){
+            itemOrcamento.setOrcamento(orcamento);
         }
 
-        orcamentoRepository.save(
-                new Orcamento(
-                    solicitanteRepository.findById(idSolicitante).get(),
-                    assistenciaRepository.findById(idAssistencia).get(),
-                        itemOrcamentos
-                )
-        );
+        itemOrcamentoRepository.saveAll(itens);
 
         return ResponseEntity.status(201).build();
     }
 
-    @PostMapping("/txt/{idSolicitante}/{idAssistencia}")
-    private ResponseEntity novoOrcamentoporTxt(
-            @RequestParam MultipartFile itens,
-            @PathVariable String idSolicitante,
-            @PathVariable Long idAssistencia
-    ) {
-
-        if(!solicitanteRepository.existsById(idSolicitante)){
-            return ResponseEntity.status(404).build();
-        }
-
-        if(!assistenciaRepository.existsById(idAssistencia)){
-            return ResponseEntity.status(404).build();
-        }
-
-        List<ItemOrcamento> itemOrcamentos = new ArrayList<>();
-//        File txt = new File("/opt/ezfix/provisorio.txt");
-        File txt = new File("src/main/resources/provisorio.txt");
-
-        FilaObj<ItemOrcamento> filaObj = new FilaObj<>(1000);
-        try {
-            txt.delete();
-            txt.createNewFile();
-            itens.transferTo(txt.getAbsoluteFile());
-            BufferedReader entrada = new BufferedReader(new FileReader(txt));
-            String register = entrada.readLine();
-
-
-            String registerType;
-            while (register != null) {
-                registerType = register.substring(0, 2);
-                switch (registerType) {
-                    case "00":
-                        System.out.println("----------Header----------");
-                        System.out.println("Tipo do arquivo: " + register.substring(2, 15).trim());
-                        System.out.println("Data/Hora de geração do arquivo: " + register.substring(16, 34).trim());
-                        break;
-                    case "02":
-                        System.out.println("----------Registro do Body (Produto)----------");
-                        ItemOrcamento item = new ItemOrcamento();
-                        item.setProduto(new Produto());
-                        item.getProduto().setId(Long.parseLong(register.substring(3, 6).trim()));
-                        item.setProblema(register.substring(6, 26).trim());
-                        item.getProduto().setTipo(register.substring(27, 36).trim());
-                        item.getProduto().setMarca(register.substring(37, 46).trim());
-                        item.getProduto().setModelo(register.substring(47, 51).trim());
-                        filaObj.insert(item);
-                        break;
-                    case "01":
-                        System.out.println("----------Trailer----------");
-                        System.out.println(Integer.valueOf(register.substring(3, 7).trim()));
-                        break;
-                    default:
-                        System.out.println("Tipo de registro inválido");
-                        break;
-                }
-
-                register = entrada.readLine();
-            }
-
-            entrada.close();
-
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        while (!filaObj.isEmpty()){
-            ItemOrcamento item = filaObj.poll();
-            itemOrcamentos.add(item);
-
-            itemOrcamentoRepository.save(item);
-        }
-
-        orcamentoRepository.save(
-                new Orcamento(
-                        solicitanteRepository.findById(idSolicitante).get(),
-                        assistenciaRepository.findById(idAssistencia).get(),
-                        itemOrcamentos
-                )
-        );
-
-        return ResponseEntity.status(201).build();
+    @GetMapping("/pedidos")
+    public ResponseEntity getPedidos(@RequestHeader(value = "Authorization") String token){
+        String cpf = solicitanteRepository.getCpfByEmail(tokenService.getIdUsuario(token.substring(7)));
+        List<Pedidos> pedidos = orcamentoRepository.getPedidos(cpf);
+        pedidos.forEach(pedido -> {
+            pedido.setItens(itemOrcamentoRepository.getItemOrcamento(pedido.getIdOrcamento()));
+        });
+        return ResponseEntity.ok().body(pedidos);
     }
-
-
 
     @PostMapping("/{id}")
     public ResponseEntity adicionaItem(@PathVariable Long id,@RequestBody ItemForm itemForm){
@@ -176,7 +101,6 @@ public class OrcamentoController{
         ItemOrcamento novoItem = itemForm.converterItem(produtoRepository.findById(id).get());
 
         Orcamento orcamento = orcamentoRepository.findById(id).get();
-        orcamento.getItens().add(novoItem);
 
         itemOrcamentoRepository.save(novoItem);
         orcamentoRepository.save(orcamento);
@@ -261,79 +185,11 @@ public class OrcamentoController{
 
     }
 
-    @GetMapping("/assistencia/novo/{id}")
-    public ResponseEntity buscarNovosOrcamentos(@PathVariable Long id){
-        if(!assistenciaRepository.existsById(id)){
-            return ResponseEntity.status(404).build();
-        }
-
-        List<Orcamento> orcamentos = orcamentoRepository.findAllByAssistenciaIdAndStatusGeral(id,"agurdando resposta tecnico");
-
-        orcamentos = orcamentos.stream().sorted(Comparator.comparing(Orcamento::getDataSolicitacao)).collect(Collectors.toList());
-        FilaObj<Orcamento> orcamentoFilaObj = new FilaObj<>(orcamentos.size());
-
-        for (Orcamento o : orcamentos){
-            orcamentoFilaObj.insert(o);
-        }
-        if(orcamentos.isEmpty()){
-            return ResponseEntity.status(204).build();
-        }
-        return ResponseEntity.ok().body(orcamentoFilaObj);
-
-    }
-
     @GetMapping("/count/{id}")
     public ResponseEntity totalOrcamentosDia(@PathVariable Long id){
         if (!assistenciaRepository.existsById(id)){
             return ResponseEntity.status(404).build();
         }
         return ResponseEntity.ok().body(Arrays.asList(orcamentoRepository.totalOrcamentoDia(id),comentarioRepository.contarTodosComentariosHoje(id)));
-    }
-
-    @GetMapping("/nota/{id}")
-    public ResponseEntity gerarNota(@PathVariable Long id) throws IOException {
-        if(!orcamentoRepository.existsById(id)){
-            return ResponseEntity.status(404).build();
-        }
-        Orcamento orcamento = orcamentoRepository.findById(id).get();
-//        File txt = new File("/opt/ezfix/nota.txt");
-        File txt = new File("src/main/resources/nota.txt");
-        txt.delete();
-//        BufferedWriter saida = new BufferedWriter (new FileWriter("/opt/ezfix/nota.txt", true));
-        BufferedWriter saida = new BufferedWriter (new FileWriter("src/main/resources/nota.txt", true));
-
-
-        // Monta o registro de header
-        String header = "00LISTAPRODUTOS";
-        Date dataDeHoje = new Date();
-        SimpleDateFormat formataData =
-                new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-        header += formataData.format(dataDeHoje);
-        header += "01";
-
-        // Grava o registro do header
-        saida.append(header + "\n");
-
-        // Monta e grava o corpo
-        for (ItemOrcamento i : orcamento.getItens()) {
-            String corpo = "02";
-            corpo += String.format("%04d",i.getProduto().getId());
-            corpo += String.format("%-20.20s",  i.getProblema());
-            corpo += String.format("%-10.10s", i.getProduto().getTipo());
-            corpo += String.format("%-10.10s", i.getProduto().getMarca());
-            corpo += String.format("%-15.15s", i.getProduto().getModelo());
-            saida.append(corpo + "\n");
-        }
-
-
-        // Monta e grava o trailer
-        String trailer = "01";
-        trailer += String.format("%05d", orcamento.getItens().size());
-        saida.append(trailer + "\n");
-
-        saida.close();
-
-        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
-                "attachment; filename=\"" + txt.getName() + "\"").body(FileUtils.readFileToByteArray(txt));
     }
 }

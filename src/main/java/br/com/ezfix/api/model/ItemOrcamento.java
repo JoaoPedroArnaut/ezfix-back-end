@@ -15,6 +15,9 @@ public class ItemOrcamento {
     @ManyToOne
     private Produto produto;
 
+    @ManyToOne
+    private Orcamento orcamento;
+
     public ItemOrcamento() {
     }
 
@@ -70,5 +73,13 @@ public class ItemOrcamento {
 
     public void setProduto(Produto produto) {
         this.produto = produto;
+    }
+
+    public Orcamento getOrcamento() {
+        return orcamento;
+    }
+
+    public void setOrcamento(Orcamento orcamento) {
+        this.orcamento = orcamento;
     }
 }

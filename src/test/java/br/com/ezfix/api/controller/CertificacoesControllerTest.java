@@ -37,10 +37,5 @@ class CertificacoesControllerTest {
 //        assertEquals(404,controller.atualizar(1l, new CertificacoesForm()).getStatusCodeValue());
 //    }
 
-    @Test
-    void buscaPorASssistencia_idInvalido_404(){
-        assertEquals(404, controller.buscarPorAssistencia(1l).getStatusCodeValue());
-    }
-
 
 }

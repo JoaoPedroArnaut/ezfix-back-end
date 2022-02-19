@@ -1,6 +1,7 @@
 package br.com.ezfix.api.repository;
 
 import br.com.ezfix.api.controller.response.CardAsssitencia;
+import br.com.ezfix.api.controller.response.PerfilAssistencia;
 import br.com.ezfix.api.model.Assistencia;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,4 +25,7 @@ public interface AssistenciaRepository extends JpaRepository<Assistencia,Long> {
 
     @Query("select new br.com.ezfix.api.controller.response.CardAsssitencia(a.id,a.nomeFantasia,a.avaliacao,a.enderecoEspecificos.enderecoGeral.cidade,a.enderecoEspecificos.enderecoGeral.estado) from Assistencia a")
     Page<CardAsssitencia> todosCardAssistencia(Pageable pageable);
+
+    @Query("select new br.com.ezfix.api.controller.response.PerfilAssistencia(a.nomeFantasia,a.avaliacao,a.enderecoEspecificos.enderecoGeral.cidade,a.enderecoEspecificos.enderecoGeral.estado) from Assistencia a where  a.id = ?1")
+    PerfilAssistencia buscaPerfilAssistenciaPorId(Long id);
 }

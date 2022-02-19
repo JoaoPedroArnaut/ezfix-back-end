@@ -1,7 +1,14 @@
 package br.com.ezfix.api.repository;
 
+import br.com.ezfix.api.controller.response.ItemOrcamentoSimples;
 import br.com.ezfix.api.model.ItemOrcamento;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import java.util.List;
 
 public interface ItemOrcamentoRepository extends JpaRepository<ItemOrcamento, Long> {
+
+    @Query("select new br.com.ezfix.api.controller.response.ItemOrcamentoSimples(i.produto.marca, i.produto.modelo) from ItemOrcamento i join i.produto where i.orcamento.id = ?1")
+    List<ItemOrcamentoSimples> getItemOrcamento(Long id);
 }
