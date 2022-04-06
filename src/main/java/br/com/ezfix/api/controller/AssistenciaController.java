@@ -5,6 +5,7 @@ import br.com.ezfix.api.controller.response.CardAsssitencia;
 import br.com.ezfix.api.controller.response.PerfilAssistencia;
 import br.com.ezfix.api.model.Assistencia;
 import br.com.ezfix.api.repository.AssistenciaRepository;
+import br.com.ezfix.api.repository.CertificadoRepository;
 import br.com.ezfix.api.repository.ServicosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -25,6 +26,9 @@ public class AssistenciaController{
 
     @Autowired
     private ServicosRepository servicosRepository;
+
+    @Autowired
+    private CertificadoRepository certificadoRepository;
 
 
     @PostMapping("/perfil/{id}")
@@ -70,11 +74,16 @@ public class AssistenciaController{
     }
 
     @GetMapping("/perfil-assistencia/{id}")
-    public ResponseEntity<PerfilAssistencia> buscaPerfilAssistencia(@PathVariable Long id){
+    public ResponseEntity<?> buscaPerfilAssistencia(@PathVariable Long id){
 
-        return assistenciaRepository.existsById(id)?
-                ResponseEntity.ok().body(assistenciaRepository.buscaPerfilAssistenciaPorId(id)):
-                ResponseEntity.status(404).build();
+        if(!assistenciaRepository.existsById(id)){
+            return ResponseEntity.status(404).build();
+        }
+
+        PerfilAssistencia perfilAssistencia = assistenciaRepository.buscaPerfilAssistenciaPorId(id);
+        perfilAssistencia.setCertificados(certificadoRepository.getCertificadosSemAnexo(id));
+
+        return ResponseEntity.ok().body(perfilAssistencia);
     }
 
     @GetMapping("/perfil/{id}")

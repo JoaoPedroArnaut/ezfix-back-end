@@ -52,7 +52,7 @@ public class OrcamentoController{
     @Autowired
     private TokenService tokenService;
 
-    @PostMapping("/{idSolicitante}/{idAssistencia}")
+    @PostMapping("/{idAssistencia}")
     private ResponseEntity novoOrcamento(
             @RequestBody List<ItemOrcamento> itens,
             @PathVariable String idSolicitante,

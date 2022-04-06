@@ -24,16 +24,18 @@ public class Certificado {
     private byte[] anexo;
 
     @ManyToOne
-    Assistencia assistencia;
+    private Assistencia assistencia;
 
     public Certificado() {
     }
 
-    public Certificado(String nomeCurso, Long quantidadeHoras, LocalDate dataInicio, LocalDate dataConclusao) {
+    public Certificado(Long id, String nomeCurso, Long quantidadeHoras, LocalDate dataInicio, LocalDate dataConclusao, Assistencia assistencia) {
+        this.id = id;
         this.nomeCurso = nomeCurso;
         this.quantidadeHoras = quantidadeHoras;
         this.dataInicio = dataInicio;
         this.dataConclusao = dataConclusao;
+        this.assistencia = assistencia;
     }
 
     public Long getId() {
@@ -82,5 +84,13 @@ public class Certificado {
 
     public void setAnexo(byte[] anexo) {
         this.anexo = anexo;
+    }
+
+    public Assistencia getAssistencia() {
+        return assistencia;
+    }
+
+    public void setAssistencia(Assistencia assistencia) {
+        this.assistencia = assistencia;
     }
 }

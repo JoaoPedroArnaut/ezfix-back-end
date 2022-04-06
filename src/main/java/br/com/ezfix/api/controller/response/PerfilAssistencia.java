@@ -10,6 +10,7 @@ public class PerfilAssistencia {
     private Double avaliacao;
     private String cidade;
     private String estado;
+    private List<CertificadoSemAnexo> certificados;
 
     public PerfilAssistencia(String nomeFantasia, Double avaliacao, String cidade, String estado) {
         this.nomeFantasia = nomeFantasia;
@@ -32,5 +33,13 @@ public class PerfilAssistencia {
 
     public String getEstado() {
         return estado;
+    }
+
+    public List<CertificadoSemAnexo> getCertificados() {
+        return certificados;
+    }
+
+    public void setCertificados(List<CertificadoSemAnexo> certificados) {
+        this.certificados = certificados;
     }
 }

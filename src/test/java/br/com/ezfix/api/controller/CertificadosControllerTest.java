@@ -1,8 +1,7 @@
 package br.com.ezfix.api.controller;
 
-import br.com.ezfix.api.controller.form.CertificacoesForm;
 import br.com.ezfix.api.repository.AssistenciaRepository;
-import br.com.ezfix.api.repository.CertificacoesRepository;
+import br.com.ezfix.api.repository.CertificadoRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -10,14 +9,14 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@SpringBootTest(classes = {CertificacoesController.class, CertificacoesRepository.class})
-class CertificacoesControllerTest {
+@SpringBootTest(classes = {CertificadosController.class, CertificadoRepository.class})
+class CertificadosControllerTest {
 
     @Autowired
-    CertificacoesController controller;
+    CertificadosController controller;
 
     @MockBean
-    CertificacoesRepository repository;
+    CertificadoRepository repository;
 
     @MockBean
     AssistenciaRepository assistenciaRepository;
