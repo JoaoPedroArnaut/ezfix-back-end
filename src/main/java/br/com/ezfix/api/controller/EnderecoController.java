@@ -39,7 +39,6 @@ public class EnderecoController {
         }
         enderecoEspecificoRepository.save(enderecoForm.getEnderecoEspecifico());
         Solicitante solicitante = solicitanteRepository.findById(id).get();
-        solicitante.getEnderecoEspecificos().add(enderecoForm.getEnderecoEspecifico());
         solicitanteRepository.save(solicitante);
         return ResponseEntity.ok().build();
     }

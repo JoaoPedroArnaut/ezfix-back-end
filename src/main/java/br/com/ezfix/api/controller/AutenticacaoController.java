@@ -6,6 +6,7 @@ import br.com.ezfix.api.controller.form.CadastroForm;
 import br.com.ezfix.api.controller.form.LoginForm;
 import br.com.ezfix.api.controller.form.SolicitanteForm;
 import br.com.ezfix.api.controller.dto.TokenDto;
+import br.com.ezfix.api.model.EnderecosSolicitante;
 import br.com.ezfix.api.model.Perfil;
 import br.com.ezfix.api.repository.*;
 import br.com.ezfix.api.util.PilhaObj;
@@ -52,6 +53,9 @@ public class AutenticacaoController {
     private AssistenciaRepository assistenciaRepository;
 
     @Autowired
+    private EnderecosSolicitanteRepository enderecosSolicitanteRepository;
+
+    @Autowired
     private PerfisRepository perfisRepository;
 
     @Autowired
@@ -84,28 +88,18 @@ public class AutenticacaoController {
             return ResponseEntity.status(409).body("Cpf já cadastrado por favor faça o login");
         }
 
-        try {
-            usuarioRepository.save(solicitanteForm.getUsuarios());
-            salvaEstado(usuarioRepository, solicitanteForm.getUsuarios().getEmail());
-            if (!enderecoGeralRepository.existsById(solicitanteForm.getCep())) {
-                enderecoGeralRepository.save(solicitanteForm.getEnderecosGeral());
-                salvaEstado(enderecoGeralRepository,solicitanteForm.getEnderecosGeral().getCep());
-            }
-            enderecoEspecificoRepository.save(solicitanteForm.getEnderecoEspecifico());
-            salvaEstado(enderecoEspecificoRepository, enderecoEspecificoRepository.findFirstByOrderByIdDesc().getId());
-            solicitanteForm.getSolicitante().setPerfil(FileUtils.readFileToByteArray(
-                    new File("/opt/ezfix/blank-profile-picture-973460_960_720.webp")));
-//                    new File("src/main/resources/blank-profile-picture-973460_960_720.webp")));
-            solicitanteRepository.save(solicitanteForm.getSolicitante());
-            salvaEstado(solicitanteRepository,solicitanteForm.getSolicitante().getCpf());
-        } catch (Exception e) {
-            while (!pilhaObj.isEmpty()) {
-                pilhaObj.pop().revert();
-            }
-            e.printStackTrace();
-            return ResponseEntity.status(400).build();
-        }
+        usuarioRepository.save(solicitanteForm.getUsuarios());
 
+        if (!enderecoGeralRepository.existsById(solicitanteForm.getCep())) {
+            enderecoGeralRepository.save(solicitanteForm.getEnderecosGeral());
+        }
+        enderecoEspecificoRepository.save(solicitanteForm.getEnderecoEspecifico());
+
+        solicitanteForm.getSolicitante().setPerfil(FileUtils.readFileToByteArray(
+                    new File("/opt/ezfix/blank-profile-picture-973460_960_720.webp")));
+//                new File("src/main/resources/blank-profile-picture-973460_960_720.webp")));
+        solicitanteRepository.save(solicitanteForm.getSolicitante());
+        enderecosSolicitanteRepository.save(new EnderecosSolicitante(solicitanteForm.getSolicitante(),solicitanteForm.getEnderecoEspecifico()));
 
         return ResponseEntity.status(201).build();
     }
@@ -125,29 +119,18 @@ public class AutenticacaoController {
             return ResponseEntity.status(409).body("Documento já cadastrado por favor faça o login");
         }
 
-        try {
-            usuarioRepository.save(assistenciaForm.getUsuarios());
-            salvaEstado(usuarioRepository, assistenciaForm.getUsuarios().getEmail());
-            if (!enderecoGeralRepository.existsById(assistenciaForm.getCep())) {
-                enderecoGeralRepository.save(assistenciaForm.getEnderecosGeral());
-                salvaEstado(enderecoGeralRepository, assistenciaForm.getEnderecosGeral().getCep());
-            }
-            representanteRepository.save(assistenciaForm.getRepresentantes());
-            salvaEstado(representanteRepository, assistenciaForm.getRepresentantes().getDocumento());
-            enderecoEspecificoRepository.save(assistenciaForm.getEnderecoEspecifico());
-            salvaEstado(enderecoEspecificoRepository, enderecoEspecificoRepository.findFirstByOrderByIdDesc().getId());
-            assistenciaForm.getAssistencias().setPerfil(FileUtils.readFileToByteArray(
-                    new File("/opt/ezfix/blank-profile-picture-973460_960_720.webp")));
-//                    new File("src/main/resources/blank-profile-picture-973460_960_720.webp")));
-            assistenciaRepository.save(assistenciaForm.getAssistencias());
-            salvaEstado(assistenciaRepository, assistenciaRepository.findFirstByOrderByIdDesc().getId());
-        } catch (Exception e) {
-            while (!pilhaObj.isEmpty()) {
-                pilhaObj.pop().revert();
-            }
-            e.printStackTrace();
-            return ResponseEntity.status(400).build();
+        usuarioRepository.save(assistenciaForm.getUsuarios());
+
+        if (!enderecoGeralRepository.existsById(assistenciaForm.getCep())) {
+            enderecoGeralRepository.save(assistenciaForm.getEnderecosGeral());
         }
+        representanteRepository.save(assistenciaForm.getRepresentantes());
+        enderecoEspecificoRepository.save(assistenciaForm.getEnderecoEspecifico());
+
+        assistenciaForm.getAssistencias().setPerfil(FileUtils.readFileToByteArray(
+                    new File("/opt/ezfix/blank-profile-picture-973460_960_720.webp")));
+//                new File("src/main/resources/blank-profile-picture-973460_960_720.webp")));
+        assistenciaRepository.save(assistenciaForm.getAssistencias());
 
         return ResponseEntity.status(201).build();
     }

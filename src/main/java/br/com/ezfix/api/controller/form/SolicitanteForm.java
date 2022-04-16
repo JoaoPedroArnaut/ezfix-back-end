@@ -39,7 +39,6 @@ public class SolicitanteForm extends CadastroForm{
                 super.getDataNascimento(),
                 this.telefonePrimario,
                 this.telefoneSecundario,
-                Arrays.asList(super.getEnderecoEspecifico()),
                 super.getUsuarios()
         );
     }

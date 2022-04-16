@@ -24,9 +24,6 @@ public class Solicitante {
     @Column(length = 20_000_000)
     private byte[] perfil;
 
-    @OneToMany
-    private List<EnderecoEspecifico> enderecoEspecificos;
-
     @OneToOne
     private Usuario usuario;
 
@@ -38,13 +35,12 @@ public class Solicitante {
         this.cpf = cpf;
     }
 
-    public Solicitante(String cpf, String nome, LocalDate dataNascimento, String telefonePrimario, String telefoneSecundario, List<EnderecoEspecifico> enderecoEspecificos, Usuario usuario) {
+    public Solicitante(String cpf, String nome, LocalDate dataNascimento, String telefonePrimario, String telefoneSecundario, Usuario usuario) {
         this.cpf = cpf;
         this.nome = nome;
         this.dataNascimento = dataNascimento;
         this.telefonePrimario = telefonePrimario;
         this.telefoneSecundario = telefoneSecundario;
-        this.enderecoEspecificos = enderecoEspecificos;
         this.usuario = usuario;
     }
 
@@ -94,14 +90,6 @@ public class Solicitante {
 
     public void setPerfil(byte[] perfil) {
         this.perfil = perfil;
-    }
-
-    public List<EnderecoEspecifico> getEnderecoEspecificos() {
-        return enderecoEspecificos;
-    }
-
-    public void setEnderecoEspecificos(List<EnderecoEspecifico> enderecoEspecificos) {
-        this.enderecoEspecificos = enderecoEspecificos;
     }
 
     public Usuario getUsuario() {

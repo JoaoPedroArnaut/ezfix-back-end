@@ -1,8 +1,10 @@
 package br.com.ezfix.api.controller;
 
 import br.com.ezfix.api.config.security.TokenService;
+import br.com.ezfix.api.controller.response.PerfilSolicitante;
 import br.com.ezfix.api.model.Solicitante;
 import br.com.ezfix.api.model.Usuario;
+import br.com.ezfix.api.repository.EnderecosSolicitanteRepository;
 import br.com.ezfix.api.repository.SolicitanteRepository;
 import br.com.ezfix.api.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,9 @@ public class SolicitanteController {
     private UsuarioRepository usuarioRepository;
 
     @Autowired
+    private EnderecosSolicitanteRepository enderecosSolicitanteRepository;
+
+    @Autowired
     private TokenService tokenService;
 
     @GetMapping
@@ -34,9 +39,10 @@ public class SolicitanteController {
         return ResponseEntity.ok().body(solicitanteRepository.findAll(paginacao));
     }
 
-    @PostMapping("/perfil/{id}")
-    public ResponseEntity patchFoto(@PathVariable String id, @RequestParam MultipartFile img) throws IOException {
+    @PostMapping("/perfil")
+    public ResponseEntity patchFoto(@RequestParam MultipartFile img,@RequestHeader(value = "Authorization") String token) throws IOException {
 
+        String id = solicitanteRepository.getCpfByEmail(tokenService.getIdUsuario(token.substring(7)));
         if(!solicitanteRepository.existsById(id)){
             return ResponseEntity.status(404).build();
         }
@@ -68,6 +74,14 @@ public class SolicitanteController {
     @GetMapping("/simples")
     public ResponseEntity getUsuarioSimples(@RequestHeader(value = "Authorization") String token){
         return ResponseEntity.status(200).body(solicitanteRepository.getUsuarioSimples(tokenService.getIdUsuario(token.substring(7))));
+    }
+
+    @GetMapping("/perfil")
+    public ResponseEntity getPerfilSolicitante(@RequestHeader(value = "Authorization") String token){
+        PerfilSolicitante perfil = solicitanteRepository.getPerfilSolicitante(tokenService.getIdUsuario(token.substring(7)));
+        perfil.setEnderecoEspecificos(enderecosSolicitanteRepository.getEnderecos(perfil.getCpf()));
+
+        return ResponseEntity.status(200).body(perfil);
     }
 
 
