@@ -52,22 +52,18 @@ public class OrcamentoController{
     @Autowired
     private TokenService tokenService;
 
-    @PostMapping("/{idAssistencia}")
+    @PostMapping("/novo/{idAssistencia}")
     private ResponseEntity novoOrcamento(
             @RequestBody List<ItemOrcamento> itens,
-            @PathVariable String idSolicitante,
+            @RequestHeader(value = "Authorization") String token,
             @PathVariable Long idAssistencia
     ){
-
-        if(!solicitanteRepository.existsById(idSolicitante)){
-            return ResponseEntity.status(404).build();
-        }
 
         if(!assistenciaRepository.existsById(idAssistencia)){
             return ResponseEntity.status(404).build();
         }
 
-        Orcamento orcamento = new Orcamento(idSolicitante, idAssistencia);
+        Orcamento orcamento = new Orcamento(solicitanteRepository.getCpfByEmail(tokenService.getIdUsuario(token.substring(7))), idAssistencia);
         orcamentoRepository.save(orcamento);
         orcamento.setId(orcamentoRepository.getUltimoId());
 
@@ -91,22 +87,22 @@ public class OrcamentoController{
         return ResponseEntity.ok().body(pedidos);
     }
 
-    @PostMapping("/{id}")
-    public ResponseEntity adicionaItem(@PathVariable Long id,@RequestBody ItemForm itemForm){
-
-        if (!orcamentoRepository.existsById(id)){
-            return ResponseEntity.status(404).build();
-        }
-
-        ItemOrcamento novoItem = itemForm.converterItem(produtoRepository.findById(id).get());
-
-        Orcamento orcamento = orcamentoRepository.findById(id).get();
-
-        itemOrcamentoRepository.save(novoItem);
-        orcamentoRepository.save(orcamento);
-
-        return ResponseEntity.ok().build();
-    }
+//    @PostMapping("/{id}")
+//    public ResponseEntity adicionaItem(@PathVariable Long id,@RequestBody ItemForm itemForm){
+//
+//        if (!orcamentoRepository.existsById(id)){
+//            return ResponseEntity.status(404).build();
+//        }
+//
+//        ItemOrcamento novoItem = itemForm.converterItem(produtoRepository.findById(id).get());
+//
+//        Orcamento orcamento = orcamentoRepository.findById(id).get();
+//
+//        itemOrcamentoRepository.save(novoItem);
+//        orcamentoRepository.save(orcamento);
+//
+//        return ResponseEntity.ok().build();
+//    }
 
     @GetMapping
     public ResponseEntity buscarTodos(@PageableDefault(page = 0,size = 10) Pageable paginacao){
