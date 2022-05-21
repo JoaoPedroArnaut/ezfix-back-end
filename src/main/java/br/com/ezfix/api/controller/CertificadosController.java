@@ -1,5 +1,6 @@
 package br.com.ezfix.api.controller;
 
+import br.com.ezfix.api.model.Assistencia;
 import br.com.ezfix.api.model.Certificado;
 import br.com.ezfix.api.repository.AssistenciaRepository;
 import br.com.ezfix.api.repository.CertificadoRepository;
@@ -22,6 +23,7 @@ public class CertificadosController {
 
     @PostMapping("/{id}")
     public ResponseEntity<?> cadastrar(@RequestBody Certificado certificado, @PathVariable Long id){
+        certificado.setAssistencia(new Assistencia(id));
         certificadoRepository.save(certificado);
         return ResponseEntity.status(201).build();
     }
