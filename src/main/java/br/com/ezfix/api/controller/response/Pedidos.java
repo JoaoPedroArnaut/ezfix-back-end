@@ -1,6 +1,6 @@
 package br.com.ezfix.api.controller.response;
 
-import br.com.ezfix.api.model.ItemOrcamento;
+import br.com.ezfix.api.model.Produto;
 
 import java.util.List;
 

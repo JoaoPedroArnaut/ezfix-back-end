@@ -1,6 +1,5 @@
 package br.com.ezfix.api.controller.form;
 
-import br.com.ezfix.api.model.ItemOrcamento;
 import br.com.ezfix.api.model.Produto;
 
 public class ItemForm {
@@ -47,13 +46,5 @@ public class ItemForm {
 
     public void setModelo(String modelo) {
         this.modelo = modelo;
-    }
-
-    public ItemOrcamento converterItem(Produto produto){
-        return new ItemOrcamento(
-                this.problema,
-                this.descricao,
-                produto
-        );
     }
 }

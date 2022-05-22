@@ -53,7 +53,7 @@ public class OrcamentoController{
     private TokenService tokenService;
 
     @PostMapping("/novo/{idAssistencia}")
-    private ResponseEntity novoOrcamento(
+    public ResponseEntity novoOrcamento(
             @RequestBody List<ItemOrcamento> itens,
             @RequestHeader(value = "Authorization") String token,
             @PathVariable Long idAssistencia
@@ -127,12 +127,12 @@ public class OrcamentoController{
         Orcamento orcamento = orcamentoRepository.findById(id).get();
         orcamento.setStatusGeral(orcamentoForm.getStatus());
 
-        for (ItemEditarForm i : orcamentoForm.getItemEditarForms()){
-            ItemOrcamento item = itemOrcamentoRepository.findById(i.getI()).get();
-            item.setValorServico(i.getV());
-            orcamento.setValorTotal(orcamento.getValorTotal() + i.getV());
-            itemOrcamentoRepository.save(item);
-        }
+//        for (ItemEditarForm i : orcamentoForm.getItemEditarForms()){
+//            ItemOrcamento item = itemOrcamentoRepository.findById(i.getI()).get();
+//            item.setValorServico(i.getV());
+//            orcamento.setValorTotal(orcamento.getValorTotal() + i.getV());
+//            itemOrcamentoRepository.save(item);
+//        }
 
 
         orcamentoRepository.save(orcamento);

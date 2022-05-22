@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface ItemOrcamentoRepository extends JpaRepository<ItemOrcamento, Long> {
 
-    @Query("select new br.com.ezfix.api.controller.response.ItemOrcamentoSimples(i.produto.marca, i.produto.modelo) from ItemOrcamento i join i.produto where i.orcamento.id = ?1")
+
+    @Query("select new br.com.ezfix.api.controller.response.ItemOrcamentoSimples(i.produto.marca.nome, i.produto.modelo.nome) from ItemOrcamento i join i.produto where i.orcamento.id = ?1")
     List<ItemOrcamentoSimples> getItemOrcamento(Long id);
 }

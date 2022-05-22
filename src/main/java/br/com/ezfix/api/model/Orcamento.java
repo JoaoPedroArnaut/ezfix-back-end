@@ -86,4 +86,12 @@ public class Orcamento {
     public void setDataPrivista(LocalDate dataPrivista) {
         this.dataPrivista = dataPrivista;
     }
+
+    public LocalDate getDataCriacao() {
+        return dataCriacao;
+    }
+
+    public void setDataCriacao(LocalDate dataCriacao) {
+        this.dataCriacao = dataCriacao;
+    }
 }
