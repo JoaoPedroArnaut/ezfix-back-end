@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -39,27 +40,27 @@ public class ProdutoControler {
     public ResponseEntity<List<Tipo>> getTipos(){
         List<Tipo> tipos = tipoRepository.findAll();
 
-        return tipos.isEmpty() ? ResponseEntity.status(204).build(): ResponseEntity.status(200).body(tipos);
+        return tipos.isEmpty() ? ResponseEntity.status(204).body(new ArrayList<>()): ResponseEntity.status(200).body(tipos);
     }
 
     @GetMapping("/marcas/{id}")
     public ResponseEntity<List<Marca>> getMarcas(@PathVariable Long id){
         List<Marca> marcas = produtoRepository.obterPorTodosTipo(id);
 
-        return marcas.isEmpty() ? ResponseEntity.status(204).build(): ResponseEntity.status(200).body(marcas);
+        return marcas.isEmpty() ? ResponseEntity.status(204).body(new ArrayList<>()): ResponseEntity.status(200).body(marcas);
     }
 
     @GetMapping("/modelos/{idTipo}/{idMarca}")
     public ResponseEntity<List<Modelo>> getModelos(@PathVariable Long idTipo,@PathVariable Long idMarca){
         List<Modelo> modelos = produtoRepository.obterPorTodosTipoAndMarca(idTipo,idMarca);
 
-        return modelos.isEmpty() ? ResponseEntity.status(204).build(): ResponseEntity.status(200).body(modelos);
+        return modelos.isEmpty() ? ResponseEntity.status(204).body(new ArrayList<>()): ResponseEntity.status(200).body(modelos);
     }
 
     @GetMapping
     public ResponseEntity<List<Produto>> getProdutos(){
         List<Produto> produtos = produtoRepository.findAll();
 
-        return produtos.isEmpty() ? ResponseEntity.status(204).build(): ResponseEntity.status(200).body(produtos);
+        return produtos.isEmpty() ? ResponseEntity.status(204).body(new ArrayList<>()): ResponseEntity.status(200).body(produtos);
     }
 }

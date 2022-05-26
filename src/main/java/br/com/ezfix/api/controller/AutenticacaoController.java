@@ -6,6 +6,7 @@ import br.com.ezfix.api.controller.form.CadastroForm;
 import br.com.ezfix.api.controller.form.LoginForm;
 import br.com.ezfix.api.controller.form.SolicitanteForm;
 import br.com.ezfix.api.controller.dto.TokenDto;
+import br.com.ezfix.api.model.EnderecoAssistencia;
 import br.com.ezfix.api.model.EnderecosSolicitante;
 import br.com.ezfix.api.model.Perfil;
 import br.com.ezfix.api.repository.*;
@@ -54,6 +55,9 @@ public class AutenticacaoController {
 
     @Autowired
     private EnderecosSolicitanteRepository enderecosSolicitanteRepository;
+
+    @Autowired
+    private EnderecoAssistenciaRepository enderecoAssistenciaRepository;
 
     @Autowired
     private PerfisRepository perfisRepository;
@@ -131,6 +135,7 @@ public class AutenticacaoController {
 //                    new File("/opt/ezfix/blank-profile-picture-973460_960_720.webp")));
                 new File("src/main/resources/blank-profile-picture-973460_960_720.webp")));
         assistenciaRepository.save(assistenciaForm.getAssistencias());
+        enderecoAssistenciaRepository.save(new EnderecoAssistencia(assistenciaForm.getAssistencias(),assistenciaForm.getEnderecoEspecifico()));
 
         return ResponseEntity.status(201).build();
     }

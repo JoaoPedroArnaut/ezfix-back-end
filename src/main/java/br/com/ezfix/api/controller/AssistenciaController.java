@@ -2,10 +2,12 @@ package br.com.ezfix.api.controller;
 
 import br.com.ezfix.api.controller.request.AttTelefone;
 import br.com.ezfix.api.controller.response.CardAsssitencia;
+import br.com.ezfix.api.controller.response.CidadeEstado;
 import br.com.ezfix.api.controller.response.PerfilAssistencia;
 import br.com.ezfix.api.model.Assistencia;
 import br.com.ezfix.api.repository.AssistenciaRepository;
 import br.com.ezfix.api.repository.CertificadoRepository;
+import br.com.ezfix.api.repository.EnderecoAssistenciaRepository;
 import br.com.ezfix.api.repository.ServicosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -29,6 +31,9 @@ public class AssistenciaController{
 
     @Autowired
     private CertificadoRepository certificadoRepository;
+
+    @Autowired
+    private EnderecoAssistenciaRepository enderecoAssistenciaRepository;
 
 
     @PostMapping("/perfil/{id}")
@@ -68,7 +73,17 @@ public class AssistenciaController{
 
     @GetMapping("/card-assistencia")
     public ResponseEntity<Page<CardAsssitencia>> todosCard(@PageableDefault(page = 0,size = 9) Pageable paginacao){
-        Page p = assistenciaRepository.todosCardAssistencia(paginacao);
+        Page<CardAsssitencia> p = assistenciaRepository.todosCardAssistencia(paginacao);
+
+        for(CardAsssitencia c : p.getContent()){
+            CidadeEstado cidadeEstado = enderecoAssistenciaRepository.obterCidadeEstadoPorIdAssistencia(c.getId());
+            c.setCidade(cidadeEstado.getCidade());
+            c.setEstado(cidadeEstado.getEstado());
+        }
+
+
+
+
         return p.getNumberOfElements() > 0? ResponseEntity.ok().body(p):
                 ResponseEntity.status(204).build();
     }
@@ -81,6 +96,9 @@ public class AssistenciaController{
         }
 
         PerfilAssistencia perfilAssistencia = assistenciaRepository.buscaPerfilAssistenciaPorId(id);
+        CidadeEstado cidadeEstado = enderecoAssistenciaRepository.obterCidadeEstadoPorIdAssistencia(id);
+        perfilAssistencia.setCidade(cidadeEstado.getCidade());
+        perfilAssistencia.setEstado(cidadeEstado.getEstado());
         perfilAssistencia.setCertificados(certificadoRepository.getCertificadosSemAnexo(id));
 
         return ResponseEntity.ok().body(perfilAssistencia);

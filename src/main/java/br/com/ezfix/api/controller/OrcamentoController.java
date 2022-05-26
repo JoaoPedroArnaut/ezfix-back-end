@@ -5,6 +5,7 @@ import br.com.ezfix.api.controller.form.ItemEditarForm;
 import br.com.ezfix.api.controller.form.ItemForm;
 import br.com.ezfix.api.controller.form.OrcamentoForm;
 import br.com.ezfix.api.controller.request.AtualizarStatusPedido;
+import br.com.ezfix.api.controller.response.OrcamenteTecnico;
 import br.com.ezfix.api.controller.response.Pedidos;
 import br.com.ezfix.api.model.ItemOrcamento;
 import br.com.ezfix.api.model.Orcamento;
@@ -167,17 +168,22 @@ public class OrcamentoController{
         return ResponseEntity.status(404).build();
     }
 
-    @GetMapping("/assistencia/{id}")
-    public ResponseEntity buscarPorIdAssistencia(@PathVariable Long id){
+    @GetMapping("/assistencia")
+    public ResponseEntity getTodosOrcamentos(@RequestHeader(value = "Authorization") String token){
+
+        Long id = assistenciaRepository.getIdByEmail(tokenService.getIdUsuario(token.substring(7)));
+
         if(!assistenciaRepository.existsById(id)){
             return ResponseEntity.status(404).build();
         }
 
-        List<Orcamento> orcamentos = orcamentoRepository.findAllByAssistenciaId(id);
-        if(orcamentos.isEmpty()){
-            return ResponseEntity.status(204).build();
+        List<OrcamenteTecnico> orcamentos = orcamentoRepository.getOrcamentosTecnicoPorIdAssistencia(id);
+
+        for (OrcamenteTecnico o: orcamentos){
+            o.setItemOrcamentoList(itemOrcamentoRepository.getItemOrcamentoOnlyNames(o.getIdOrcamento()));
         }
-        return ResponseEntity.ok().body(orcamentos);
+
+        return orcamentos.isEmpty()? ResponseEntity.status(204).build():ResponseEntity.ok().body(orcamentos);
 
     }
 

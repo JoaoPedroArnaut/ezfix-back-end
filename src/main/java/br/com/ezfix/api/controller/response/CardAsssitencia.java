@@ -8,12 +8,10 @@ public class CardAsssitencia {
     private String cidade;
     private String estado;
 
-    public CardAsssitencia(Long id, String nomeFantasia, Double avaliacao, String cidade, String estado) {
+    public CardAsssitencia(Long id, String nomeFantasia, Double avaliacao) {
         this.id = id;
         this.nomeFantasia = nomeFantasia;
         this.avaliacao = avaliacao;
-        this.cidade = cidade;
-        this.estado = estado;
     }
 
     public Long getId() {
@@ -34,5 +32,13 @@ public class CardAsssitencia {
 
     public String getEstado() {
         return estado;
+    }
+
+    public void setCidade(String cidade) {
+        this.cidade = cidade;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 }

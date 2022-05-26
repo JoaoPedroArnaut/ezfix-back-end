@@ -56,7 +56,6 @@ public class AssistenciaForm extends CadastroForm{
                 this.telefonePrimario,
                 this.telefoneSecundario,
                 this.representante,
-                super.getEnderecoEspecifico(),
                 plano
         );
     }

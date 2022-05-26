@@ -12,11 +12,9 @@ public class PerfilAssistencia {
     private String estado;
     private List<CertificadoSemAnexo> certificados;
 
-    public PerfilAssistencia(String nomeFantasia, Double avaliacao, String cidade, String estado) {
+    public PerfilAssistencia(String nomeFantasia, Double avaliacao) {
         this.nomeFantasia = nomeFantasia;
         this.avaliacao = avaliacao;
-        this.cidade = cidade;
-        this.estado = estado;
     }
 
     public String getNomeFantasia() {
@@ -41,5 +39,13 @@ public class PerfilAssistencia {
 
     public void setCertificados(List<CertificadoSemAnexo> certificados) {
         this.certificados = certificados;
+    }
+
+    public void setCidade(String cidade) {
+        this.cidade = cidade;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 }

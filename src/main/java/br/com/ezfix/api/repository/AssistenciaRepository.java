@@ -23,9 +23,12 @@ public interface AssistenciaRepository extends JpaRepository<Assistencia,Long> {
     void atualizaTelefone(Long id, String tel1,String tel2);
 
 
-    @Query("select new br.com.ezfix.api.controller.response.CardAsssitencia(a.id,a.nomeFantasia,a.avaliacao,a.enderecoEspecificos.enderecoGeral.cidade,a.enderecoEspecificos.enderecoGeral.bairro) from Assistencia a")
+    @Query("select new br.com.ezfix.api.controller.response.CardAsssitencia(a.id,a.nomeFantasia,a.avaliacao) from Assistencia a")
     Page<CardAsssitencia> todosCardAssistencia(Pageable pageable);
 
-    @Query("select new br.com.ezfix.api.controller.response.PerfilAssistencia(a.nomeFantasia,a.avaliacao,a.enderecoEspecificos.enderecoGeral.cidade,a.enderecoEspecificos.enderecoGeral.estado) from Assistencia a where  a.id = ?1")
+    @Query("select new br.com.ezfix.api.controller.response.PerfilAssistencia(a.nomeFantasia,a.avaliacao) from Assistencia a where  a.id = ?1")
     PerfilAssistencia buscaPerfilAssistenciaPorId(Long id);
+
+    @Query("select a.id from Assistencia a where a.representante.usuario.email = ?1")
+    Long getIdByEmail(String email);
 }
