@@ -28,11 +28,11 @@ public interface OrcamentoRepository extends JpaRepository<Orcamento, Long> {
     @Query("select new br.com.ezfix.api.controller.response.Pedidos(o.id, o.assistencia.id, o.assistencia.nomeFantasia, o.statusGeral) from Orcamento o join o.assistencia where o.solicitante.cpf = ?1")
     List<Pedidos> getPedidos(String cpf);
 
-    @Query("select new br.com.ezfix.api.controller.response.OrcamenteTecnico(o.id, o.solicitante.nome, o.statusGeral, o.dataSolicitacao) from Orcamento o where o.assistencia.id = ?1")
+    @Query("select new br.com.ezfix.api.controller.response.OrcamenteTecnico(o.id, o.assistencia.id,o.solicitante.nome, o.assistencia.nomeFantasia, o.statusGeral, o.dataSolicitacao, o.valorTotal) from Orcamento o where o.assistencia.id = ?1")
     List<OrcamenteTecnico> getOrcamentosTecnicoPorIdAssistencia(Long id);
 
-    @Query("select new br.com.ezfix.api.controller.response.OrcamenteTecnico(o.id, o.solicitante.nome, o.statusGeral, o.dataSolicitacao) from Orcamento o where o.id = ?1")
-    List<OrcamenteTecnico> getOrcamentosTecnicoPorIdOrcamento(Long id);
+    @Query("select new br.com.ezfix.api.controller.response.OrcamenteTecnico(o.id, o.assistencia.id,o.solicitante.nome, o.assistencia.nomeFantasia, o.statusGeral, o.dataSolicitacao, o.valorTotal) from Orcamento o where o.id = ?1")
+    OrcamenteTecnico getOrcamentosTecnicoPorIdOrcamento(Long id);
 
     @Query("select o.id from Orcamento o where o.id = (select max(u.id) from Orcamento u)")
     Long getUltimoId();

@@ -2,16 +2,13 @@ package br.com.ezfix.api.controller.request;
 
 public class AtualizarStatusPedido {
 
-    private Long id;
     private String status;
 
-    public AtualizarStatusPedido(Long id, String status) {
-        this.id = id;
+    public AtualizarStatusPedido(String status) {
         this.status = status;
     }
 
-    public Long getId() {
-        return id;
+    public AtualizarStatusPedido() {
     }
 
     public String getStatus() {

@@ -119,34 +119,27 @@ public class OrcamentoController{
         return ResponseEntity.status(404).build();
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/atualizar-valor-orcamento/{id}")
     public ResponseEntity atualizar(@PathVariable Long id, @RequestBody OrcamentoForm orcamentoForm) {
         if(!orcamentoRepository.existsById(id)){
             return ResponseEntity.status(404).build();
         }
 
         Orcamento orcamento = orcamentoRepository.findById(id).get();
-        orcamento.setStatusGeral(orcamentoForm.getStatus());
-
-//        for (ItemEditarForm i : orcamentoForm.getItemEditarForms()){
-//            ItemOrcamento item = itemOrcamentoRepository.findById(i.getI()).get();
-//            item.setValorServico(i.getV());
-//            orcamento.setValorTotal(orcamento.getValorTotal() + i.getV());
-//            itemOrcamentoRepository.save(item);
-//        }
-
-
+        orcamento.setValorTotal(orcamentoForm.getValor());
+        orcamento.setStatusGeral("aguardando sua resposta");
         orcamentoRepository.save(orcamento);
+
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping
-    public ResponseEntity atualizaStatus(@RequestBody AtualizarStatusPedido pedido){
-        if (orcamentoRepository.existsById(pedido.getId())){
-            orcamentoRepository.atualizaStatus(pedido.getId(),pedido.getStatus());
+    @PutMapping("/atualizar-status/{id}")
+    public ResponseEntity atualizaStatus(@PathVariable Long id,@RequestBody AtualizarStatusPedido pedido){
+        if (orcamentoRepository.existsById(id)){
+            orcamentoRepository.atualizaStatus(id,pedido.getStatus());
             return ResponseEntity.ok().build();
         }
-        
+
         return ResponseEntity.status(404).build();
     }
 
@@ -161,11 +154,14 @@ public class OrcamentoController{
 
     @GetMapping("/{id}")
     public ResponseEntity buscarPorId(@PathVariable Long id){
-        if(orcamentoRepository.existsById(id)){
-            return ResponseEntity.ok().body(orcamentoRepository.findById(id).get());
+        if(!orcamentoRepository.existsById(id)){
+            return ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.status(404).build();
+        OrcamenteTecnico orcamentos = orcamentoRepository.getOrcamentosTecnicoPorIdOrcamento(id);
+        orcamentos.setItemOrcamentoList(itemOrcamentoRepository.getItemOrcamentoOnlyNames(id));
+
+        return ResponseEntity.ok().body(orcamentos);
     }
 
     @GetMapping("/assistencia")

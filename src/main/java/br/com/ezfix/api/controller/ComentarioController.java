@@ -1,7 +1,9 @@
 package br.com.ezfix.api.controller;
 
+import br.com.ezfix.api.config.security.TokenService;
 import br.com.ezfix.api.controller.response.SistemaAvaliacao;
 import br.com.ezfix.api.model.Comentario;
+import br.com.ezfix.api.repository.SolicitanteRepository;
 import br.com.ezfix.api.util.PilhaObj;
 import br.com.ezfix.api.repository.ComentarioRepository;
 import br.com.ezfix.api.repository.AssistenciaRepository;
@@ -26,9 +28,17 @@ public class ComentarioController {
     @Autowired
     private AssistenciaRepository assistenciaRepository;
 
+    @Autowired
+    private SolicitanteRepository solicitanteRepository;
+
+    @Autowired
+    private TokenService tokenService;
+
 
     @PostMapping
-    public ResponseEntity novoComentario(@RequestBody Comentario comentario){
+    public ResponseEntity novoComentario(@RequestHeader(value = "Authorization") String token,@RequestBody Comentario comentario){
+        String cpf = solicitanteRepository.getCpfByEmail(tokenService.getIdUsuario(token.substring(7)));
+        comentario.setSolicitante(solicitanteRepository.getById(cpf));
 
         comentarioRepository.save(comentario);
 
